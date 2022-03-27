@@ -1,0 +1,13 @@
+
+Index page: login / Register (login form - register form / login servlet - register servlet)
+
+User:
+
+Home page: list of packages (home page servlet) - link to buy service page - list of rejected orders - link to confirmation page
+Buy service page: buy service (service compilation form / buy service servlet)
+Confirmation page: confirm button if logged - link to registration page if not logged (confirmation page servlet)
+
+Employee:
+
+Home page: Create service form - Create opt product form (home page employee servlet)
+Sales page: view requested data - Sales page servlet
