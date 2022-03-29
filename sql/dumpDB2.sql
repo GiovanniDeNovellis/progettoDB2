@@ -93,6 +93,7 @@ CREATE TABLE `avg-opt-for-package` (
 
 LOCK TABLES `avg-opt-for-package` WRITE;
 /*!40000 ALTER TABLE `avg-opt-for-package` DISABLE KEYS */;
+INSERT INTO `avg-opt-for-package` VALUES (1,3,1,3);
 /*!40000 ALTER TABLE `avg-opt-for-package` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -117,6 +118,7 @@ CREATE TABLE `best-optional-product` (
 
 LOCK TABLES `best-optional-product` WRITE;
 /*!40000 ALTER TABLE `best-optional-product` DISABLE KEYS */;
+INSERT INTO `best-optional-product` VALUES (4,75);
 /*!40000 ALTER TABLE `best-optional-product` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -164,7 +166,7 @@ CREATE TABLE `num-purch-package` (
 
 LOCK TABLES `num-purch-package` WRITE;
 /*!40000 ALTER TABLE `num-purch-package` DISABLE KEYS */;
-INSERT INTO `num-purch-package` VALUES (1,0),(57,0);
+INSERT INTO `num-purch-package` VALUES (1,1);
 /*!40000 ALTER TABLE `num-purch-package` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -216,8 +218,33 @@ CREATE TABLE `optional-product` (
 
 LOCK TABLES `optional-product` WRITE;
 /*!40000 ALTER TABLE `optional-product` DISABLE KEYS */;
+INSERT INTO `optional-product` VALUES (1,'firstprod',15,0),(2,'secprod',20,100),(3,'thirdprod',18,90),(4,'fourthprod',15,75);
 /*!40000 ALTER TABLE `optional-product` ENABLE KEYS */;
 UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `optional-product_AFTER_UPDATE` AFTER UPDATE ON `optional-product` FOR EACH ROW BEGIN
+	IF  NOT EXISTS (SELECT salesvalue FROM `new_schema`.`best-optional-product`) THEN
+		INSERT INTO `new_schema`.`best-optional-product`(id, salesvalue)
+		VALUES(new.id, new.totalSalesValue);
+    ELSEIF new.totalSalesValue > (SELECT salesvalue FROM `new_schema`.`best-optional-product`) THEN
+		UPDATE `new_schema`.`best-optional-product` SET
+			id = new.id,
+            salesvalue = new.totalSalesValue;
+	END IF;
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
 -- Table structure for table `order`
@@ -250,6 +277,7 @@ CREATE TABLE `order` (
 
 LOCK TABLES `order` WRITE;
 /*!40000 ALTER TABLE `order` DISABLE KEYS */;
+INSERT INTO `order` VALUES (1,'2022-03-29 00:00:00',5,45,'2022-03-29 00:00:00','Valid','giova',1);
 /*!40000 ALTER TABLE `order` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -261,12 +289,17 @@ UNLOCK TABLES;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `order_AFTER_UPDATE` AFTER UPDATE ON `order` FOR EACH ROW BEGIN
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `UPDATESALES` AFTER UPDATE ON `order` FOR EACH ROW BEGIN
 	IF new.status = 'Valid' AND old.status <> 'Valid' THEN
-		UPDATE `new_schema`.`num-purch-package`
+		UPDATE `new_schema`.`avg-opt-for-package`
+		SET numsales = numsales + 1,
+		avgoptforsale = numopttot / numsales
+		WHERE id = new.packageid;
+        
+        UPDATE `new_schema`.`num-purch-package`
         SET numpurchases = numpurchases + 1
         WHERE packageid = new.packageid;
-	END IF;
+	END IF;	
 END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -302,8 +335,37 @@ CREATE TABLE `package-opt-bridge` (
 
 LOCK TABLES `package-opt-bridge` WRITE;
 /*!40000 ALTER TABLE `package-opt-bridge` DISABLE KEYS */;
+INSERT INTO `package-opt-bridge` VALUES (1,2,'2022-03-25 00:00:00','2022-04-05 00:00:00',1),(1,3,'2022-03-25 00:00:00','2022-04-06 00:00:00',1),(1,4,'2022-03-25 00:00:00','2022-04-06 00:00:00',1);
 /*!40000 ALTER TABLE `package-opt-bridge` ENABLE KEYS */;
 UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `package-opt-bridge_AFTER_INSERT` AFTER INSERT ON `package-opt-bridge` FOR EACH ROW BEGIN
+	DECLARE fee int;
+    SELECT monthlyfee into fee FROM `optional-product` WHERE id = new.optproduct;
+    
+    UPDATE `new_schema`.`avg-opt-for-package`
+    SET numopttot = numopttot + 1,
+    avgoptforsale = numopttot / numsales
+    WHERE id = new.package;
+    
+    UPDATE `new_schema`.`optional-product`
+    set totalSalesValue = totalSalesValue + (SELECT ValPeriod FROM `order` WHERE id = new.order) *
+				fee
+    WHERE id = new.optproduct;
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
 -- Table structure for table `sales-package`
@@ -376,7 +438,6 @@ CREATE TABLE `service-package` (
   `ID` int NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
   `valperiod` int NOT NULL,
-  `duration` int NOT NULL,
   `fee` int NOT NULL,
   PRIMARY KEY (`ID`),
   UNIQUE KEY `ID_UNIQUE` (`ID`)
@@ -389,7 +450,7 @@ CREATE TABLE `service-package` (
 
 LOCK TABLES `service-package` WRITE;
 /*!40000 ALTER TABLE `service-package` DISABLE KEYS */;
-INSERT INTO `service-package` VALUES (1,'provapackage',69,68,5),(57,'porcodio',54,33,555);
+INSERT INTO `service-package` VALUES (1,'package1',12,50);
 /*!40000 ALTER TABLE `service-package` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -401,8 +462,10 @@ UNLOCK TABLES;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `service-package_AFTER_INSERT` AFTER INSERT ON `service-package` FOR EACH ROW BEGIN
-	INSERT INTO `new_schema`.`num-purch-package`(packageid, numpurchases)
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `service-package_AFTER_INSERT_1` AFTER INSERT ON `service-package` FOR EACH ROW BEGIN
+	INSERT INTO `new_schema`.`avg-opt-for-package`(id, numopttot, numsales, avgoptforsale)
+    VALUES(new.ID, 0, 0, 0);
+    INSERT INTO `new_schema`.`num-purch-package`(packageid, numpurchases)
     VALUES(new.ID, 0);
 END */;;
 DELIMITER ;
@@ -459,6 +522,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
+INSERT INTO `user` VALUES ('giova','thegiova99@gmail.com','123','User','0');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -471,4 +535,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-03-28 20:06:29
+-- Dump completed on 2022-03-30  0:05:26
