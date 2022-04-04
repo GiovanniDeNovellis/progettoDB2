@@ -1,4 +1,4 @@
-package entities;
+package it.polimi.progettoDB2.Entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

@@ -1,13 +1,15 @@
-package entities;
+package it.polimi.progettoDB2.Entities;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
-@Table(name = "num-purch-package-val-period")
-public class NumPurchPackageValPeriod {
+@Table(name = "num-purch-package")
+public class NumPurchPackage {
 
     private int packageid;
-    private int valperiod;
     private int numpurchases;
 
     @Id
@@ -20,15 +22,6 @@ public class NumPurchPackageValPeriod {
         this.packageid = packageid;
     }
 
-    @Column(name = "valperiod", nullable = false)
-    public int getValPeriod(){
-        return valperiod;
-    }
-
-    public void setValPeriod(int valperiod){
-        this.valperiod = valperiod;
-    }
-
     @Column(name = "numpurchases")
     public int getNumpurchases(){
         return numpurchases;
@@ -37,6 +30,5 @@ public class NumPurchPackageValPeriod {
     public void setNumpurchases(int numpurchases){
         this.numpurchases = numpurchases;
     }
-
 
 }
