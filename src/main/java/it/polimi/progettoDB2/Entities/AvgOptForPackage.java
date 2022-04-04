@@ -1,27 +1,25 @@
 package it.polimi.progettoDB2.Entities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "avg-opt-for-package")
 public class AvgOptForPackage {
 
-    private int id;
     private int numOptTot;
     private int numsales;
     private int avgOptForSale;
 
     @Id
-    @Column(name = "id", nullable = false)
-    public int getId() {
-        return id;
+    @OneToOne(mappedBy = "id")
+    private ServicePackage servicePackage;
+
+    public ServicePackage getServicePackage() {
+        return servicePackage;
     }
 
-    public void setId(int id){
-        this.id = id;
+    public void setServicePackage(ServicePackage servicePackage) {
+        this.servicePackage = servicePackage;
     }
 
     @Column(name = "numopttot")

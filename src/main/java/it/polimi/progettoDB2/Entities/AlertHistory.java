@@ -1,9 +1,6 @@
 package it.polimi.progettoDB2.Entities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.sql.Date;
 import java.sql.Time;
 
@@ -11,19 +8,21 @@ import java.sql.Time;
 @Table(name = "alert-history")
 public class AlertHistory {
 
-    private String username;
     private float amount;
     private Date daterejection;
     private Time timerejection;
 
     @Id
-    @Column(name = "username", nullable = false)
-    public String getUsername(){
-        return username;
+    @ManyToOne
+    @JoinColumn(name = "username")
+    private User user;
+
+    public User getUser() {
+        return user;
     }
 
-    public void setUsername(String username){
-        this.username = username;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Column(name = "amount")

@@ -1,25 +1,22 @@
 package it.polimi.progettoDB2.Entities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "num-purch-package")
 public class NumPurchPackage {
 
-    private int packageid;
     private int numpurchases;
 
     @Id
-    @Column(name = "packageid", nullable = false)
-    public int getPackageid(){
-        return packageid;
+    @OneToOne(mappedBy = "packageid")
+    private ServicePackage servicePackage;
+    public ServicePackage getServicePackage() {
+        return servicePackage;
     }
 
-    public void setPackageid(int packageid){
-        this.packageid = packageid;
+    public void setServicePackage(ServicePackage servicePackage) {
+        this.servicePackage = servicePackage;
     }
 
     @Column(name = "numpurchases")

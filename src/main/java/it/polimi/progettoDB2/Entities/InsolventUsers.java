@@ -1,24 +1,20 @@
 package it.polimi.progettoDB2.Entities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "insolvent-users")
 public class InsolventUsers {
 
-    private String id;
-
     @Id
-    @Column(name = "idinsolventuser", nullable = false)
-    public String getId(){
-        return id;
+    @OneToOne(mappedBy = "idinsolventuser")
+    private User user;
+
+    public User getUser() {
+        return user;
     }
 
-    public void setId(String id){
-        this.id = id;
+    public void setUser(User user) {
+        this.user = user;
     }
-
 }

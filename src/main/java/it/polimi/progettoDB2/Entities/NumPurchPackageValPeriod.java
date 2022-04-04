@@ -6,18 +6,18 @@ import javax.persistence.*;
 @Table(name = "num-purch-package-val-period")
 public class NumPurchPackageValPeriod {
 
-    private int packageid;
     private int valperiod;
     private int numpurchases;
 
     @Id
-    @Column(name = "packageid", nullable = false)
-    public int getPackageid(){
-        return packageid;
+    @OneToOne(mappedBy = "packageid")
+    private ServicePackage servicePackage;
+    public ServicePackage getServicePackage() {
+        return servicePackage;
     }
 
-    public void setPackageid(int packageid){
-        this.packageid = packageid;
+    public void setServicePackage(ServicePackage servicePackage) {
+        this.servicePackage = servicePackage;
     }
 
     @Column(name = "valperiod", nullable = false)

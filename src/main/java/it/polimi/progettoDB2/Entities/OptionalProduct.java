@@ -6,13 +6,13 @@ import javax.persistence.*;
 @Table(name = "optional-product")
 public class OptionalProduct {
 
-    private int id;
     private String name;
     private float monthlyFee;
 
     @Id
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
     public int getId() {
         return id;
     }
