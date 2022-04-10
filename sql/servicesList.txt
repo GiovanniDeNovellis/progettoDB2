@@ -7,13 +7,13 @@ get_service_packages()	Giova
 get_rejected_orders()	Giova
 get_service_packages_user() Giova
 get_optional_products()	Giova
-addOrder() -- Status = created
-validateOrder() -- new status = Valid
-failOrder()
+addOrder() -- Status = created     -Carlo 
+validateOrder() -- new status = Valid      -Carlo
+failOrder()   -Carlo
 
 employeeService:
-createServicePackage()
-createOptionalProduct()
+createServicePackage()   -Carlo
+createOptionalProduct()  -Carlo 
 
 salesReportService:
 getNumPurchPackages()  		   -Giova
