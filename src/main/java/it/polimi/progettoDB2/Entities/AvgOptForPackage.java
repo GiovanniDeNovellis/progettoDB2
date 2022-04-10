@@ -5,14 +5,16 @@ import javax.persistence.*;
 @Entity
 @Table(name = "avg-opt-for-package")
 public class AvgOptForPackage {
-
-    private int numOptTot;
-    private int numsales;
-    private int avgOptForSale;
-
     @Id
     @OneToOne(mappedBy = "id")
     private ServicePackage servicePackage;
+
+    private int numOptTot;
+
+    private int numsales;
+
+    private int avgOptForSale;
+
 
     public ServicePackage getServicePackage() {
         return servicePackage;
@@ -22,7 +24,6 @@ public class AvgOptForPackage {
         this.servicePackage = servicePackage;
     }
 
-    @Column(name = "numopttot")
     public int getNumOptTot(){
         return numOptTot;
     }
@@ -31,7 +32,6 @@ public class AvgOptForPackage {
         this.numOptTot = numOptTot;
     }
 
-    @Column(name = "numsales", nullable = false)
     public int getNumsales(){
         return numsales;
     }
@@ -40,7 +40,6 @@ public class AvgOptForPackage {
         this.numsales = numsales;
     }
 
-    @Column(name = "avgoptforsale")
     public int getAvgOptForSale(){
         return avgOptForSale;
     }

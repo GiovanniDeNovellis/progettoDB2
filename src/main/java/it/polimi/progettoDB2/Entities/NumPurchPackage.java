@@ -5,12 +5,12 @@ import javax.persistence.*;
 @Entity
 @Table(name = "num-purch-package")
 public class NumPurchPackage {
-
-    private int numpurchases;
-
     @Id
     @OneToOne(mappedBy = "packageid")
     private ServicePackage servicePackage;
+
+    private int numpurchases;
+
     public ServicePackage getServicePackage() {
         return servicePackage;
     }
@@ -19,7 +19,6 @@ public class NumPurchPackage {
         this.servicePackage = servicePackage;
     }
 
-    @Column(name = "numpurchases")
     public int getNumpurchases(){
         return numpurchases;
     }

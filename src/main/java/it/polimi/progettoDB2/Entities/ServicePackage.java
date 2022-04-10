@@ -5,6 +5,7 @@ import java.util.Collection;
 
 @Entity
 @Table(name = "service-package", schema = "new_schema")
+@NamedQuery(name = "ServicePackage.getAllPackages", query = "SELECT s FROM ServicePackage s ")
 public class ServicePackage {
 
     @Id
@@ -16,7 +17,7 @@ public class ServicePackage {
     @OneToMany(mappedBy = "servicePackage")
     private Collection<Order> orders;
 
-    @OneToMany(mappedBy = "service_package_id")
+    @OneToMany(mappedBy = "servicePackage", fetch = FetchType.EAGER)
     private Collection<Service> services;
 
     public Collection<Service> getServices() {
@@ -49,5 +50,13 @@ public class ServicePackage {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "ServicePackage{" +
+                "ID=" + ID +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

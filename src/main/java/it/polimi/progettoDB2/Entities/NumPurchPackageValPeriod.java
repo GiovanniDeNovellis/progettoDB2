@@ -6,12 +6,14 @@ import javax.persistence.*;
 @Table(name = "num-purch-package-val-period")
 public class NumPurchPackageValPeriod {
 
-    private int valperiod;
-    private int numpurchases;
-
     @Id
     @OneToOne(mappedBy = "packageid")
     private ServicePackage servicePackage;
+
+    private int valperiod;
+
+    private int numpurchases;
+
     public ServicePackage getServicePackage() {
         return servicePackage;
     }
@@ -20,7 +22,6 @@ public class NumPurchPackageValPeriod {
         this.servicePackage = servicePackage;
     }
 
-    @Column(name = "valperiod", nullable = false)
     public int getValPeriod(){
         return valperiod;
     }
@@ -29,7 +30,6 @@ public class NumPurchPackageValPeriod {
         this.valperiod = valperiod;
     }
 
-    @Column(name = "numpurchases")
     public int getNumpurchases(){
         return numpurchases;
     }

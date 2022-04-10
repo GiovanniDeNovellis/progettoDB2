@@ -6,13 +6,15 @@ import javax.persistence.*;
 @Table(name = "optional-product")
 public class OptionalProduct {
 
-    private String name;
-    private float monthlyFee;
-
     @Id
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    private String name;
+
+    private float monthlyFee;
+
     public int getId() {
         return id;
     }
@@ -21,7 +23,6 @@ public class OptionalProduct {
         this.id = id;
     }
 
-    @Column(name = "name", nullable = false)
     public String getName(){
         return name;
     }
@@ -30,7 +31,6 @@ public class OptionalProduct {
         this.name = name;
     }
 
-    @Column(name = "monthlyfee", nullable = false)
     public Float getMonthlyFee(){
         return monthlyFee;
     }

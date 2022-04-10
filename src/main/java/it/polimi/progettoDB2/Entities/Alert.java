@@ -7,15 +7,17 @@ import java.sql.Time;
 @Entity
 @Table(name = "alert")
 public class Alert {
-
-    private String email;
-    private float amount;
-    private Date datelastrejection;
-    private Time timelastrejection;
-
     @Id
     @OneToOne(mappedBy = "userid")
     private User user;
+
+    private String email;
+
+    private float amount;
+
+    private Date datelastrejection;
+
+    private Time timelastrejection;
 
     public User getUser() {
         return user;
@@ -25,7 +27,6 @@ public class Alert {
         this.user = user;
     }
 
-    @Column(name = "email")
     public String getEmail(){
         return email;
     }
@@ -34,7 +35,6 @@ public class Alert {
         this.email = email;
     }
 
-    @Column(name = "amount")
     public float getAmount(){
         return amount;
     }
@@ -43,7 +43,6 @@ public class Alert {
         this.amount = amount;
     }
 
-    @Column(name = "datelastrejection")
     public Date getDatelastrejection(){
         return datelastrejection;
     }
@@ -52,7 +51,6 @@ public class Alert {
         this.datelastrejection = daterejection;
     }
 
-    @Column(name = "timelastrejection")
     public Time getTimelastrejection(){
         return timelastrejection;
     }

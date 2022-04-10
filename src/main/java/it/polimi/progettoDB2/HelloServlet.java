@@ -1,6 +1,9 @@
 package it.polimi.progettoDB2;
+import it.polimi.progettoDB2.Services.UserService;
+
 import java.io.*;
 import java.sql.DriverManager;
+import javax.ejb.EJB;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 
@@ -9,13 +12,16 @@ public class HelloServlet extends HttpServlet {
     private String message;
     private static final long serialVersionUID = 1L;
 
+    @EJB
+    private UserService userService;
+
     public void init() {
         message = "Hello World!";
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         final String DB_URL = "jdbc:mysql://localhost:3306/new_schema"; //Replace with your own configuration
-        final String USER = ""; //Replace with your own configuration
+        final String USER = "root"; //Replace with your own configuration
         final String PASS = ""; //Replace with your own configuration
         String result = "Connection worked";
         try {
@@ -27,6 +33,7 @@ public class HelloServlet extends HttpServlet {
         response.setContentType("text/plain");
         PrintWriter out = response.getWriter();
         out.println(result);
+        userService.getServicePackages();
         out.close();
     }
 

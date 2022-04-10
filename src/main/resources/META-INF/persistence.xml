@@ -4,6 +4,28 @@
              xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd"
              version="2.2">
     <persistence-unit name="default">
-
+        <class> it.polimi.progettoDB2.Entities.Alert</class>
+        <class> it.polimi.progettoDB2.Entities.AlertHistory</class>
+        <class> it.polimi.progettoDB2.Entities.AvgOptForPackage</class>
+        <class> it.polimi.progettoDB2.Entities.BestOptProduct</class>
+        <class> it.polimi.progettoDB2.Entities.InsolventUsers</class>
+        <class> it.polimi.progettoDB2.Entities.NumPurchPackage</class>
+        <class> it.polimi.progettoDB2.Entities.NumPurchPackageValPeriod</class>
+        <class> it.polimi.progettoDB2.Entities.OptionalProduct</class>
+        <class> it.polimi.progettoDB2.Entities.Order</class>
+        <class> it.polimi.progettoDB2.Entities.PckgOptBridge</class>
+        <class> it.polimi.progettoDB2.Entities.SalesOfPackage</class>
+        <class> it.polimi.progettoDB2.Entities.SalesOptionalProduct</class>
+        <class> it.polimi.progettoDB2.Entities.Service</class>
+        <class> it.polimi.progettoDB2.Entities.ServicePackage</class>
+        <class> it.polimi.progettoDB2.Entities.SuspendedOrders</class>
+        <class> it.polimi.progettoDB2.Entities.User</class>
+        <properties>
+            <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
+            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/new_schema?serverTimezone=UTC"/>
+            <property name="javax.persistence.jdbc.user" value="root"/>
+            <property name="javax.persistence.jdbc.password" value=""/>
+            <property name="javax.persistence.logging.level" value="FINE"/>
+        </properties>
     </persistence-unit>
 </persistence>

@@ -7,15 +7,16 @@ import java.sql.Time;
 @Entity
 @Table(name = "alert-history")
 public class AlertHistory {
-
-    private float amount;
-    private Date daterejection;
-    private Time timerejection;
-
     @Id
     @ManyToOne
     @JoinColumn(name = "username")
     private User user;
+
+    private float amount;
+
+    private Date daterejection;
+
+    private Time timerejection;
 
     public User getUser() {
         return user;
@@ -25,7 +26,6 @@ public class AlertHistory {
         this.user = user;
     }
 
-    @Column(name = "amount")
     public float getAmount(){
         return amount;
     }
@@ -34,7 +34,6 @@ public class AlertHistory {
         this.amount = amount;
     }
 
-    @Column(name = "daterejection")
     public Date getDaterejection(){
         return daterejection;
     }
@@ -43,7 +42,6 @@ public class AlertHistory {
         this.daterejection = daterejection;
     }
 
-    @Column(name = "timerejection")
     public Time getTimerejection(){
         return timerejection;
     }
