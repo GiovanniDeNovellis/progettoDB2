@@ -5,6 +5,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "order", schema = "new_schema")
+@NamedQuery(name = "Order.findByStatusAndNickname", query="SELECT o FROM Order o WHERE o.status = ?1 AND o.user.username = ?2")
 public class Order {
 
     @Id
@@ -101,5 +102,20 @@ public class Order {
 
     public void setServicePackage(ServicePackage servicePackage) {
         this.servicePackage = servicePackage;
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", creationdate=" + creationdate +
+                ", valperiod=" + valperiod +
+                ", totalvalue=" + totalvalue +
+                ", startdate=" + startdate +
+                ", status='" + status + '\'' +
+                ", fee=" + fee +
+                ", user=" + user +
+                ", servicePackage=" + servicePackage +
+                '}';
     }
 }

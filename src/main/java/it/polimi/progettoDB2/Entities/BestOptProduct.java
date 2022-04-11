@@ -7,7 +7,7 @@ import javax.persistence.*;
 public class BestOptProduct {
 
     @Id
-    @OneToOne(mappedBy = "productid")
+    @OneToOne
     private OptionalProduct optionalProduct;
 
     public OptionalProduct getOptionalProduct() {

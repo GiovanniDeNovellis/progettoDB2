@@ -46,6 +46,42 @@ LOCK TABLES `alert` WRITE;
 INSERT INTO `alert` VALUES ('carlo','carlo@gmail.com',30,'2022-03-25 00:00:00','00:12:03');
 /*!40000 ALTER TABLE `alert` ENABLE KEYS */;
 UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `alert_AFTER_INSERT` AFTER INSERT ON `alert` FOR EACH ROW BEGIN
+	INSERT INTO `new_schema`.`alert-history`(username, amount, daterejection, timerejection)
+    VALUES (new.userid, new.amount, new.datelastrejection, new.timelastrejection);
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `alert_AFTER_UPDATE` AFTER UPDATE ON `alert` FOR EACH ROW BEGIN
+	INSERT INTO `new_schema`.`alert-history`(username, amount, daterejection, timerejection)
+    VALUES (new.userid, new.amount, new.datelastrejection, new.timelastrejection);
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
 -- Table structure for table `alert-history`
@@ -97,7 +133,7 @@ CREATE TABLE `avg-opt-for-package` (
 
 LOCK TABLES `avg-opt-for-package` WRITE;
 /*!40000 ALTER TABLE `avg-opt-for-package` DISABLE KEYS */;
-INSERT INTO `avg-opt-for-package` VALUES (1,4,3,1.33333);
+INSERT INTO `avg-opt-for-package` VALUES (1,4,3,1.33333),(2,0,0,0);
 /*!40000 ALTER TABLE `avg-opt-for-package` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -169,7 +205,7 @@ CREATE TABLE `num-purch-package` (
 
 LOCK TABLES `num-purch-package` WRITE;
 /*!40000 ALTER TABLE `num-purch-package` DISABLE KEYS */;
-INSERT INTO `num-purch-package` VALUES (1,3);
+INSERT INTO `num-purch-package` VALUES (1,3),(2,0);
 /*!40000 ALTER TABLE `num-purch-package` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -195,7 +231,7 @@ CREATE TABLE `num-purch-package-val-period` (
 
 LOCK TABLES `num-purch-package-val-period` WRITE;
 /*!40000 ALTER TABLE `num-purch-package-val-period` DISABLE KEYS */;
-INSERT INTO `num-purch-package-val-period` VALUES (1,12,2),(1,24,1),(1,36,0);
+INSERT INTO `num-purch-package-val-period` VALUES (1,12,2),(1,24,1),(1,36,0),(2,12,0),(2,24,0),(2,36,0);
 /*!40000 ALTER TABLE `num-purch-package-val-period` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -224,6 +260,24 @@ LOCK TABLES `optional-product` WRITE;
 INSERT INTO `optional-product` VALUES (1,'opt1',50),(2,'opt2',2000),(3,'opt3',20),(4,'opt4',20);
 /*!40000 ALTER TABLE `optional-product` ENABLE KEYS */;
 UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `optional-product_AFTER_INSERT` AFTER INSERT ON `optional-product` FOR EACH ROW BEGIN
+	INSERT INTO `new_schema`.`sales-optional-product`(optproductid, totalsalesvalue)
+    VALUES(new.id, 0);
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
 -- Table structure for table `order`
@@ -257,9 +311,63 @@ CREATE TABLE `order` (
 
 LOCK TABLES `order` WRITE;
 /*!40000 ALTER TABLE `order` DISABLE KEYS */;
-INSERT INTO `order` VALUES (1,'2022-03-25 00:00:00',12,50,'2022-03-25 00:00:00','Valid','carlo',1,30),(2,'2022-03-25 00:00:00',24,32,'2022-03-25 00:00:00','Valid','carlo',1,15);
+INSERT INTO `order` VALUES (1,'2022-03-25 00:00:00',12,50,'2022-03-25 00:00:00','Valid','carlo',1,30),(2,'2022-03-25 00:00:00',24,32,'2022-03-25 00:00:00','Rejected','carlo',1,15);
 /*!40000 ALTER TABLE `order` ENABLE KEYS */;
 UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `order_AFTER_UPDATE` AFTER UPDATE ON `order` FOR EACH ROW BEGIN
+	IF new.status = 'Valid' AND old.status <> 'Valid'
+    THEN
+		UPDATE `new_schema`.`num-purch-package`
+		SET numpurchases = numpurchases + 1
+		WHERE packageid = new.packageid;
+        
+		UPDATE `new_schema`.`num-purch-package-val-period` 
+		SET numpurchases = numpurchases + 1
+		WHERE packageid = new.packageid
+		AND valperiod = new.valperiod;
+        
+		UPDATE `new_schema`.`sales-package`
+		SET totalwithoutopt = totalwithoutopt + new.fee * new.valperiod
+        WHERE id = new.packageid;
+        
+        UPDATE `new_schema`.`sales-package`
+		SET totalwithopt = totalwithopt + new.fee * new.valperiod
+        WHERE id = new.packageid;
+        
+        UPDATE `new_schema`.`avg-opt-for-package`
+		SET numsales = numsales + 1,
+		avgoptforsale = numopttot / numsales
+		WHERE id = new.packageid;
+        
+	END IF;
+    
+    IF new.status = 'Suspended' AND old.status <> 'Suspended' THEN
+		INSERT INTO `new_schema`.`suspended-orders`(idsuspendedorders)
+        VALUES(new.id);
+	END IF;
+    
+    IF old.status = 'Suspended' AND new.status <> 'Suspended' 
+    AND new.id IN (SELECT idsuspendedorders FROM `suspended-orders`)
+    THEN
+		DELETE FROM `new_schema`.`suspended-orders`
+        WHERE idsuspendedorders = new.id;
+	END IF;
+    
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
 -- Table structure for table `package-opt-bridge`
@@ -295,6 +403,36 @@ LOCK TABLES `package-opt-bridge` WRITE;
 INSERT INTO `package-opt-bridge` VALUES (1,1,'2022-03-25 00:00:00','2022-03-25 00:00:00',1,1),(1,2,'2022-03-25 00:00:00','2022-04-25 00:00:00',1,2),(1,3,'2022-03-25 00:00:00','2022-04-25 00:00:00',1,3),(1,4,'2022-03-25 00:00:00','2022-04-25 00:00:00',1,4);
 /*!40000 ALTER TABLE `package-opt-bridge` ENABLE KEYS */;
 UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `package-opt-bridge_AFTER_INSERT` AFTER INSERT ON `package-opt-bridge` FOR EACH ROW BEGIN
+
+    UPDATE `new_schema`.`avg-opt-for-package`
+    SET numopttot = numopttot + 1,
+    avgoptforsale = numopttot / numsales
+    WHERE id = new.package;
+    
+	UPDATE `new_schema`.`sales-package`
+    SET totalwithopt = totalwithopt + (SELECT monthlyfee FROM `optional-product` WHERE ID = new.optproduct) * (SELECT valperiod from `order` WHERE id = new.order)
+    WHERE id = new.package;
+    
+    UPDATE `new_schema`.`sales-optional-product`
+    SET totalsalesvalue = totalsalesvalue + (SELECT monthlyfee FROM `optional-product` WHERE ID = new.optproduct) * (SELECT valperiod from `order` WHERE id = new.order)
+    WHERE optproductid = new.optproduct;
+    
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
 -- Table structure for table `sales-optional-product`
@@ -321,6 +459,32 @@ LOCK TABLES `sales-optional-product` WRITE;
 INSERT INTO `sales-optional-product` VALUES (1,2),(2,24004),(3,3),(4,8);
 /*!40000 ALTER TABLE `sales-optional-product` ENABLE KEYS */;
 UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `sales-optional-product_BEFORE_UPDATE` BEFORE UPDATE ON `sales-optional-product` FOR EACH ROW BEGIN
+	IF NOT EXISTS (SELECT * FROM `best-opt-product`)
+    THEN
+		INSERT INTO `new_schema`.`best-opt-product`(productid)
+		VALUES(new.optproductid);
+	ELSEIF new.totalsalesvalue > (SELECT totalsalesvalue FROM `sales-optional-product` 
+			WHERE optproductid = (SELECT productid from `best-opt-product`))
+	THEN 
+        UPDATE `new_schema`.`best-opt-product`
+        SET productid = new.optproductid;
+    END IF;    
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
 -- Table structure for table `sales-package`
@@ -344,7 +508,7 @@ CREATE TABLE `sales-package` (
 
 LOCK TABLES `sales-package` WRITE;
 /*!40000 ALTER TABLE `sales-package` DISABLE KEYS */;
-INSERT INTO `sales-package` VALUES (1,25440,1080);
+INSERT INTO `sales-package` VALUES (1,25440,1080),(2,0,0);
 /*!40000 ALTER TABLE `sales-package` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -364,8 +528,8 @@ CREATE TABLE `service` (
   `extrasmsfee` float DEFAULT NULL,
   `giga` int DEFAULT NULL,
   `extragigafee` float DEFAULT NULL,
-  `activationdate` date NOT NULL,
-  `deactivationdate` date NOT NULL,
+  `activationdate` datetime NOT NULL,
+  `deactivationdate` datetime NOT NULL,
   `service_package_id` int NOT NULL,
   PRIMARY KEY (`serviceid`),
   UNIQUE KEY `serviceid_UNIQUE` (`serviceid`),
@@ -380,6 +544,7 @@ CREATE TABLE `service` (
 
 LOCK TABLES `service` WRITE;
 /*!40000 ALTER TABLE `service` DISABLE KEYS */;
+INSERT INTO `service` VALUES (1,'PhoneA',23,24,25,26,NULL,NULL,'2022-03-25 00:00:00','2022-04-25 00:00:00',1);
 /*!40000 ALTER TABLE `service` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -404,9 +569,37 @@ CREATE TABLE `service-package` (
 
 LOCK TABLES `service-package` WRITE;
 /*!40000 ALTER TABLE `service-package` DISABLE KEYS */;
-INSERT INTO `service-package` VALUES (1,'pckgA');
+INSERT INTO `service-package` VALUES (1,'pckgA'),(2,'pckgB');
 /*!40000 ALTER TABLE `service-package` ENABLE KEYS */;
 UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `service-package_AFTER_INSERT` AFTER INSERT ON `service-package` FOR EACH ROW BEGIN
+	INSERT INTO `new_schema`.`num-purch-package`(packageid, numpurchases)
+    VALUES(new.ID, 0);
+    INSERT INTO `new_schema`.`num-purch-package-val-period`(packageid, numpurchases, valperiod)
+    VALUES(new.ID, 0, 12);
+    INSERT INTO `new_schema`.`num-purch-package-val-period`(packageid, numpurchases, valperiod)
+    VALUES(new.ID, 0, 24);
+    INSERT INTO `new_schema`.`num-purch-package-val-period`(packageid, numpurchases, valperiod)
+    VALUES(new.ID, 0, 36);
+    INSERT INTO `new_schema`.`sales-package`(id, totalwithopt, totalwithoutopt)
+    VALUES(new.ID, 0, 0);
+    INSERT INTO `new_schema`.`avg-opt-for-package`(id, numopttot, numsales, avgoptforsale)
+    VALUES(new.ID, 0, 0, 0);
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
 -- Table structure for table `suspended-orders`
@@ -459,6 +652,33 @@ LOCK TABLES `user` WRITE;
 INSERT INTO `user` VALUES ('carlo','carlo@gmail.com','123456','User','0'),('stronzo','stronzo@gmail.com','123456','User','0');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `user_AFTER_UPDATE` AFTER UPDATE ON `user` FOR EACH ROW BEGIN
+	IF new.isInsolvent = '1' AND old.isInsolvent = '0' THEN
+		INSERT INTO `new_schema`.`insolvent-users`(idinsolventuser)
+		VALUES (new.username);
+    END IF;
+    
+    IF new.isInsolvent = '0' AND old.isInsolvent = '1' 
+	AND new.username IN (SELECT idinsolventuser FROM `new_schema`.`insolvent-users`)
+	THEN
+		DELETE FROM `new_schema`.`insolvent-users`
+		WHERE idinsolventuser = new.username;
+    END IF;
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -469,4 +689,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-04-10 22:25:10
+-- Dump completed on 2022-04-11 15:14:22

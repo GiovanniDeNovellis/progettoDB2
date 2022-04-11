@@ -7,7 +7,7 @@ import javax.persistence.*;
 public class InsolventUsers {
 
     @Id
-    @OneToOne(mappedBy = "idinsolventuser")
+    @OneToOne
     private User user;
 
     public User getUser() {

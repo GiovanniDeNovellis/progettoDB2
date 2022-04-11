@@ -6,7 +6,7 @@ import javax.persistence.*;
 @Table(name = "num-purch-package")
 public class NumPurchPackage {
     @Id
-    @OneToOne(mappedBy = "packageid")
+    @OneToOne
     private ServicePackage servicePackage;
 
     private int numpurchases;

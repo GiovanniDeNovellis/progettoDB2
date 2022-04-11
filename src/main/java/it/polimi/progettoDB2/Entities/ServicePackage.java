@@ -14,7 +14,7 @@ public class ServicePackage {
 
     private String name;
 
-    @OneToMany(mappedBy = "servicePackage")
+    @OneToMany(mappedBy = "servicePackage", fetch = FetchType.LAZY)
     private Collection<Order> orders;
 
     @OneToMany(mappedBy = "servicePackage", fetch = FetchType.EAGER)

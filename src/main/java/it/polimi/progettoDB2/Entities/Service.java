@@ -119,4 +119,20 @@ public class Service {
     public void setServicePackage(ServicePackage servicePackage) {
         this.servicePackage = servicePackage;
     }
+
+    @Override
+    public String toString() {
+        return "Service{" +
+                "serviceid=" + serviceid +
+                ", type='" + type + '\'' +
+                ", minutes=" + minutes +
+                ", sms=" + sms +
+                ", extraminfee=" + extraminfee +
+                ", extrasmsfee=" + extrasmsfee +
+                ", giga=" + giga +
+                ", extragigafee=" + extragigafee +
+                ", activationdate=" + activationdate +
+                ", deactivationdate=" + deactivationdate +
+                '}';
+    }
 }

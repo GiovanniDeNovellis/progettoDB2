@@ -8,7 +8,7 @@ import java.sql.Time;
 @Table(name = "alert")
 public class Alert {
     @Id
-    @OneToOne(mappedBy = "userid")
+    @OneToOne
     private User user;
 
     private String email;

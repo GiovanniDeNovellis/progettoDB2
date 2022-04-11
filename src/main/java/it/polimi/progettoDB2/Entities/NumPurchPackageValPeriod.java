@@ -7,7 +7,7 @@ import javax.persistence.*;
 public class NumPurchPackageValPeriod {
 
     @Id
-    @OneToOne(mappedBy = "packageid")
+    @OneToOne
     private ServicePackage servicePackage;
 
     private int valperiod;

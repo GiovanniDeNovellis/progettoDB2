@@ -6,7 +6,7 @@ import javax.persistence.*;
 @Table(name = "avg-opt-for-package")
 public class AvgOptForPackage {
     @Id
-    @OneToOne(mappedBy = "id")
+    @OneToOne
     private ServicePackage servicePackage;
 
     private int numOptTot;
