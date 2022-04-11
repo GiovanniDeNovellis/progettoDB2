@@ -14,13 +14,7 @@ public class UserService {
     private EntityManager em;
 
     public List<ServicePackage> getServicePackages(){
-        System.out.println("kek");
-        List<ServicePackage> servicePackages = em.createNamedQuery("ServicePackage.getAllPackages", ServicePackage.class)
+        return em.createNamedQuery("ServicePackage.getAllPackages", ServicePackage.class)
                 .getResultList();
-        for(ServicePackage s : servicePackages) {
-            System.out.println("kek");
-            System.out.println(s);
-        }
-        return servicePackages;
     }
 }

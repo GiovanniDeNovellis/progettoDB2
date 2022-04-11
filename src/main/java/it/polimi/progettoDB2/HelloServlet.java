@@ -1,8 +1,10 @@
 package it.polimi.progettoDB2;
+import it.polimi.progettoDB2.Entities.ServicePackage;
 import it.polimi.progettoDB2.Services.UserService;
 
 import java.io.*;
 import java.sql.DriverManager;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
@@ -20,6 +22,9 @@ public class HelloServlet extends HttpServlet {
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        List<ServicePackage> servicePackageList = userService.getServicePackages();
+        for(ServicePackage s: servicePackageList)
+            System.out.println(s);
         final String DB_URL = "jdbc:mysql://localhost:3306/new_schema"; //Replace with your own configuration
         final String USER = "root"; //Replace with your own configuration
         final String PASS = ""; //Replace with your own configuration
@@ -33,10 +38,8 @@ public class HelloServlet extends HttpServlet {
         response.setContentType("text/plain");
         PrintWriter out = response.getWriter();
         out.println(result);
-        userService.getServicePackages();
         out.close();
     }
-
     public void destroy() {
     }
 }
