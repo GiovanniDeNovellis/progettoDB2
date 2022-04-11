@@ -4,6 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "optional-product")
+@NamedQuery(name = "OptionalProduct.findAllProducts", query = "SELECT o FROM OptionalProduct o")
 public class OptionalProduct {
 
     @Id
@@ -39,4 +40,12 @@ public class OptionalProduct {
         this.monthlyFee = monthlyFee;
     }
 
+    @Override
+    public String toString() {
+        return "OptionalProduct{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", monthlyFee=" + monthlyFee +
+                '}';
+    }
 }

@@ -1,4 +1,5 @@
 package it.polimi.progettoDB2;
+import it.polimi.progettoDB2.Entities.OptionalProduct;
 import it.polimi.progettoDB2.Entities.Order;
 import it.polimi.progettoDB2.Entities.Service;
 import it.polimi.progettoDB2.Entities.ServicePackage;
@@ -24,8 +25,20 @@ public class HelloServlet extends HttpServlet {
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        List<Order> servicePackageList = userService.getRejectedOrders("carlo");
-        for(Order s: servicePackageList) {
+        System.out.println("Debugging getRejectedOrders:");
+        List<Order> orders = userService.getRejectedOrders("carlo");
+        for(Order o: orders) {
+            System.out.println(o);
+        }
+
+        System.out.println("Debugging getOptionalProducts:");
+        List<OptionalProduct> optionalProducts = userService.getOptionalProducts();
+        for(OptionalProduct op: optionalProducts)
+            System.out.println(op);
+
+        System.out.println("Debugging getServicePackagesUser:");
+        List<ServicePackage> servicePackageList = userService.getServicePackagesUser("carlo");
+        for(ServicePackage s: servicePackageList) {
             System.out.println(s);
         }
         /*
