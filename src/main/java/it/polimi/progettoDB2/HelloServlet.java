@@ -3,6 +3,7 @@ import it.polimi.progettoDB2.Entities.OptionalProduct;
 import it.polimi.progettoDB2.Entities.Order;
 import it.polimi.progettoDB2.Entities.Service;
 import it.polimi.progettoDB2.Entities.ServicePackage;
+import it.polimi.progettoDB2.Services.SalesReportService;
 import it.polimi.progettoDB2.Services.UserService;
 
 import java.io.*;
@@ -19,6 +20,9 @@ public class HelloServlet extends HttpServlet {
 
     @EJB
     private UserService userService;
+
+    @EJB
+    private SalesReportService salesReportService;
 
     public void init() {
         message = "Hello World!";
@@ -41,6 +45,34 @@ public class HelloServlet extends HttpServlet {
         for(ServicePackage s: servicePackageList) {
             System.out.println(s);
         }
+
+
+
+        System.out.println("Debugging getNumPurchPackages:");
+
+        System.out.println(salesReportService.getNumPurchPackages(1));
+        System.out.println(salesReportService.getNumPurchPackages(2));
+        System.out.println(salesReportService.getNumPurchPackages(3));
+
+
+        System.out.println("Debugging getNumPurchPackageValPeriod:");
+
+        System.out.println(salesReportService.getNumPurchPackageValPeriod(1,12));
+        System.out.println(salesReportService.getNumPurchPackageValPeriod(1,24));
+        System.out.println(salesReportService.getNumPurchPackageValPeriod(1,50));
+        System.out.println(salesReportService.getNumPurchPackageValPeriod(5,12));
+
+
+        System.out.println("Debugging getTotalSalesValue:");
+        System.out.println(salesReportService.getTotalSalesValuePackage(1));
+        System.out.println(salesReportService.getTotalSalesValuePackage(2));
+        System.out.println(salesReportService.getTotalSalesValuePackage(3));
+
+        System.out.println("Debugging getAvgOptForPackage:");
+
+        System.out.println(salesReportService.getAvgOptForPakage(1));
+        System.out.println(salesReportService.getAvgOptForPakage(2));
+        System.out.println(salesReportService.getAvgOptForPakage(3));
         /*
         final String DB_URL = "jdbc:mysql://localhost:3306/new_schema"; //Replace with your own configuration
         final String USER = "root"; //Replace with your own configuration

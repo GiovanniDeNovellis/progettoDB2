@@ -4,16 +4,18 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "avg-opt-for-package")
+@NamedQuery(name = "AvgOptForPackage.findByPackageID", query = "SELECT p FROM AvgOptForPackage p WHERE p.servicePackage.ID = ?1")
 public class AvgOptForPackage {
     @Id
     @OneToOne
+    @JoinColumn(name = "id")
     private ServicePackage servicePackage;
 
     private int numOptTot;
 
     private int numsales;
 
-    private int avgOptForSale;
+    private float avgOptForSale;
 
 
     public ServicePackage getServicePackage() {
@@ -40,13 +42,21 @@ public class AvgOptForPackage {
         this.numsales = numsales;
     }
 
-    public int getAvgOptForSale(){
+    public float getAvgOptForSale(){
         return avgOptForSale;
     }
 
-    public void setAvgOptForSale(int avgOptForSale){
+    public void setAvgOptForSale(float avgOptForSale){
         this.avgOptForSale = avgOptForSale;
     }
 
-
+    @Override
+    public String toString() {
+        return "AvgOptForPackage{" +
+                "servicePackage=" + servicePackage.getID() +
+                ", numOptTot=" + numOptTot +
+                ", numsales=" + numsales +
+                ", avgOptForSale=" + avgOptForSale +
+                '}';
+    }
 }

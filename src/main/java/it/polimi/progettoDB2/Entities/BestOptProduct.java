@@ -8,6 +8,7 @@ public class BestOptProduct {
 
     @Id
     @OneToOne
+    @JoinColumn(name = "productid")
     private OptionalProduct optionalProduct;
 
     public OptionalProduct getOptionalProduct() {

@@ -6,7 +6,7 @@ import javax.persistence.*;
 public class SuspendedOrders {
 
     @Id
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "idsuspendedorders")
     private Order order;
 

@@ -4,10 +4,13 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "num-purch-package-val-period")
+@NamedQuery(name = "NumPurchPackageValPeriod.findByPackageIdValPeriod", query = "SELECT p FROM NumPurchPackageValPeriod p WHERE " +
+        "p.servicePackage.ID = ?1 AND p.valperiod = ?2")
 public class NumPurchPackageValPeriod {
 
     @Id
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(name = "packageid")
     private ServicePackage servicePackage;
 
     private int valperiod;
@@ -38,5 +41,12 @@ public class NumPurchPackageValPeriod {
         this.numpurchases = numpurchases;
     }
 
-
+    @Override
+    public String toString() {
+        return "NumPurchPackageValPeriod{" +
+                "servicePackage=" + servicePackage.getID() +
+                ", valperiod=" + valperiod +
+                ", numpurchases=" + numpurchases +
+                '}';
+    }
 }

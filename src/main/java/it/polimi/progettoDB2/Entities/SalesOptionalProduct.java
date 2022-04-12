@@ -7,7 +7,7 @@ import javax.persistence.*;
 public class SalesOptionalProduct {
 
     @Id
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "optproductid")
     private OptionalProduct optionalProduct;
 

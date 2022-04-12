@@ -4,10 +4,11 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "sales-package", schema = "new_schema")
+@NamedQuery(name = "SalesOfPackage.findByPackageID", query = "SELECT s FROM SalesOfPackage s WHERE s.servicePackage.ID = ?1")
 public class SalesOfPackage {
 
     @Id
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "id")
     private ServicePackage servicePackage;
 
@@ -37,5 +38,14 @@ public class SalesOfPackage {
 
     public void setTotalwithoutopt(float totalwithoutopt) {
         this.totalwithoutopt = totalwithoutopt;
+    }
+
+    @Override
+    public String toString() {
+        return "SalesOfPackage{" +
+                "servicePackage=" + servicePackage.getID() +
+                ", totalwithopt=" + totalwithopt +
+                ", totalwithoutopt=" + totalwithoutopt +
+                '}';
     }
 }

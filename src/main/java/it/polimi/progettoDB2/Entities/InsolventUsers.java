@@ -8,6 +8,7 @@ public class InsolventUsers {
 
     @Id
     @OneToOne
+    @JoinColumn(name = "idinsolventuser")
     private User user;
 
     public User getUser() {
