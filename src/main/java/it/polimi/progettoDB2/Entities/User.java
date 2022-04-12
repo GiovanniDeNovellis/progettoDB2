@@ -5,6 +5,7 @@ import java.util.Collection;
 
 @Entity
 @Table(name = "user", schema = "new_schema")
+@NamedQuery(name = "User.checkCredentials", query = "SELECT u FROM User u WHERE u.username = ?1 AND u.password = ?2")
 public class User {
 
     @Id
@@ -17,6 +18,14 @@ public class User {
     private String type;
 
     private boolean isInsolvent;
+
+    public User(String username, String email, String password, String type) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.type = type;
+        this.isInsolvent = false;
+    }
 
     @OneToMany(mappedBy = "user")
     private Collection<Order> orders;
@@ -67,5 +76,16 @@ public class User {
 
     public void setInsolvent(boolean insolvent) {
         isInsolvent = insolvent;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", type='" + type + '\'' +
+                ", isInsolvent=" + isInsolvent +
+                '}';
     }
 }

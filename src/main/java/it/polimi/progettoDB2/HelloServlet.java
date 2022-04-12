@@ -3,6 +3,7 @@ import it.polimi.progettoDB2.Entities.OptionalProduct;
 import it.polimi.progettoDB2.Entities.Order;
 import it.polimi.progettoDB2.Entities.Service;
 import it.polimi.progettoDB2.Entities.ServicePackage;
+import it.polimi.progettoDB2.Services.AuthService;
 import it.polimi.progettoDB2.Services.SalesReportService;
 import it.polimi.progettoDB2.Services.UserService;
 
@@ -24,11 +25,19 @@ public class HelloServlet extends HttpServlet {
     @EJB
     private SalesReportService salesReportService;
 
+    @EJB
+    private AuthService authService;
+
     public void init() {
         message = "Hello World!";
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+        System.out.println("Debugging login");
+        System.out.println(authService.authenticateUser("carlo", "123456"));
+        System.out.println(authService.authenticateUser("lool", "loool"));
+
         System.out.println("Debugging getRejectedOrders:");
         List<Order> orders = userService.getRejectedOrders("carlo");
         for(Order o: orders) {
