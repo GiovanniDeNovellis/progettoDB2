@@ -1,14 +1,12 @@
 package it.polimi.progettoDB2.Services;
 
-import it.polimi.progettoDB2.Entities.AvgOptForPackage;
-import it.polimi.progettoDB2.Entities.NumPurchPackage;
-import it.polimi.progettoDB2.Entities.NumPurchPackageValPeriod;
-import it.polimi.progettoDB2.Entities.SalesOfPackage;
+import it.polimi.progettoDB2.Entities.*;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import java.util.List;
 
 @Stateless
 public class SalesReportService {
@@ -45,9 +43,54 @@ public class SalesReportService {
         }
     }
 
-    public AvgOptForPackage getAvgOptForPakage(int packageID){
+    public AvgOptForPackage getAvgOptForPackage(int packageID){
         try{
             return em.createNamedQuery("AvgOptForPackage.findByPackageID", AvgOptForPackage.class).setParameter(1, packageID).getSingleResult();
+        }
+        catch (NoResultException e){
+            return null;
+        }
+    }
+
+    public List<InsolventUsers> getInsolventUsers() {
+        try {
+            return em.createNamedQuery("InsolventUsers.findAllInsolventUsers", InsolventUsers.class).getResultList();
+        }
+        catch (NoResultException e){
+            return null;
+        }
+    }
+
+    public List<SuspendedOrders> getSuspendedOrders(){
+        try {
+            return em.createNamedQuery("SuspendedOrders.findAllSuspendedOrders", SuspendedOrders.class).getResultList();
+        }
+        catch (NoResultException e){
+            return null;
+        }
+    }
+
+    public List<Alert> getAlerts(){
+        try {
+            return em.createNamedQuery("Alerts.getAllAlerts", Alert.class).getResultList();
+        }
+        catch (NoResultException e){
+            return null;
+        }
+    }
+
+    public List<Alert> getAlertsUser(String username){
+        try {
+            return em.createNamedQuery("Alerts.getAllAlertsByUser", Alert.class).setParameter(1, username).getResultList();
+        }
+        catch (NoResultException e){
+            return null;
+        }
+    }
+
+    public List<BestOptProduct> getBestSeller(){
+        try {
+            return em.createNamedQuery("BestOptProduct.findAllBestOptProduct", BestOptProduct.class).getResultList();
         }
         catch (NoResultException e){
             return null;
