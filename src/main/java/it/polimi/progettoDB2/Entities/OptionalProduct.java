@@ -5,6 +5,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "optional-product")
 @NamedQuery(name = "OptionalProduct.findAllProducts", query = "SELECT o FROM OptionalProduct o")
+@NamedQuery(name = "OptionalProduct.findOptProductByID", query = "SELECT o FROM OptionalProduct o WHERE o.id = ?1")
 public class OptionalProduct {
 
     @Id
@@ -15,6 +16,15 @@ public class OptionalProduct {
     private String name;
 
     private float monthlyFee;
+
+    public OptionalProduct(String name, Float monthlyFee) {
+        this.name = name;
+        this.monthlyFee = monthlyFee;
+    }
+
+    public OptionalProduct() {
+
+    }
 
     public int getId() {
         return id;

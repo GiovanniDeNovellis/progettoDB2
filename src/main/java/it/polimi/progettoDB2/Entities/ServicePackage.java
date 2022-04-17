@@ -6,6 +6,7 @@ import java.util.Collection;
 @Entity
 @Table(name = "service-package", schema = "new_schema")
 @NamedQuery(name = "ServicePackage.findAllPackages", query = "SELECT s FROM ServicePackage s ")
+@NamedQuery(name = "ServicePackage.checkServicePackage", query = "SELECT s FROM ServicePackage s WHERE s.ID = ?1")
 public class ServicePackage {
 
     @Id
@@ -13,6 +14,14 @@ public class ServicePackage {
     private int ID;
 
     private String name;
+
+    public ServicePackage(String name) {
+        this.name = name;
+    }
+
+    public ServicePackage() {
+
+    }
 
     @OneToMany(mappedBy = "servicePackage", fetch = FetchType.LAZY)
     private Collection<Order> orders;

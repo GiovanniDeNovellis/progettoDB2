@@ -5,7 +5,9 @@ import java.util.Date;
 
 @Entity
 @Table(name = "order", schema = "new_schema")
-@NamedQuery(name = "Order.findByStatusAndNickname", query="SELECT o FROM Order o WHERE o.status = ?1 AND o.user.username = ?2")
+@NamedQuery(name = "Order.checkOrder", query = "SELECT o FROM Order o WHERE o.id = ?1")
+@NamedQuery(name = "Order.findByStatusAndUsername", query="SELECT o FROM Order o WHERE o.status = ?1 AND o.user.username = ?2")
+@NamedQuery(name = "Order.findOrderByID", query = "SELECT o FROM Order o WHERE o.id = ?1")
 public class Order {
 
     @Id
@@ -23,6 +25,21 @@ public class Order {
     private String status;
 
     private int fee;
+
+    public Order(Date creationdate, int valperiod, int totalvalue, Date startdate, String status, User user, ServicePackage servicePackage, int fee) {
+        this.creationdate = creationdate;
+        this.valperiod = valperiod;
+        this.totalvalue = totalvalue;
+        this.startdate = startdate;
+        this.status = status;
+        this.fee = fee;
+        this.user = user;
+        this.servicePackage = servicePackage;
+    }
+
+    public Order(){
+
+    }
 
     @ManyToOne
     @JoinColumn(name = "username")

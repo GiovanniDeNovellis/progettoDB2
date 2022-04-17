@@ -30,6 +30,10 @@ public class User {
     @OneToMany(mappedBy = "user")
     private Collection<Order> orders;
 
+    public User() {
+
+    }
+
     public Collection<Order> getOrders() {
         return orders;
     }

@@ -6,6 +6,8 @@ import java.sql.Time;
 
 @Entity
 @Table(name = "alert")
+@NamedQuery(name = "Alerts.getAllAlerts", query = "SELECT a FROM Alert a")
+@NamedQuery(name = "Alerts.getAllAlertsByUser", query = "SELECT a FROM Alert a WHERE a.user.username = ?1")
 public class Alert {
     @Id
     @OneToOne

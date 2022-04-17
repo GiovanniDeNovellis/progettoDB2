@@ -16,21 +16,38 @@ public class Service {
 
     private int sms;
 
-    private float extraminfee;
+    private Float extraminfee;
 
-    private float extrasmsfee;
+    private Float extrasmsfee;
 
     private int giga;
 
-    private float extragigafee;
+    private Float extragigafee;
 
-    private Date activationdate;
+    private java.sql.Date activationdate;
 
-    private Date deactivationdate;
+    private java.sql.Date deactivationdate;
+
+    public Service(String type, int minutes, int sms, Float extraminfee, Float extrasmsfee, int giga, Float extragigafee, java.sql.Date activationdate, java.sql.Date deactivationdate) {
+        this.type = type;
+        this.minutes = minutes;
+        this.sms = sms;
+        this.extraminfee = extraminfee;
+        this.extrasmsfee = extrasmsfee;
+        this.giga = giga;
+        this.extragigafee = extragigafee;
+        this.activationdate = activationdate;
+        this.deactivationdate = deactivationdate;
+    }
+
 
     @ManyToOne
     @JoinColumn(name = "service_package_id")
     private ServicePackage servicePackage;
+
+    public Service() {
+
+    }
 
     public int getServiceid() {
         return serviceid;
@@ -100,7 +117,7 @@ public class Service {
         return activationdate;
     }
 
-    public void setActivationdate(Date activationdate) {
+    public void setActivationdate(java.sql.Date activationdate) {
         this.activationdate = activationdate;
     }
 
@@ -108,7 +125,7 @@ public class Service {
         return deactivationdate;
     }
 
-    public void setDeactivationdate(Date deactivationdate) {
+    public void setDeactivationdate(java.sql.Date deactivationdate) {
         this.deactivationdate = deactivationdate;
     }
 

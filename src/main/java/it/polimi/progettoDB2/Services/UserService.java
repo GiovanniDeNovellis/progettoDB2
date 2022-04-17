@@ -68,20 +68,20 @@ public class UserService {
 
     /* To modify */
     public Order validateOrder(int orderID) {
-        String status_string = "Valid";
+        String status = "Valid";
         Order order;
         order = em.find(Order.class, orderID);
-        order.setStatus(status_string);
+        order.setStatus(status);
         em.persist(order);
         return order;
     }
 
     /* To modify */
     public Order failOrder(int orderID){
-        String status_string = "Failed";
+        String status = "Failed";
         Order order;
         order = em.find(Order.class, orderID);
-        order.setStatus(status_string);
+        order.setStatus(status);
         em.persist(order);
         return order;
     }
