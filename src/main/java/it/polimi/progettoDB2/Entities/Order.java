@@ -11,22 +11,32 @@ import java.util.Date;
 public class Order {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
 
+    @Temporal(TemporalType.DATE)
     private Date creationdate;
 
     private int valperiod;
 
     private int totalvalue;
 
+    @Temporal(TemporalType.DATE)
     private Date startdate;
 
     private String status;
 
     private int fee;
 
-    public Order(Date creationdate, int valperiod, int totalvalue, Date startdate, String status, User user, ServicePackage servicePackage, int fee) {
+    @ManyToOne
+    @JoinColumn(name = "username")
+    private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "packageid")
+    private ServicePackage servicePackage;
+
+    public Order(Date creationdate, int valperiod, int totalvalue, Date startdate, String status, User user,ServicePackage servicePackage, int fee) {
         this.creationdate = creationdate;
         this.valperiod = valperiod;
         this.totalvalue = totalvalue;
@@ -34,22 +44,14 @@ public class Order {
         this.status = status;
         this.fee = fee;
         this.user = user;
-        this.servicePackage = servicePackage;
+        this.servicePackage=servicePackage;
     }
 
     public Order(){
 
     }
 
-    @ManyToOne
-    @JoinColumn(name = "username")
-    private User user;
-
-    @ManyToOne
-    @JoinColumn(name = "ID")
-    private ServicePackage servicePackage;
-
-    public int getId() {
+    public long getId() {
         return id;
     }
 

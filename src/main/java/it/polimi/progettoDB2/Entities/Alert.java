@@ -1,8 +1,7 @@
 package it.polimi.progettoDB2.Entities;
 
 import javax.persistence.*;
-import java.sql.Date;
-import java.sql.Time;
+import java.util.Date;
 
 @Entity
 @Table(name = "alert")
@@ -11,22 +10,32 @@ import java.sql.Time;
 public class Alert {
     @Id
     @OneToOne
-    private User user;
+    @JoinColumn(name = "username")
+    private User username;
 
     private String email;
 
     private float amount;
 
-    private Date datelastrejection;
+    private Date datetimelastrejection;
 
-    private Time timelastrejection;
+    public Alert(User user, String email, float amount, Date datetimelastrejection) {
+        this.username = user;
+        this.email = email;
+        this.amount = amount;
+        this.datetimelastrejection = datetimelastrejection;
+    }
+
+    public Alert() {
+
+    }
 
     public User getUser() {
-        return user;
+        return username;
     }
 
     public void setUser(User user) {
-        this.user = user;
+        this.username = user;
     }
 
     public String getEmail(){
@@ -45,20 +54,21 @@ public class Alert {
         this.amount = amount;
     }
 
-    public Date getDatelastrejection(){
-        return datelastrejection;
+    public Date getDatetimelastrejection() {
+        return datetimelastrejection;
     }
 
-    public void setDatelastrejection(Date daterejection){
-        this.datelastrejection = daterejection;
+    public void setDatetimelastrejection(Date datetimelastrejection) {
+        this.datetimelastrejection = datetimelastrejection;
     }
 
-    public Time getTimelastrejection(){
-        return timelastrejection;
+    @Override
+    public String toString() {
+        return "Alert{" +
+                "user=" + username +
+                ", email='" + email + '\'' +
+                ", amount=" + amount +
+                ", datetimelastrejection=" + datetimelastrejection +
+                '}';
     }
-
-    public void setTimelastrejection(Time timelastrejection){
-        this.timelastrejection = timelastrejection;
-    }
-
 }

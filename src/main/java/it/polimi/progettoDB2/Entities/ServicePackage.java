@@ -10,25 +10,32 @@ import java.util.Collection;
 public class ServicePackage {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int ID;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long ID;
 
     private String name;
 
-    public ServicePackage(String name) {
-        this.name = name;
-    }
+    private float monthscost12;
 
-    public ServicePackage() {
+    private float monthscost24;
 
-    }
-
-    @OneToMany(mappedBy = "servicePackage", fetch = FetchType.LAZY)
+    private float monthscost36;
+    @OneToMany(mappedBy = "servicePackage", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private Collection<Order> orders;
 
     @OneToMany(mappedBy = "servicePackage", fetch = FetchType.EAGER)
     private Collection<Service> services;
 
+    public ServicePackage(String name, float monthscost12, float monthscost24, float monthscost36) {
+        this.name = name;
+        this.monthscost12 = monthscost12;
+        this.monthscost24 = monthscost24;
+        this.monthscost36 = monthscost36;
+    }
+
+    public ServicePackage() {
+
+    }
     public Collection<Service> getServices() {
         return services;
     }
@@ -45,11 +52,11 @@ public class ServicePackage {
         this.orders = orders;
     }
 
-    public int getID() {
+    public long getID() {
         return ID;
     }
 
-    public void setID(int ID) {
+    public void setID(long ID) {
         this.ID = ID;
     }
 
@@ -61,11 +68,44 @@ public class ServicePackage {
         this.name = name;
     }
 
+    public void addOrder(Order order){
+        getOrders().add(order);
+    }
+
+    public float getMonthscost12() {
+        return monthscost12;
+    }
+
+    public void setMonthscost12(float monthscost12) {
+        this.monthscost12 = monthscost12;
+    }
+
+    public float getMonthscost24() {
+        return monthscost24;
+    }
+
+    public void setMonthscost24(float monthscost24) {
+        this.monthscost24 = monthscost24;
+    }
+
+    public float getMonthscost36() {
+        return monthscost36;
+    }
+
+    public void setMonthscost36(float monthscost36) {
+        this.monthscost36 = monthscost36;
+    }
+
     @Override
     public String toString() {
         return "ServicePackage{" +
                 "ID=" + ID +
                 ", name='" + name + '\'' +
+                ", monthscost12=" + monthscost12 +
+                ", monthscost24=" + monthscost24 +
+                ", monthscost36=" + monthscost36 +
+                ", orders=" + orders +
+                ", services=" + services +
                 '}';
     }
 }

@@ -4,11 +4,14 @@ import it.polimi.progettoDB2.Entities.Order;
 import it.polimi.progettoDB2.Entities.Service;
 import it.polimi.progettoDB2.Entities.ServicePackage;
 import it.polimi.progettoDB2.Services.AuthService;
+import it.polimi.progettoDB2.Services.EmployeeService;
 import it.polimi.progettoDB2.Services.SalesReportService;
 import it.polimi.progettoDB2.Services.UserService;
 
 import java.io.*;
 import java.sql.DriverManager;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.http.*;
@@ -28,12 +31,49 @@ public class HelloServlet extends HttpServlet {
     @EJB
     private AuthService authService;
 
+    @EJB
+    private EmployeeService employeeService;
+
     public void init() {
         message = "Hello World!";
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        userService.validateOrder(24);
+        /*
+        List<ServicePackage> list = userService.getServicePackages();
+        for(ServicePackage s: list) {
+            System.out.println(s);
+            System.out.println(s.getServices());
+        }
+        List<Integer> serviceList = new ArrayList<>();
+        serviceList.add(2);
+        serviceList.add(4);
+        serviceList.add(6);
+        serviceList.add(8);
+        employeeService.createServicePackage("allInclusive", 20,30,40, serviceList);
 
+        employeeService.createOptionalProduct("skyCalcio", (float) 20);
+        employeeService.createOptionalProduct("filmService", (float) 40);
+        employeeService.createOptionalProduct("foodDelivery", (float) 5);
+        employeeService.createService("FixedPhone",1,1,(float)1,(float) 1,1,(float) 1);
+        employeeService.createService("FixedPhone",1,1,(float)1,(float) 1,1,(float) 1);
+        employeeService.createService("MobilePhone",200,50, (float) 0.2,(float) 1,0, (float) 0);
+        employeeService.createService("MobilePhone",100,20,(float)0.1,(float) 1,0,(float) 0);
+        employeeService.createService("FixedInternetA",1,1,(float)1,(float) 1,50,(float) 1);
+        employeeService.createService("FixedInternetB",1,1,(float)1,(float) 1,100,(float) 2);
+        employeeService.createService("MobileInternetA",1,1,(float)1,(float) 1,20,(float) 3);
+        employeeService.createService("MobileInternetB",1,1,(float)1,(float) 1,80,(float) 4);
+        List<OptionalProduct> opts = userService.getOptionalProducts();
+        for(OptionalProduct op: opts)
+            System.out.println(op);
+        userService.validateOrder(26);
+        Date date = new Date();
+        List<Integer> list = new ArrayList<>();
+        list.add(1);
+        list.add(4);
+        Order order = userService.addOrder(date, 12, 50, date, 5, 2, "leo", list);
+        authService.registerUser("peppe", "123", "peppe@gmail.com", "User");
         System.out.println("Debugging login");
         System.out.println(authService.authenticateUser("carlo", "123456"));
         System.out.println(authService.authenticateUser("lool", "loool"));
@@ -79,9 +119,9 @@ public class HelloServlet extends HttpServlet {
 
         System.out.println("Debugging getAvgOptForPackage:");
 
-        System.out.println(salesReportService.getAvgOptForPakage(1));
-        System.out.println(salesReportService.getAvgOptForPakage(2));
-        System.out.println(salesReportService.getAvgOptForPakage(3));
+        System.out.println(salesReportService.getAvgOptForPackage(1));
+        System.out.println(salesReportService.getAvgOptForPackage(2));
+        System.out.println(salesReportService.getAvgOptForPackage(3));
         /*
         final String DB_URL = "jdbc:mysql://localhost:3306/new_schema"; //Replace with your own configuration
         final String USER = "root"; //Replace with your own configuration

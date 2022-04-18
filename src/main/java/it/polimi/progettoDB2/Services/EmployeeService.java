@@ -7,8 +7,9 @@ import it.polimi.progettoDB2.Entities.ServicePackage;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @Stateless
 public class EmployeeService {
@@ -16,11 +17,15 @@ public class EmployeeService {
     @PersistenceContext
     private EntityManager em;
 
-    public ServicePackage createServicePackage(String name, ArrayList<Integer> servicesID) {
-        ServicePackage servicePackage = new ServicePackage(name);
+    public ServicePackage createServicePackage(String name, float cost12, float cost24, float cost36, List<Integer> servicesID) {
+        ServicePackage servicePackage = new ServicePackage(name, cost12, cost24, cost36);
+        List<Service> serviceList = new ArrayList<>();
         for (Integer integer : servicesID) {
-            servicePackage.getServices().add(em.find(Service.class, integer));
+            Service service = em.find(Service.class, integer);
+            serviceList.add(service);
+            service.setServicePackage(servicePackage);
         }
+        servicePackage.setServices(serviceList);
         em.persist(servicePackage);
         return servicePackage;
     }
@@ -31,8 +36,8 @@ public class EmployeeService {
         return optProduct;
     }
 
-    public Service createService (String type, int minutes, int SMS, Float extraMinFee, Float extraSMSFee, int giga, Float extraGigaFee, Date activationDate, Date deactivationDate) {
-        Service service = new Service(type, minutes, SMS, extraMinFee, extraSMSFee, giga, extraGigaFee, activationDate, deactivationDate);
+    public Service createService (String type, int minutes, int SMS, Float extraMinFee, Float extraSMSFee, int giga, Float extraGigaFee) {
+        Service service = new Service(type, minutes, SMS, extraMinFee, extraSMSFee, giga, extraGigaFee);
         em.persist(service);
         return service;
     }

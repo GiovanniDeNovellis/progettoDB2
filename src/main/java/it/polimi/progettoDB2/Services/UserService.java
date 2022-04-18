@@ -6,9 +6,9 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 @Stateless
@@ -22,8 +22,8 @@ public class UserService {
                 .getResultList();
     }
 
-    public List<Order> getRejectedOrders(String username){
-        return em.createNamedQuery("Order.findByStatusAndUsername", Order.class).setParameter(1, "Rejected").
+    public List<Order> getSuspendedOrders(String username){
+        return em.createNamedQuery("Order.findByStatusAndUsername", Order.class).setParameter(1, "Suspended").
                 setParameter(2,username).getResultList();
     }
 
@@ -38,32 +38,36 @@ public class UserService {
     }
 
 
-    public Order addOrder(Date creationDate, int valPeriod, int totalValue, Date starDate, int fee, int packageID, String username, List<Integer> optProductIDs) {
+    public Order addOrder(Date creationDate, int valPeriod, Date startDate, int fee, int packageID, String username, List<Integer> optProductIDs) {
         String status = "Created";
         User user = em.find(User.class, username);
-        ServicePackage servicePackage;
-        servicePackage = em.find(ServicePackage.class, packageID);
-        Order order = new Order(creationDate, valPeriod, totalValue, starDate, status, user, servicePackage, fee);
+        ServicePackage servicePackage = em.find(ServicePackage.class, packageID);
+        int totalValue = calculateTotalValue(valPeriod, fee, servicePackage, optProductIDs);
+        Order order = new Order(creationDate, valPeriod, totalValue, startDate, status, user, servicePackage, fee);
         em.persist(order);
+        createOrderSchedule(order, optProductIDs, startDate, valPeriod, servicePackage);
+        return order;
+    }
 
-        /* Create the tuples of package-opt-bridge related to the order */
+    public int calculateTotalValue(int valPeriod, int fee, ServicePackage servicePackage, List<Integer> optProductIDs){
+        int totalValue = valPeriod*fee;
+        for(Integer id: optProductIDs){
+            OptionalProduct opt = em.find(OptionalProduct.class, id);
+            totalValue+= opt.getMonthlyFee()*valPeriod;
+        }
+        return totalValue;
+    }
 
+    private void createOrderSchedule(Order order, List<Integer> optProductIDs, Date startDate, int valPeriod, ServicePackage servicePackage){
         Calendar c = Calendar.getInstance();
-        c.setTime(creationDate);
+        c.setTime(startDate);
         c.add(Calendar.MONTH, valPeriod);
-        Date pckgBridgeDeactDate = (Date) c.getTime();
-
+        Date pckgBridgeDeactDate = c.getTime();
         for(Integer integer : optProductIDs) {
-            PckgOptBridge pckgOptBridge = new PckgOptBridge();
-            pckgOptBridge.setServicePackage(servicePackage);
-            pckgOptBridge.setOptionalProduct(em.find(OptionalProduct.class, integer));
-            pckgOptBridge.setOrder(order);
-            pckgOptBridge.setActdate(creationDate);
-            pckgOptBridge.setDeactdate(pckgBridgeDeactDate);
+            OptionalProduct prod = em.find(OptionalProduct.class, integer);
+            PckgOptBridge pckgOptBridge = new PckgOptBridge(order, servicePackage, prod, startDate, pckgBridgeDeactDate);
             em.persist(pckgOptBridge);
         }
-
-        return order;
     }
 
     /* To modify */
@@ -71,19 +75,42 @@ public class UserService {
         String status = "Valid";
         Order order;
         order = em.find(Order.class, orderID);
+        checkInsolventAndRemove(orderID, order.getUser().getUsername());
         order.setStatus(status);
-        em.persist(order);
         return order;
     }
 
+    private void checkInsolventAndRemove(int orderID, String username){
+        List<Order> suspendedOrders = getSuspendedOrders(username);
+        if(suspendedOrders.size()==1 && suspendedOrders.get(0).getUser().getUsername().equals(username)){
+            suspendedOrders.get(0).getUser().setInsolvent(false);
+        }
+    }
+
     /* To modify */
-    public Order failOrder(int orderID){
-        String status = "Failed";
+    public Order suspendOrder(int orderID){
+        String status = "Suspended";
         Order order;
         order = em.find(Order.class, orderID);
         order.setStatus(status);
-        em.persist(order);
+        User user = em.find(User.class, order.getUser().getUsername());
+        user.setInsolvent(true);
+        user.setNumRejections(user.getNumRejections()+1);
+        checkAlert(user, order.getTotalvalue());
         return order;
+    }
+
+    private void checkAlert(User user, int amount){
+        Date date = new Date(System.currentTimeMillis());
+        if(user.getNumRejections()==3){
+            Alert alert = new Alert(user, user.getEmail(), amount, date);
+            em.persist(alert);
+        }
+        else if(user.getNumRejections()>3){
+            Alert alert = em.find(Alert.class, user.getUsername());
+            alert.setAmount(amount);
+            alert.setDatetimelastrejection(date);
+        }
     }
 
     public List<OptionalProduct> getOptionalProducts() {
@@ -94,5 +121,4 @@ public class UserService {
             return null;
         }
     }
-
 }

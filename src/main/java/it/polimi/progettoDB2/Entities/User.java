@@ -19,12 +19,17 @@ public class User {
 
     private boolean isInsolvent;
 
+    private int numRejections;
+
+
+
     public User(String username, String email, String password, String type) {
         this.username = username;
         this.email = email;
         this.password = password;
         this.type = type;
         this.isInsolvent = false;
+        this.numRejections=0;
     }
 
     @OneToMany(mappedBy = "user")
@@ -80,6 +85,18 @@ public class User {
 
     public void setInsolvent(boolean insolvent) {
         isInsolvent = insolvent;
+    }
+
+    public void addOrder(Order order){
+        getOrders().add(order);
+    }
+
+    public int getNumRejections() {
+        return numRejections;
+    }
+
+    public void setNumRejections(int numRejections) {
+        this.numRejections = numRejections;
     }
 
     @Override

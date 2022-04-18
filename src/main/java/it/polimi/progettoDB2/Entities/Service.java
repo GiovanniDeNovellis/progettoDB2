@@ -7,8 +7,8 @@ import java.util.Date;
 public class Service {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int serviceid;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long serviceid;
 
     private String type;
 
@@ -24,11 +24,11 @@ public class Service {
 
     private Float extragigafee;
 
-    private java.sql.Date activationdate;
+    @ManyToOne
+    @JoinColumn(name = "service_package_id")
+    private ServicePackage servicePackage;
 
-    private java.sql.Date deactivationdate;
-
-    public Service(String type, int minutes, int sms, Float extraminfee, Float extrasmsfee, int giga, Float extragigafee, java.sql.Date activationdate, java.sql.Date deactivationdate) {
+    public Service(String type, int minutes, int sms, Float extraminfee, Float extrasmsfee, int giga, Float extragigafee) {
         this.type = type;
         this.minutes = minutes;
         this.sms = sms;
@@ -36,24 +36,17 @@ public class Service {
         this.extrasmsfee = extrasmsfee;
         this.giga = giga;
         this.extragigafee = extragigafee;
-        this.activationdate = activationdate;
-        this.deactivationdate = deactivationdate;
     }
-
-
-    @ManyToOne
-    @JoinColumn(name = "service_package_id")
-    private ServicePackage servicePackage;
 
     public Service() {
 
     }
 
-    public int getServiceid() {
+    public long getServiceid() {
         return serviceid;
     }
 
-    public void setServiceid(int serviceid) {
+    public void setServiceid(long serviceid) {
         this.serviceid = serviceid;
     }
 
@@ -112,23 +105,6 @@ public class Service {
     public void setExtragigafee(float extragigafee) {
         this.extragigafee = extragigafee;
     }
-
-    public Date getActivationdate() {
-        return activationdate;
-    }
-
-    public void setActivationdate(java.sql.Date activationdate) {
-        this.activationdate = activationdate;
-    }
-
-    public Date getDeactivationdate() {
-        return deactivationdate;
-    }
-
-    public void setDeactivationdate(java.sql.Date deactivationdate) {
-        this.deactivationdate = deactivationdate;
-    }
-
     public ServicePackage getServicePackage() {
         return servicePackage;
     }
@@ -148,8 +124,6 @@ public class Service {
                 ", extrasmsfee=" + extrasmsfee +
                 ", giga=" + giga +
                 ", extragigafee=" + extragigafee +
-                ", activationdate=" + activationdate +
-                ", deactivationdate=" + deactivationdate +
                 '}';
     }
 }
