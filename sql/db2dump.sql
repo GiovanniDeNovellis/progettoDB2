@@ -18,6 +18,73 @@ USE `new_schema`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `activation-schedule`
+--
+
+DROP TABLE IF EXISTS `activation-schedule`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `activation-schedule` (
+  `package` int NOT NULL,
+  `orderid` int NOT NULL,
+  `optproduct` int NOT NULL,
+  `actdate` datetime DEFAULT NULL,
+  `deactdate` datetime DEFAULT NULL,
+  `bridge_id` int NOT NULL AUTO_INCREMENT,
+  `status` varchar(45) NOT NULL,
+  PRIMARY KEY (`bridge_id`),
+  UNIQUE KEY `bridge_id_UNIQUE` (`bridge_id`),
+  KEY `package_idx` (`package`),
+  KEY `order_idx` (`orderid`),
+  KEY `product_idx` (`optproduct`),
+  CONSTRAINT `orderid` FOREIGN KEY (`orderid`) REFERENCES `order` (`id`),
+  CONSTRAINT `package` FOREIGN KEY (`package`) REFERENCES `service-package` (`ID`),
+  CONSTRAINT `product` FOREIGN KEY (`optproduct`) REFERENCES `optional-product` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `activation-schedule`
+--
+
+LOCK TABLES `activation-schedule` WRITE;
+/*!40000 ALTER TABLE `activation-schedule` DISABLE KEYS */;
+INSERT INTO `activation-schedule` VALUES (1,1,1,'2022-03-25 00:00:00','2022-03-25 00:00:00',1,''),(1,1,2,'2022-03-25 00:00:00','2022-04-25 00:00:00',2,''),(1,1,3,'2022-03-25 00:00:00','2022-04-25 00:00:00',3,''),(1,1,4,'2022-03-25 00:00:00','2022-04-25 00:00:00',4,''),(2,21,1,'2022-04-17 23:04:36','2023-04-17 23:04:36',8,''),(2,26,1,'2022-04-17 23:44:39','2023-04-17 23:44:39',9,''),(2,26,4,'2022-04-17 23:44:39','2023-04-17 23:44:39',10,''),(2,27,4,'2022-04-17 23:47:34','2023-04-17 23:47:34',11,''),(2,27,1,'2022-04-17 23:47:34','2023-04-17 23:47:34',12,''),(60,28,4,'2022-04-19 14:36:16','2023-04-19 14:36:16',13,'Valid'),(60,28,1,'2022-04-19 14:36:16','2023-04-19 14:36:16',14,'Valid'),(59,29,3,'2022-04-19 15:07:07','2023-04-19 15:07:07',15,'Valid'),(59,29,2,'2022-04-19 15:07:07','2023-04-19 15:07:07',16,'Valid');
+/*!40000 ALTER TABLE `activation-schedule` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `package-opt-bridge_AFTER_UPDATE` AFTER UPDATE ON `activation-schedule` FOR EACH ROW BEGIN
+	IF new.status = 'Valid' AND old.status <> 'Valid' 
+    THEN
+		UPDATE `new_schema`.`avg-opt-for-package`
+		SET numopttot = numopttot + 1,
+		avgoptforsale = numopttot / numsales
+		WHERE id = new.package;
+		
+		UPDATE `new_schema`.`sales-package`
+		SET totalwithopt = totalwithopt + (SELECT monthlyfee FROM `optional-product` WHERE ID = new.optproduct) * (SELECT valperiod from `order` WHERE id = new.orderid)
+		WHERE id = new.package;
+		
+		UPDATE `new_schema`.`sales-optional-product`
+		SET totalsalesvalue = totalsalesvalue + (SELECT monthlyfee FROM `optional-product` WHERE ID = new.optproduct) * (SELECT valperiod from `order` WHERE id = new.orderid)
+		WHERE optproductid = new.optproduct;
+    END IF;
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+
+--
 -- Table structure for table `alert`
 --
 
@@ -131,7 +198,7 @@ CREATE TABLE `avg-opt-for-package` (
 
 LOCK TABLES `avg-opt-for-package` WRITE;
 /*!40000 ALTER TABLE `avg-opt-for-package` DISABLE KEYS */;
-INSERT INTO `avg-opt-for-package` VALUES (1,4,3,1.33333),(2,6,7,0.857143),(58,0,0,0);
+INSERT INTO `avg-opt-for-package` VALUES (1,4,3,1.33333),(2,6,7,0.857143),(58,0,0,0),(59,2,1,2),(60,2,3,0.666667);
 /*!40000 ALTER TABLE `avg-opt-for-package` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -203,7 +270,7 @@ CREATE TABLE `num-purch-package` (
 
 LOCK TABLES `num-purch-package` WRITE;
 /*!40000 ALTER TABLE `num-purch-package` DISABLE KEYS */;
-INSERT INTO `num-purch-package` VALUES (1,3),(2,7),(58,0);
+INSERT INTO `num-purch-package` VALUES (1,3),(2,7),(58,0),(59,1),(60,3);
 /*!40000 ALTER TABLE `num-purch-package` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -229,7 +296,7 @@ CREATE TABLE `num-purch-package-val-period` (
 
 LOCK TABLES `num-purch-package-val-period` WRITE;
 /*!40000 ALTER TABLE `num-purch-package-val-period` DISABLE KEYS */;
-INSERT INTO `num-purch-package-val-period` VALUES (1,12,2),(1,24,1),(1,36,0),(2,12,7),(2,24,0),(2,36,0),(58,12,0),(58,24,0),(58,36,0);
+INSERT INTO `num-purch-package-val-period` VALUES (1,12,2),(1,24,1),(1,36,0),(2,12,7),(2,24,0),(2,36,0),(58,12,0),(58,24,0),(58,36,0),(59,12,1),(59,24,0),(59,36,0),(60,12,3),(60,24,0),(60,36,0);
 /*!40000 ALTER TABLE `num-purch-package-val-period` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -300,7 +367,7 @@ CREATE TABLE `order` (
   KEY `packageid_idx` (`packageid`),
   CONSTRAINT `packageid` FOREIGN KEY (`packageid`) REFERENCES `service-package` (`ID`),
   CONSTRAINT `username` FOREIGN KEY (`username`) REFERENCES `user` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -309,7 +376,7 @@ CREATE TABLE `order` (
 
 LOCK TABLES `order` WRITE;
 /*!40000 ALTER TABLE `order` DISABLE KEYS */;
-INSERT INTO `order` VALUES (1,'2022-04-17 00:00:00',12,50,'2022-04-17 00:00:00','Created','carlo',2,5),(2,'2022-03-25 00:00:00',24,32,'2022-03-25 00:00:00','Rejected','carlo',1,15),(20,'2022-04-17 00:00:00',12,50,'2022-04-17 00:00:00','Created','leo',2,5),(21,'2022-04-17 00:00:00',12,50,'2022-04-17 00:00:00','Created','leo',2,5),(22,'2022-04-17 00:00:00',12,50,'2022-04-17 00:00:00','Created','leo',2,5),(23,'2022-04-17 00:00:00',12,50,'2022-04-17 00:00:00','Valid','leo',2,5),(24,'2022-04-17 00:00:00',12,50,'2022-04-17 00:00:00','Valid','leo',2,5),(25,'2022-04-17 00:00:00',12,50,'2022-04-17 00:00:00','Created','leo',2,5),(26,'2022-04-17 00:00:00',12,50,'2022-04-17 00:00:00','Valid','leo',2,5),(27,'2022-04-17 00:00:00',12,50,'2022-04-17 00:00:00','Valid','leo',2,5);
+INSERT INTO `order` VALUES (1,'2022-04-17 00:00:00',12,50,'2022-04-17 00:00:00','Created','carlo',2,5),(2,'2022-03-25 00:00:00',24,32,'2022-03-25 00:00:00','Rejected','carlo',1,15),(20,'2022-04-17 00:00:00',12,50,'2022-04-17 00:00:00','Created','leo',2,5),(21,'2022-04-17 00:00:00',12,50,'2022-04-17 00:00:00','Created','leo',2,5),(22,'2022-04-17 00:00:00',12,50,'2022-04-17 00:00:00','Created','leo',2,5),(23,'2022-04-17 00:00:00',12,50,'2022-04-17 00:00:00','Valid','leo',2,5),(24,'2022-04-17 00:00:00',12,50,'2022-04-17 00:00:00','Valid','leo',2,5),(25,'2022-04-17 00:00:00',12,50,'2022-04-17 00:00:00','Created','leo',2,5),(26,'2022-04-17 00:00:00',12,50,'2022-04-17 00:00:00','Valid','leo',2,5),(27,'2022-04-17 00:00:00',12,50,'2022-04-17 00:00:00','Valid','leo',2,5),(28,'2022-04-19 00:00:00',12,1020,'2022-04-19 00:00:00','Valid','peppe',60,15),(29,'2022-04-19 00:00:00',12,24420,'2022-04-19 00:00:00','Valid','peppe',59,15);
 /*!40000 ALTER TABLE `order` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -368,69 +435,31 @@ DELIMITER ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
--- Table structure for table `package-opt-bridge`
+-- Table structure for table `package-opt-association`
 --
 
-DROP TABLE IF EXISTS `package-opt-bridge`;
+DROP TABLE IF EXISTS `package-opt-association`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `package-opt-bridge` (
-  `package` int NOT NULL,
-  `orderid` int NOT NULL,
-  `optproduct` int NOT NULL,
-  `actdate` datetime DEFAULT NULL,
-  `deactdate` datetime DEFAULT NULL,
-  `bridge_id` int NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`bridge_id`),
-  UNIQUE KEY `bridge_id_UNIQUE` (`bridge_id`),
-  KEY `package_idx` (`package`),
-  KEY `order_idx` (`orderid`),
-  KEY `product_idx` (`optproduct`),
-  CONSTRAINT `orderid` FOREIGN KEY (`orderid`) REFERENCES `order` (`id`),
-  CONSTRAINT `package` FOREIGN KEY (`package`) REFERENCES `service-package` (`ID`),
-  CONSTRAINT `product` FOREIGN KEY (`optproduct`) REFERENCES `optional-product` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+CREATE TABLE `package-opt-association` (
+  `packageid` int NOT NULL,
+  `optprodid` int NOT NULL,
+  PRIMARY KEY (`packageid`,`optprodid`),
+  KEY `assproduct_idx` (`optprodid`),
+  CONSTRAINT `asspackage` FOREIGN KEY (`packageid`) REFERENCES `service-package` (`ID`),
+  CONSTRAINT `assproduct` FOREIGN KEY (`optprodid`) REFERENCES `optional-product` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `package-opt-bridge`
+-- Dumping data for table `package-opt-association`
 --
 
-LOCK TABLES `package-opt-bridge` WRITE;
-/*!40000 ALTER TABLE `package-opt-bridge` DISABLE KEYS */;
-INSERT INTO `package-opt-bridge` VALUES (1,1,1,'2022-03-25 00:00:00','2022-03-25 00:00:00',1),(1,1,2,'2022-03-25 00:00:00','2022-04-25 00:00:00',2),(1,1,3,'2022-03-25 00:00:00','2022-04-25 00:00:00',3),(1,1,4,'2022-03-25 00:00:00','2022-04-25 00:00:00',4),(2,21,1,'2022-04-17 23:04:36','2023-04-17 23:04:36',8),(2,26,1,'2022-04-17 23:44:39','2023-04-17 23:44:39',9),(2,26,4,'2022-04-17 23:44:39','2023-04-17 23:44:39',10),(2,27,4,'2022-04-17 23:47:34','2023-04-17 23:47:34',11),(2,27,1,'2022-04-17 23:47:34','2023-04-17 23:47:34',12);
-/*!40000 ALTER TABLE `package-opt-bridge` ENABLE KEYS */;
+LOCK TABLES `package-opt-association` WRITE;
+/*!40000 ALTER TABLE `package-opt-association` DISABLE KEYS */;
+INSERT INTO `package-opt-association` VALUES (60,1),(59,2),(59,3),(60,4);
+/*!40000 ALTER TABLE `package-opt-association` ENABLE KEYS */;
 UNLOCK TABLES;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8mb4 */ ;
-/*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
-DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `package-opt-bridge_AFTER_INSERT` AFTER INSERT ON `package-opt-bridge` FOR EACH ROW BEGIN
-
-    UPDATE `new_schema`.`avg-opt-for-package`
-    SET numopttot = numopttot + 1,
-    avgoptforsale = numopttot / numsales
-    WHERE id = new.package;
-    
-	UPDATE `new_schema`.`sales-package`
-    SET totalwithopt = totalwithopt + (SELECT monthlyfee FROM `optional-product` WHERE ID = new.optproduct) * (SELECT valperiod from `order` WHERE id = new.orderid)
-    WHERE id = new.package;
-    
-    UPDATE `new_schema`.`sales-optional-product`
-    SET totalsalesvalue = totalsalesvalue + (SELECT monthlyfee FROM `optional-product` WHERE ID = new.optproduct) * (SELECT valperiod from `order` WHERE id = new.orderid)
-    WHERE optproductid = new.optproduct;
-    
-END */;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
 -- Table structure for table `sales-optional-product`
@@ -454,7 +483,7 @@ CREATE TABLE `sales-optional-product` (
 
 LOCK TABLES `sales-optional-product` WRITE;
 /*!40000 ALTER TABLE `sales-optional-product` DISABLE KEYS */;
-INSERT INTO `sales-optional-product` VALUES (1,1802),(2,48004),(3,3),(4,488),(5,0),(6,0),(7,0);
+INSERT INTO `sales-optional-product` VALUES (1,2402),(2,72004),(3,243),(4,728),(5,0),(6,0),(7,0);
 /*!40000 ALTER TABLE `sales-optional-product` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -506,7 +535,7 @@ CREATE TABLE `sales-package` (
 
 LOCK TABLES `sales-package` WRITE;
 /*!40000 ALTER TABLE `sales-package` DISABLE KEYS */;
-INSERT INTO `sales-package` VALUES (1,25440,1080),(2,26700,420),(58,0,0);
+INSERT INTO `sales-package` VALUES (1,25440,1080),(2,26700,420),(58,0,0),(59,24420,180),(60,1380,540);
 /*!40000 ALTER TABLE `sales-package` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -540,7 +569,7 @@ CREATE TABLE `service` (
 
 LOCK TABLES `service` WRITE;
 /*!40000 ALTER TABLE `service` DISABLE KEYS */;
-INSERT INTO `service` VALUES (1,'PhoneA',23,24,25,26,NULL,NULL,1),(2,'FixedPhone',1,1,1,1,1,1,58),(3,'FixedPhone',1,1,1,1,1,1,NULL),(4,'MobilePhone',200,50,0.2,1,0,0,58),(5,'MobilePhone',100,20,0.1,1,0,0,NULL),(6,'FixedInternetA',1,1,1,1,50,1,58),(7,'FixedInternetB',1,1,1,1,100,2,NULL),(8,'MobileInternetA',1,1,1,1,20,3,58),(9,'MobileInternetB',1,1,1,1,80,4,NULL);
+INSERT INTO `service` VALUES (1,'PhoneA',23,24,25,26,NULL,NULL,1),(2,'FixedPhone',1,1,1,1,1,1,60),(3,'FixedPhone',1,1,1,1,1,1,NULL),(4,'MobilePhone',200,50,0.2,1,0,0,60),(5,'MobilePhone',100,20,0.1,1,0,0,NULL),(6,'FixedInternetA',1,1,1,1,50,1,60),(7,'FixedInternetB',1,1,1,1,100,2,NULL),(8,'MobileInternetA',1,1,1,1,20,3,60),(9,'MobileInternetB',1,1,1,1,80,4,NULL);
 /*!40000 ALTER TABLE `service` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -559,7 +588,7 @@ CREATE TABLE `service-package` (
   `monthscost36` float NOT NULL,
   PRIMARY KEY (`ID`,`name`),
   UNIQUE KEY `ID_UNIQUE` (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=59 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -568,7 +597,7 @@ CREATE TABLE `service-package` (
 
 LOCK TABLES `service-package` WRITE;
 /*!40000 ALTER TABLE `service-package` DISABLE KEYS */;
-INSERT INTO `service-package` VALUES (1,'pckgA',0,0,0),(2,'pckgB',0,0,0),(58,'allInclusive',20,30,40);
+INSERT INTO `service-package` VALUES (1,'pckgA',0,0,0),(2,'pckgB',0,0,0),(58,'allInclusive',20,30,40),(59,'packagewithproducts',20,30,40),(60,'packagewithdiffproducts',20,30,40);
 /*!40000 ALTER TABLE `service-package` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -689,4 +718,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-04-18 23:59:04
+-- Dump completed on 2022-04-19 23:22:40

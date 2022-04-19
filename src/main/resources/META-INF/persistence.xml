@@ -13,7 +13,7 @@
         <class> it.polimi.progettoDB2.Entities.NumPurchPackageValPeriod</class>
         <class> it.polimi.progettoDB2.Entities.OptionalProduct</class>
         <class> it.polimi.progettoDB2.Entities.Order</class>
-        <class> it.polimi.progettoDB2.Entities.PckgOptBridge</class>
+        <class>it.polimi.progettoDB2.Entities.ActivationSchedule</class>
         <class> it.polimi.progettoDB2.Entities.SalesOfPackage</class>
         <class> it.polimi.progettoDB2.Entities.SalesOptionalProduct</class>
         <class> it.polimi.progettoDB2.Entities.Service</class>

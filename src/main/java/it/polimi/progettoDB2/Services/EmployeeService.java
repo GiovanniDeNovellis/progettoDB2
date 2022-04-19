@@ -17,7 +17,7 @@ public class EmployeeService {
     @PersistenceContext
     private EntityManager em;
 
-    public ServicePackage createServicePackage(String name, float cost12, float cost24, float cost36, List<Integer> servicesID) {
+    public ServicePackage createServicePackage(String name, float cost12, float cost24, float cost36, List<Integer> servicesID, List<Integer> productsID) {
         ServicePackage servicePackage = new ServicePackage(name, cost12, cost24, cost36);
         List<Service> serviceList = new ArrayList<>();
         for (Integer integer : servicesID) {
@@ -25,7 +25,13 @@ public class EmployeeService {
             serviceList.add(service);
             service.setServicePackage(servicePackage);
         }
+        List<OptionalProduct> productList = new ArrayList<>();
+        for(Integer integer: productsID){
+            OptionalProduct prod = em.find(OptionalProduct.class, integer);
+            productList.add(prod);
+        }
         servicePackage.setServices(serviceList);
+        servicePackage.setAvailableProducts(productList);
         em.persist(servicePackage);
         return servicePackage;
     }

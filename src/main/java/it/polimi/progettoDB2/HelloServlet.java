@@ -1,15 +1,11 @@
 package it.polimi.progettoDB2;
-import it.polimi.progettoDB2.Entities.OptionalProduct;
 import it.polimi.progettoDB2.Entities.Order;
-import it.polimi.progettoDB2.Entities.Service;
-import it.polimi.progettoDB2.Entities.ServicePackage;
 import it.polimi.progettoDB2.Services.AuthService;
 import it.polimi.progettoDB2.Services.EmployeeService;
 import it.polimi.progettoDB2.Services.SalesReportService;
-import it.polimi.progettoDB2.Services.UserService;
+import it.polimi.progettoDB2.Services.CustomerService;
 
 import java.io.*;
-import java.sql.DriverManager;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -23,7 +19,7 @@ public class HelloServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     @EJB
-    private UserService userService;
+    private CustomerService customerService;
 
     @EJB
     private SalesReportService salesReportService;
@@ -39,8 +35,17 @@ public class HelloServlet extends HttpServlet {
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        userService.validateOrder(24);
+        customerService.validateOrder(29);
         /*
+        Date date = new Date();
+        List<Integer> list = new ArrayList<>();
+        list.add(2);
+        list.add(3);
+        Order order = customerService.addOrder(date, 12,  date, 15,59,  "peppe", list);
+
+        //System.out.println(customerService.getAvailableProducts(60));
+        /*
+        userService.validateOrder(24);
         List<ServicePackage> list = userService.getServicePackages();
         for(ServicePackage s: list) {
             System.out.println(s);
@@ -51,8 +56,13 @@ public class HelloServlet extends HttpServlet {
         serviceList.add(4);
         serviceList.add(6);
         serviceList.add(8);
-        employeeService.createServicePackage("allInclusive", 20,30,40, serviceList);
+        List<Integer> products = new ArrayList<>();
+        products.add(1);
+        products.add(4);
+        employeeService.createServicePackage("packagewithdiffproducts", 20,30,40, serviceList, products);
 
+
+        /*
         employeeService.createOptionalProduct("skyCalcio", (float) 20);
         employeeService.createOptionalProduct("filmService", (float) 40);
         employeeService.createOptionalProduct("foodDelivery", (float) 5);

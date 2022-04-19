@@ -26,6 +26,11 @@ public class ServicePackage {
     @OneToMany(mappedBy = "servicePackage", fetch = FetchType.EAGER)
     private Collection<Service> services;
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "package-opt-association", joinColumns = @JoinColumn(name = "packageid"),
+                        inverseJoinColumns = @JoinColumn(name="optprodid"))
+    private Collection<OptionalProduct> availableProducts;
+
     public ServicePackage(String name, float monthscost12, float monthscost24, float monthscost36) {
         this.name = name;
         this.monthscost12 = monthscost12;
@@ -94,6 +99,14 @@ public class ServicePackage {
 
     public void setMonthscost36(float monthscost36) {
         this.monthscost36 = monthscost36;
+    }
+
+    public Collection<OptionalProduct> getAvailableProducts() {
+        return availableProducts;
+    }
+
+    public void setAvailableProducts(Collection<OptionalProduct> availableProducts) {
+        this.availableProducts = availableProducts;
     }
 
     @Override

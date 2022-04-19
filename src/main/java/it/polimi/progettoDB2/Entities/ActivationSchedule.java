@@ -4,8 +4,9 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "package-opt-bridge", schema = "new_schema")
-public class PckgOptBridge {
+@Table(name = "activation-schedule", schema = "new_schema")
+@NamedQuery(name = "activationSchedule.findByOrderID", query = "SELECT o FROM ActivationSchedule o WHERE o.orderid.id = ?1")
+public class ActivationSchedule {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,15 +30,18 @@ public class PckgOptBridge {
 
     private Date deactdate;
 
-    public PckgOptBridge(Order order,ServicePackage servicePackage, OptionalProduct optionalProduct, Date actdate, Date deactdate) {
+    private String status;
+
+    public ActivationSchedule(Order order, ServicePackage servicePackage, OptionalProduct optionalProduct, Date actdate, Date deactdate, String status) {
         this.servicePackage = servicePackage;
         this.optionalProduct = optionalProduct;
         this.actdate = actdate;
         this.deactdate = deactdate;
         this.orderid=order;
+        this.status=status;
     }
 
-    public PckgOptBridge() {
+    public ActivationSchedule() {
 
     }
 
@@ -89,6 +93,14 @@ public class PckgOptBridge {
         this.bridge_id = bridge_id;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
         return "PckgOptBridge{" +
@@ -97,6 +109,7 @@ public class PckgOptBridge {
                 ", optionalProduct=" + optionalProduct.getId() +
                 ", actdate=" + actdate +
                 ", deactdate=" + deactdate +
+                ", status= " + status +
                 '}';
     }
 }

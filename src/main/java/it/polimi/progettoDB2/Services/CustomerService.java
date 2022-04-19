@@ -12,7 +12,7 @@ import java.util.Date;
 import java.util.List;
 
 @Stateless
-public class UserService {
+public class CustomerService {
 
     @PersistenceContext
     private EntityManager em;
@@ -37,6 +37,10 @@ public class UserService {
         return packages;
     }
 
+    public List<OptionalProduct> getAvailableProducts(int packageID){
+        ServicePackage servicePackage = em.find(ServicePackage.class, packageID);
+        return (List<OptionalProduct>) servicePackage.getAvailableProducts();
+    }
 
     public Order addOrder(Date creationDate, int valPeriod, Date startDate, int fee, int packageID, String username, List<Integer> optProductIDs) {
         String status = "Created";
@@ -65,19 +69,27 @@ public class UserService {
         Date pckgBridgeDeactDate = c.getTime();
         for(Integer integer : optProductIDs) {
             OptionalProduct prod = em.find(OptionalProduct.class, integer);
-            PckgOptBridge pckgOptBridge = new PckgOptBridge(order, servicePackage, prod, startDate, pckgBridgeDeactDate);
-            em.persist(pckgOptBridge);
+            ActivationSchedule activationSchedule = new ActivationSchedule(order, servicePackage, prod, startDate, pckgBridgeDeactDate, "Created");
+            em.persist(activationSchedule);
         }
     }
 
-    /* To modify */
     public Order validateOrder(int orderID) {
         String status = "Valid";
         Order order;
         order = em.find(Order.class, orderID);
         checkInsolventAndRemove(orderID, order.getUser().getUsername());
         order.setStatus(status);
+        validateOrderSchedule(orderID);
         return order;
+    }
+
+    private void validateOrderSchedule(int orderID){
+        List <ActivationSchedule> orderSchedule = em.createNamedQuery("activationSchedule.findByOrderID", ActivationSchedule.class).setParameter(1, orderID).getResultList();
+        for(ActivationSchedule p: orderSchedule){
+            p.setStatus("Valid");
+            em.persist(p);
+        }
     }
 
     private void checkInsolventAndRemove(int orderID, String username){
