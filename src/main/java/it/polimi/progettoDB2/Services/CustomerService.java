@@ -99,7 +99,6 @@ public class CustomerService {
         }
     }
 
-    /* To modify */
     public Order suspendOrder(int orderID){
         String status = "Suspended";
         Order order;

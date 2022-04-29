@@ -15,7 +15,7 @@ public class AuthService {
 
     public User registerUser(String username, String password, String email, String type){
         List<User> usr;
-        usr = em.createNamedQuery("User.checkCredentials", User.class).setParameter(1, username).setParameter(2, password).getResultList();
+        usr = em.createNamedQuery("User.checkExisting", User.class).setParameter(1, username).setParameter(2, email).getResultList();
         if(!usr.isEmpty())
             return null;
         User user = new User(username, email, password, type);
