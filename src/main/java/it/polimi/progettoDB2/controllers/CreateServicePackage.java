@@ -50,7 +50,7 @@ public class CreateServicePackage extends HttpServlet {
             cost36 = Float.parseFloat(request.getParameter("cost36"));
             servicesID = request.getParameterValues("servicesID");
             productsID = request.getParameterValues("productsID");
-            if (name == null || name.isEmpty() || cost12 == 0 || cost24 == 0 || cost36 == 0 || servicesID.length == 0 || productsID.length == 0) {
+            if (name == null || name.isEmpty() || servicesID.length == 0 || productsID.length == 0) {
                 throw new Exception("Missing or empty service package values.");
             }
 
