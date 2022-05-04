@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Confirm</title>
+</head>
+<body>
+        <h1> Here's the recap of your order: </h1>
+        <span th:text="${'Name of the package: ' + session.packageToBuy.name}"></span><br><br>
+        <span th:text="${'The subscription will start on: ' + session.startDate}"></span><br><br>
+        <div th:if="${session.packageToBuy!=null}">
+            <span th:text="${'Here are the services you are buying: '}"></span><br>
+            <p th:each="service: ${session.packageToBuy.services}">
+                <br>
+                <span th:text="${'Type: ' + service.type}"></span>
+                <span th:if="${service.type == 'MobilePhone'}">
+                                <span th:text="${'Minutes: ' + service.minutes}"></span>
+                                <span th:text="${'Extra minutes fee: ' + service.extraminfee}"></span>
+                                <span th:text="${'Number of sms: ' + service.sms}"></span>
+                                <span th:text="${'Extra sms fee: ' + service.extrasmsfee}"></span>
+                            </span>
+
+                <span th:if="${service.type == 'FixedInternet'}">
+                                <span th:text="${'Number of giga: ' + service.giga}"></span>
+                                <span th:text="${'Fee for extra giga: ' + service.extragigafee}"></span>
+                            </span>
+
+                <span th:if="${service.type == 'MobileInternet'}">
+                                <span th:text="${'Number of giga: ' + service.giga}"></span>
+                                <span th:text="${'Fee for extra giga: ' + service.extragigafee}"></span>
+                            </span>
+            </p>
+        </div>
+        <br>
+        <div th:if="${selectedOpProd!=null and  !selectedOpProd.isEmpty()}">
+            <span th:text="${'Here are the optional products you are buying: '}"></span><br>
+            <p th:each="prod: ${selectedOpProd}">
+                <div th:if="${prod!=null}">
+                    <span th:text="${'Name: ' + prod.name}"></span>
+                    <span th:text="${'Fee: ' + prod.monthlyfee}"></span>
+                </div>
+            </p>
+        </div>
+
+        <div th:if="${session.user}">
+            <form method="POST" th:action="@{/PurchController}">
+                <button type="submit" name="submit" value="Suspended" class="link-button">Proceed to the payment service(will fail)</button>
+            </form>
+            <br>
+            <form method="POST" th:action="@{/PurchController}">
+                <button type="submit" name="submit" value="Valid" class="link-button">Proceed to the payment service(will work)</button>
+            </form>
+        </div>
+
+        <div th:if="${session.user==null}">
+            <a th:href="@{/CheckLoginCustomer} ">Log in to proceed with the payiment</a>
+        </div>
+</body>
+</html>

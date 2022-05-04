@@ -6,6 +6,8 @@ import java.util.Date;
 @Entity
 @Table(name = "activation-schedule", schema = "new_schema")
 @NamedQuery(name = "activationSchedule.findByOrderID", query = "SELECT o FROM ActivationSchedule o WHERE o.orderid.id = ?1")
+@NamedQuery(name = "activationSchedule.findOptByOrderID", query = "SELECT o.optionalProduct FROM ActivationSchedule o  " +
+        "WHERE o.orderid.id = ?1")
 public class ActivationSchedule {
 
     @Id
@@ -35,6 +37,14 @@ public class ActivationSchedule {
     public ActivationSchedule(Order order, ServicePackage servicePackage, OptionalProduct optionalProduct, Date actdate, Date deactdate, String status) {
         this.servicePackage = servicePackage;
         this.optionalProduct = optionalProduct;
+        this.actdate = actdate;
+        this.deactdate = deactdate;
+        this.orderid=order;
+        this.status=status;
+    }
+
+    public ActivationSchedule(Order order, ServicePackage servicePackage, Date actdate, Date deactdate, String status) {
+        this.servicePackage = servicePackage;
         this.actdate = actdate;
         this.deactdate = deactdate;
         this.orderid=order;
@@ -106,7 +116,7 @@ public class ActivationSchedule {
         return "PckgOptBridge{" +
                 "servicePackage=" + servicePackage.getID() +
                 ", order=" + orderid.getId() +
-                ", optionalProduct=" + optionalProduct.getId() +
+                ", optionalProduct=" + optionalProduct +
                 ", actdate=" + actdate +
                 ", deactdate=" + deactdate +
                 ", status= " + status +

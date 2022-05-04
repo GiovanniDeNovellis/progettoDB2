@@ -16,9 +16,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-
-@WebServlet("/Register")
-public class Register extends HttpServlet {
+@WebServlet("/CheckLoginCustomer")
+public class CheckLoginCustomer extends HttpServlet {
     private TemplateEngine templateEngine;
 
     @EJB
@@ -36,16 +35,11 @@ public class Register extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String username, password, email;
-        String[] typeCheckbox = request.getParameterValues("isEmployee");
-        String type = "Customer";
+        String username, password;
         try {
             username = request.getParameter("username");
             password = request.getParameter("pwd");
-            email = request.getParameter("email");
-            if(typeCheckbox != null)
-                type = "Employee";
-            if (username == null || password == null || email == null || username.isEmpty() || password.isEmpty() || email.isEmpty()) {
+            if (username == null || password == null || username.isEmpty() || password.isEmpty()) {
                 throw new Exception("Missing or empty registration value");
             }
 
@@ -53,17 +47,34 @@ public class Register extends HttpServlet {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing credential value");
             return;
         }
-        User user = authService.registerUser(username, password, email, type);
+
+        User user = authService.authenticateUser(username, password, "Customer");
         String path;
         ServletContext servletContext = getServletContext();
         final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
         if (user == null) {
-            ctx.setVariable("notifyMsg", "Username or email already used");
-        } else {
-            ctx.setVariable("notifyMsg", "Registration completed! Use the first form to login into the system.");
+            ctx.setVariable("errorMsg", "Incorrect username or password");
+            path = "/indexCustomer.html";
+            templateEngine.process(path, ctx, response.getWriter());
         }
-        path = "/indexCustomer.html";
-        templateEngine.process(path, ctx, response.getWriter());
+        else{
+            request.getSession().setAttribute("user", user);
+            if(request.getSession().getAttribute("packageToBuy")==null) {
+                path = getServletContext().getContextPath() + "/HomeCustomer";
+                response.sendRedirect(path);
+            }
+            else{
+                path = "/Confirmation.html";
+                templateEngine.process(path, ctx, response.getWriter());
+            }
+        }
+    }
 
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        ServletContext servletContext = getServletContext();
+        final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
+        String path = "/indexCustomer.html";
+        templateEngine.process(path, ctx, response.getWriter());
     }
 }

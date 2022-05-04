@@ -26,7 +26,7 @@ public class Order {
 
     private String status;
 
-    private int fee;
+    private float fee;
 
     @ManyToOne
     @JoinColumn(name = "username")
@@ -36,7 +36,7 @@ public class Order {
     @JoinColumn(name = "packageid")
     private ServicePackage servicePackage;
 
-    public Order(Date creationdate, int valperiod, int totalvalue, Date startdate, String status, User user,ServicePackage servicePackage, int fee) {
+    public Order(Date creationdate, int valperiod, int totalvalue, Date startdate, String status, User user,ServicePackage servicePackage, float fee) {
         this.creationdate = creationdate;
         this.valperiod = valperiod;
         this.totalvalue = totalvalue;
@@ -99,11 +99,11 @@ public class Order {
         this.status = status;
     }
 
-    public int getFee() {
+    public float getFee() {
         return fee;
     }
 
-    public void setFee(int fee) {
+    public void setFee(float fee) {
         this.fee = fee;
     }
 

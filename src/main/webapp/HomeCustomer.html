@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div align="right" th:if="${session.user}">
+        <h2 th:text="${session.user.username}"></h2>
+    </div>
+
+    <div align="right" th:if="${session.user}">
+        <a th:href="@{/Logout}">Logout</a>
+    </div>
+    <h1> Customer Homepage</h1>
+
+    <h2> Here is the list of all available Service Packages: </h2>
+
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Cost for 12 months</th>
+            <th>Cost for 24 months</th>
+            <th>Cost for 36 months</th>
+            <th>Associated Services</th>
+            <th>Associated Optional Products</th>
+        </tr>
+        <tr th:each="package: ${allpackages}">
+            <td th:text="${package.name}" />
+            <td th:text="${package.monthscost12}" />
+            <td th:text="${package.monthscost24}" />
+            <td th:text="${package.monthscost36}" />
+            <td>
+                <div th:if="${package.services!=null and !package.services.isEmpty()}">
+                    <p th:each="service: ${package.services}">
+
+                    <span th:text="${'Type: ' + service.type}"></span>
+                        <span th:if="${service.type == 'MobilePhone'}">
+                            <span th:text="${'Minutes: ' + service.minutes}"></span>
+                            <span th:text="${'Extra minutes fee: ' + service.extraminfee}"></span>
+                            <span th:text="${'Number of sms: ' + service.sms}"></span>
+                            <span th:text="${'Extra sms fee: ' + service.extrasmsfee}"></span>
+                        </span>
+
+                        <span th:if="${service.type == 'FixedInternet'}">
+                            <span th:text="${'Number of giga: ' + service.giga}"></span>
+                            <span th:text="${'Fee for extra giga: ' + service.extragigafee}"></span>
+                        </span>
+
+                        <span th:if="${service.type == 'MobileInternet'}">
+                            <span th:text="${'Number of giga: ' + service.giga}"></span>
+                            <span th:text="${'Fee for extra giga: ' + service.extragigafee}"></span>
+                        </span>
+                    </p>
+                </div>
+            </td>
+            <td>
+                <div th:if="${package.availableProducts!=null and !package.availableProducts.isEmpty()}">
+                    <p th:each="prod: ${package.availableProducts}">
+                        <span th:text="${'Name: ' + prod.name}"></span>
+                        <span th:text="${'Fee: ' + prod.monthlyfee}"></span>
+                    </p>
+                </div>
+            </td>
+        </tr>
+    </table>
+
+
+    <div align="justify">
+        <a th:href="@{/BuyPackage}">Buy a Service Package</a>
+    </div>
+
+    <h2> Here is the list of all your owned Service Packages: </h2><br>
+    <div th:if="${session.user!=null and validorders!=null and !validorders.isEmpty()}">
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Cost for 12 months</th>
+                <th>Cost for 24 months</th>
+                <th>Cost for 36 months</th>
+                <th>Associated Services</th>
+                <th>Bought Optional Products</th>
+            </tr>
+            <tr th:each="validorder: ${validorders}">
+                <td th:text="${validorder.servicePackage.name}" />
+                <td th:text="${validorder.servicePackage.monthscost12}" />
+                <td th:text="${validorder.servicePackage.monthscost24}" />
+                <td th:text="${validorder.servicePackage.monthscost36}" />
+                <td>
+                    <div th:if="${validorder.servicePackage.services!=null and !validorder.servicePackage.services.isEmpty()}">
+                        <p th:each="service: ${validorder.servicePackage.services}">
+
+                            <span th:text="${'Type: ' + service.type}"></span>
+                            <span th:if="${service.type == 'MobilePhone'}">
+                            <span th:text="${'Minutes: ' + service.minutes}"></span>
+                            <span th:text="${'Extra minutes fee: ' + service.extraminfee}"></span>
+                            <span th:text="${'Number of sms: ' + service.sms}"></span>
+                            <span th:text="${'Extra sms fee: ' + service.extrasmsfee}"></span>
+                        </span>
+
+                            <span th:if="${service.type == 'FixedInternet'}">
+                            <span th:text="${'Number of giga: ' + service.giga}"></span>
+                            <span th:text="${'Fee for extra giga: ' + service.extragigafee}"></span>
+                        </span>
+
+                            <span th:if="${service.type == 'MobileInternet'}">
+                            <span th:text="${'Number of giga: ' + service.giga}"></span>
+                            <span th:text="${'Fee for extra giga: ' + service.extragigafee}"></span>
+                        </span>
+                        </p>
+                    </div>
+                </td>
+                <td>
+                    <div th:each="schedule: ${schedules}">
+                        <div th:if="${schedule.optionalProduct != null  and schedule.order.id==validorder.id}">
+                            <span th:text="${'Name: ' + schedule.optionalProduct.name}"></span>
+                            <span th:text="${'Fee: ' + schedule.optionalProduct.monthlyfee}"></span>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div th:if="${session.user!=null and suspendedorders!=null and !suspendedorders.isEmpty()}">
+        <h2> Here is the list of all your suspended orders: </h2><br>
+
+        <table>
+            <tr>
+                <th> Id</th>
+                <th> Package Name</th>
+                <th> Total Value</th>
+                <th> Subscription start date</th>
+            </tr>
+
+            <tr th:each="order: ${suspendedorders}">
+                <td th:text="${order.id}"></td>
+                <td th:text="${order.servicePackage.name}"></td>
+                <td th:text="${order.totalvalue}"></td>
+                <td th:text="${order.startdate}"></td>
+                <td>
+                    <a th:href="@{/Confirmation/{id} (id=${order.id})}"> Buy </a>
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>

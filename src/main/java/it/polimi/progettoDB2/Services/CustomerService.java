@@ -22,8 +22,12 @@ public class CustomerService {
                 .getResultList();
     }
 
-    public List<Order> getSuspendedOrders(String username){
-        return em.createNamedQuery("Order.findByStatusAndUsername", Order.class).setParameter(1, "Suspended").
+    public ServicePackage getSingleServicePackage(int packageID){
+        return em.find(ServicePackage.class, packageID);
+    }
+
+    public List<Order> getOrdersByStatusAndNickname(String username, String status){
+        return em.createNamedQuery("Order.findByStatusAndUsername", Order.class).setParameter(1, status).
                 setParameter(2,username).getResultList();
     }
 
@@ -37,24 +41,32 @@ public class CustomerService {
         return packages;
     }
 
+    public OptionalProduct getSingleOptionalProduct(int productId){
+        return em.find(OptionalProduct.class, productId);
+    }
+
     public List<OptionalProduct> getAvailableProducts(int packageID){
         ServicePackage servicePackage = em.find(ServicePackage.class, packageID);
         return (List<OptionalProduct>) servicePackage.getAvailableProducts();
     }
 
-    public Order addOrder(Date creationDate, int valPeriod, Date startDate, int fee, int packageID, String username, List<Integer> optProductIDs) {
-        String status = "Created";
+    public Order addOrder(Date creationDate, int valPeriod, Date startDate, float fee, long packageID, String username, List<Integer> optProductIDs, String status) {
         User user = em.find(User.class, username);
         ServicePackage servicePackage = em.find(ServicePackage.class, packageID);
         int totalValue = calculateTotalValue(valPeriod, fee, servicePackage, optProductIDs);
         Order order = new Order(creationDate, valPeriod, totalValue, startDate, status, user, servicePackage, fee);
         em.persist(order);
-        createOrderSchedule(order, optProductIDs, startDate, valPeriod, servicePackage);
+        createOrderSchedule(order, optProductIDs, startDate, valPeriod, servicePackage, status);
+        if(status.equals("Suspended")){
+            user.setInsolvent(true);
+            user.setNumRejections(user.getNumRejections()+1);
+            checkAlert(user, order.getTotalvalue());
+        }
         return order;
     }
 
-    public int calculateTotalValue(int valPeriod, int fee, ServicePackage servicePackage, List<Integer> optProductIDs){
-        int totalValue = valPeriod*fee;
+    public int calculateTotalValue(int valPeriod, float fee, ServicePackage servicePackage, List<Integer> optProductIDs){
+        int totalValue = (int) (valPeriod*fee);
         for(Integer id: optProductIDs){
             OptionalProduct opt = em.find(OptionalProduct.class, id);
             totalValue+= opt.getMonthlyFee()*valPeriod;
@@ -62,14 +74,18 @@ public class CustomerService {
         return totalValue;
     }
 
-    private void createOrderSchedule(Order order, List<Integer> optProductIDs, Date startDate, int valPeriod, ServicePackage servicePackage){
+    private void createOrderSchedule(Order order, List<Integer> optProductIDs, Date startDate, int valPeriod, ServicePackage servicePackage, String status){
         Calendar c = Calendar.getInstance();
         c.setTime(startDate);
         c.add(Calendar.MONTH, valPeriod);
         Date pckgBridgeDeactDate = c.getTime();
+        if(optProductIDs.isEmpty()) {
+            ActivationSchedule activationSchedule = new ActivationSchedule(order, servicePackage, startDate, pckgBridgeDeactDate, status);
+            em.persist(activationSchedule);
+        }
         for(Integer integer : optProductIDs) {
             OptionalProduct prod = em.find(OptionalProduct.class, integer);
-            ActivationSchedule activationSchedule = new ActivationSchedule(order, servicePackage, prod, startDate, pckgBridgeDeactDate, "Created");
+            ActivationSchedule activationSchedule = new ActivationSchedule(order, servicePackage, prod, startDate, pckgBridgeDeactDate, status);
             em.persist(activationSchedule);
         }
     }
@@ -93,26 +109,22 @@ public class CustomerService {
     }
 
     private void checkInsolventAndRemove(int orderID, String username){
-        List<Order> suspendedOrders = getSuspendedOrders(username);
+        List<Order> suspendedOrders = getOrdersByStatusAndNickname(username, "Suspended");
         if(suspendedOrders.size()==1 && suspendedOrders.get(0).getUser().getUsername().equals(username)){
             suspendedOrders.get(0).getUser().setInsolvent(false);
         }
     }
 
-    public Order suspendOrder(int orderID){
-        String status = "Suspended";
-        Order order;
-        order = em.find(Order.class, orderID);
-        order.setStatus(status);
+    public void failAgainOrder(int orderID){
+        Order order = em.find(Order.class, orderID);
         User user = em.find(User.class, order.getUser().getUsername());
-        user.setInsolvent(true);
         user.setNumRejections(user.getNumRejections()+1);
         checkAlert(user, order.getTotalvalue());
-        return order;
     }
 
     private void checkAlert(User user, int amount){
         Date date = new Date(System.currentTimeMillis());
+        System.out.println(date);
         if(user.getNumRejections()==3){
             Alert alert = new Alert(user, user.getEmail(), amount, date);
             em.persist(alert);
@@ -131,5 +143,28 @@ public class CustomerService {
         catch (NoResultException e){
             return null;
         }
+    }
+
+    public Order getOrder(int orderID){
+        return em.find(Order.class, orderID);
+    }
+
+    public List<OptionalProduct> findBoughtOptional(int orderId){
+        try {
+            return em.createNamedQuery("activationSchedule.findOptByOrderID", OptionalProduct.class).setParameter(1,orderId).
+                    getResultList();
+        }
+        catch (NoResultException e){
+            return null;
+        }
+    }
+
+    public List<ActivationSchedule> findSchedulesByOrderIDs(List<Order> orders) {
+        List<ActivationSchedule> activationSchedules = new ArrayList<>();
+        for (Order o : orders) {
+            activationSchedules.addAll(em.createNamedQuery("activationSchedule.findByOrderID").setParameter(1, o.getId()).getResultList());
+        }
+
+        return activationSchedules;
     }
 }

@@ -7,7 +7,9 @@ import java.sql.Time;
 @Entity
 @Table(name = "alert-history")
 public class AlertHistory {
+
     @Id
+    private long id;
     @ManyToOne
     @JoinColumn(name = "username")
     private User user;
@@ -50,5 +52,11 @@ public class AlertHistory {
         this.timerejection = timerejection;
     }
 
+    public long getId() {
+        return id;
+    }
 
+    public void setId(long id) {
+        this.id = id;
+    }
 }

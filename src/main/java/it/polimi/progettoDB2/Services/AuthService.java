@@ -23,9 +23,10 @@ public class AuthService {
         return user;
     }
 
-    public User authenticateUser(String username, String password){
+    public User authenticateUser(String username, String password, String type){
         List<User> usr;
-        usr = em.createNamedQuery("User.checkCredentials", User.class).setParameter(1, username).setParameter(2, password).getResultList();
+        usr = em.createNamedQuery("User.checkCredentials", User.class).setParameter(1, username)
+                .setParameter(2, password).setParameter(3, type).getResultList();
         if(usr.isEmpty())
             return null;
         else if(usr.size()==1)

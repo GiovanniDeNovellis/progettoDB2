@@ -5,7 +5,7 @@ import java.util.Collection;
 
 @Entity
 @Table(name = "user", schema = "new_schema")
-@NamedQuery(name = "User.checkCredentials", query = "SELECT u FROM User u WHERE u.username = ?1 AND u.password = ?2")
+@NamedQuery(name = "User.checkCredentials", query = "SELECT u FROM User u WHERE u.username = ?1 AND u.password = ?2 AND u.type = ?3")
 @NamedQuery(name = "User.checkExisting", query = "SELECT u FROM User u WHERE u.username = ?1 OR u.email = ?2")
 public class User {
 
