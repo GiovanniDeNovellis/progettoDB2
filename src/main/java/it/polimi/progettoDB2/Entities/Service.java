@@ -4,6 +4,8 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
+@Table(name = "service", schema="new_schema")
+@NamedQuery(name = "service.findUnassigned", query = "SELECT s FROM Service s WHERE s.servicePackage IS NULL")
 public class Service {
 
     @Id

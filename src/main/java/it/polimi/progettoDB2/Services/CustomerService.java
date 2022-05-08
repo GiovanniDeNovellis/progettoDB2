@@ -162,9 +162,13 @@ public class CustomerService {
     public List<ActivationSchedule> findSchedulesByOrderIDs(List<Order> orders) {
         List<ActivationSchedule> activationSchedules = new ArrayList<>();
         for (Order o : orders) {
-            activationSchedules.addAll(em.createNamedQuery("activationSchedule.findByOrderID").setParameter(1, o.getId()).getResultList());
+            activationSchedules.addAll(em.createNamedQuery("activationSchedule.findByOrderID", ActivationSchedule.class).setParameter(1, o.getId()).getResultList());
         }
 
         return activationSchedules;
+    }
+
+    public List<Service> findUnassignedServices(){
+        return em.createNamedQuery("service.findUnassigned", Service.class).getResultList();
     }
 }
