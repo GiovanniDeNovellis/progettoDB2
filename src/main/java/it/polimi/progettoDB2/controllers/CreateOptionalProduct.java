@@ -1,6 +1,6 @@
 package it.polimi.progettoDB2.controllers;
 
-import it.polimi.progettoDB2.Entities.ServicePackage;
+import it.polimi.progettoDB2.Entities.OptionalProduct;
 import it.polimi.progettoDB2.Services.EmployeeService;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
@@ -14,11 +14,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
-@WebServlet("/CreateServicePackage")
-public class CreateServicePackage extends HttpServlet {
+@WebServlet("/CreateOptionalProduct")
+public class CreateOptionalProduct extends HttpServlet {
 
     private TemplateEngine templateEngine;
 
@@ -38,44 +36,31 @@ public class CreateServicePackage extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         String name;
-        float cost12;
-        float cost24;
-        float cost36;
-        String[] servicesID;
-        String[] productsID;
+        float monthlyFee;
 
         try {
             name = request.getParameter("name");
-            cost12 = Float.parseFloat(request.getParameter("cost12"));
-            cost24 = Float.parseFloat(request.getParameter("cost24"));
-            cost36 = Float.parseFloat(request.getParameter("cost36"));
-            servicesID = request.getParameterValues("servicesID");
-            productsID = request.getParameterValues("productsID");
-            if (name == null || name.isEmpty() || servicesID.length == 0 || productsID.length == 0) {
-                throw new Exception("Missing or empty service package values.");
-            }
+            monthlyFee = Float.parseFloat(request.getParameter("monthlyFee"));
 
+            if(name == null || name.isEmpty()){
+                throw new Exception("Missing or empty Optional Product values.");
+            }
         } catch (Exception e) {
             e.printStackTrace();
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing Service Package value");
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing optional product value");
             return;
         }
 
-        List<Integer> servicesIDList = new ArrayList<>();
-        List<Integer> productsIDList = new ArrayList<>();
-        for (String s : servicesID) servicesIDList.add(Integer.valueOf(s));
-        for (String s : productsID) productsIDList.add(Integer.valueOf(s));
-
-        ServicePackage servicePackage = employeeService.createServicePackage(name, cost12, cost24, cost36, servicesIDList, productsIDList);
+        OptionalProduct optionalProduct = employeeService.createOptionalProduct(name, monthlyFee);
 
         String path;
         ServletContext servletContext = getServletContext();
         final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
-        if(servicePackage == null) {
-            ctx.setVariable("errorMsg", "Service package creation failed.");
+        if(optionalProduct == null) {
+            ctx.setVariable("errorMsg", "Optional Product creation failed.");
         }
-        else {
-            ctx.setVariable("notifyMsg", "Service package creation successful.");
+        else{
+            ctx.setVariable("notifyMsg", "Optional Product creation successful.");
         }
 
         path = "/indexEmployee.html";

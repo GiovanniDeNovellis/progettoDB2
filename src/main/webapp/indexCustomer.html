@@ -1,26 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>CustomerIndex</title>
+    <title>CustomerIndex!</title>
+    CUSTOMER APP
 </head>
 <body>
     <h1> Welcome to the Telco Customer Application</h1>
 
     <h2> Fill this form to log with a Customer account: </h2>
-    <form action = "CheckLoginCustomer" method="POST">
-        Username: <input type="text" name="username" required> <br>
-        Password: <input type="password" name="pwd" required><br>
+    <form action = "CheckLogin" method="POST">
+        Username: <label><input type="text" name="username" required></label> <br>
+        Password: <label><input type="password" name="pwd" required></label> <br>
         <input type="submit" value="Login"><br>
         <p th:text=" ${errorMsg}"></p>
     </form>
 
     <h2> Fill this form to register into the system: </h2>
     <form action = "Register" method="POST">
-        Username: <input type="text" name="username" required> <br>
-        Password: <input type="password" name="pwd" required><br>
-        Email: <input type="text" name="email" required><br>
-        Employee: <input type="checkbox" name="isEmployee" ><br>
+        Username: <label><input type="text" name="username" required></label> <br>
+        Password: <label><input type="password" name="pwd" required></label> <br>
+        Email: <label><input type="text" name="email" required></label> <br>
+        Employee: <label><input type="checkbox" name="isEmployee" ></label> <br>
         <input type="submit" value="Sign up">
         <p th:text=" ${notifyMsg}"></p>
     </form>

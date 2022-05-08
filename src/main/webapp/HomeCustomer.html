@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Customer Home</title>
 </head>
 <body>
     <div align="right" th:if="${session.user}">
@@ -26,10 +26,10 @@
             <th>Associated Optional Products</th>
         </tr>
         <tr th:each="package: ${allpackages}">
-            <td th:text="${package.name}" />
-            <td th:text="${package.monthscost12}" />
-            <td th:text="${package.monthscost24}" />
-            <td th:text="${package.monthscost36}" />
+            <td th:text="${package.name}"></td>
+            <td th:text="${package.monthscost12}"></td>
+            <td th:text="${package.monthscost24}"></td>
+            <td th:text="${package.monthscost36}"></td>
             <td>
                 <div th:if="${package.services!=null and !package.services.isEmpty()}">
                     <p th:each="service: ${package.services}">
@@ -58,7 +58,7 @@
                 <div th:if="${package.availableProducts!=null and !package.availableProducts.isEmpty()}">
                     <p th:each="prod: ${package.availableProducts}">
                         <span th:text="${'Name: ' + prod.name}"></span>
-                        <span th:text="${'Fee: ' + prod.monthlyfee}"></span>
+                        <span th:text="${'Fee: ' + prod.monthlyFee}"></span>
                     </p>
                 </div>
             </td>
@@ -82,10 +82,10 @@
                 <th>Bought Optional Products</th>
             </tr>
             <tr th:each="validorder: ${validorders}">
-                <td th:text="${validorder.servicePackage.name}" />
-                <td th:text="${validorder.servicePackage.monthscost12}" />
-                <td th:text="${validorder.servicePackage.monthscost24}" />
-                <td th:text="${validorder.servicePackage.monthscost36}" />
+                <td th:text="${validorder.servicePackage.name}"></td>
+                <td th:text="${validorder.servicePackage.monthscost12}"></td>
+                <td th:text="${validorder.servicePackage.monthscost24}"></td>
+                <td th:text="${validorder.servicePackage.monthscost36}"></td>
                 <td>
                     <div th:if="${validorder.servicePackage.services!=null and !validorder.servicePackage.services.isEmpty()}">
                         <p th:each="service: ${validorder.servicePackage.services}">
@@ -114,7 +114,7 @@
                     <div th:each="schedule: ${schedules}">
                         <div th:if="${schedule.optionalProduct != null  and schedule.order.id==validorder.id}">
                             <span th:text="${'Name: ' + schedule.optionalProduct.name}"></span>
-                            <span th:text="${'Fee: ' + schedule.optionalProduct.monthlyfee}"></span>
+                            <span th:text="${'Fee: ' + schedule.optionalProduct.monthlyFee}"></span>
                         </div>
                     </div>
                 </td>

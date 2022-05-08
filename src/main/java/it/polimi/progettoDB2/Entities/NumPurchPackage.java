@@ -5,6 +5,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "num-purch-package")
 @NamedQuery(name = "NumPurchPackage.findByPackageID", query = "SELECT p FROM NumPurchPackage p WHERE p.servicePackage.ID = ?1")
+@NamedQuery(name = "NumPurchPackage.getAllNumPurchPackages", query = "SELECT p FROM NumPurchPackage p")
 public class NumPurchPackage {
     @Id
     @OneToOne

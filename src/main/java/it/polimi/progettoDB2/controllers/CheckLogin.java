@@ -15,9 +15,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Objects;
 
-@WebServlet("/CheckLoginCustomer")
-public class CheckLoginCustomer extends HttpServlet {
+@WebServlet("/CheckLogin")
+public class CheckLogin extends HttpServlet {
     private TemplateEngine templateEngine;
 
     @EJB
@@ -59,6 +60,10 @@ public class CheckLoginCustomer extends HttpServlet {
         }
         else{
             request.getSession().setAttribute("user", user);
+            if(Objects.equals(user.getType(), "Employee")){
+                path = getServletContext().getContextPath() + "/HomeEmployee";
+                response.sendRedirect(path);
+            }
             if(request.getSession().getAttribute("packageToBuy")==null) {
                 path = getServletContext().getContextPath() + "/HomeCustomer";
                 response.sendRedirect(path);

@@ -1,11 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>EmployeeIndex!</title>
     EMPLOYEE APP
 </head>
 <body>
+    <h1> Welcome to the Telco Customer Application! </h1>
 
+    <h2> Fill this form to log with an Employee account: </h2>
+    <form action = "CheckLogin" method="POST">
+        Username: <label><input type="text" name="username" required></label> <br>
+        Password: <label><input type="password" name="pwd" required></label> <br>
+        Employee: <label><input type="checkbox" name="isEmployee" ></label> <br>
+        <input type="submit" value="Login"><br>
+        <p th:text=" ${errorMsg}"></p>
+    </form>
+
+    <!--
+    <h2> Fill this form to register into the system: </h2>
+    <form action = "Register" method="POST">
+        Username: <label><input type="text" name="username" required></label> <br>
+        Password: <label><input type="password" name="pwd" required></label> <br>
+        Email: <label><input type="text" name="email" required></label> <br>
+        Employee: <label><input type="checkbox" name="isEmployee" ></label> <br>
+        <input type="submit" value="Sign up">
+        <p th:text=" ${notifyMsg}"></p>
+    </form>
+    -->
 </body>
 </html>

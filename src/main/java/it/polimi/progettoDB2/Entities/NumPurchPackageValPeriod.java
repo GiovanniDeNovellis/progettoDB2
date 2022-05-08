@@ -6,6 +6,7 @@ import javax.persistence.*;
 @Table(name = "num-purch-package-val-period")
 @NamedQuery(name = "NumPurchPackageValPeriod.findByPackageIdValPeriod", query = "SELECT p FROM NumPurchPackageValPeriod p WHERE " +
         "p.servicePackage.ID = ?1 AND p.valperiod = ?2")
+@NamedQuery(name = "NumPurchPackage.getAllNumPurchPackageValPeriod", query = "SELECT p FROM NumPurchPackageValPeriod p")
 public class NumPurchPackageValPeriod {
 
     @Id

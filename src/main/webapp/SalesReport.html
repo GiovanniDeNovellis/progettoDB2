@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Sales Report</title>
+    SALES REPORT
+</head>
+<body>
+    <div align="right" th:if="${session.user}">
+        <h2 th:text="${session.user.username}"></h2>
+    </div>
+
+    <div align="right" th:if="${session.user}">
+        <a th:href="@{/Logout}">Logout</a>
+    </div>
+
+    <h2> Here is the list of all insolvent users. </h2>
+    <table>
+        <tr>
+            <th> Username </th>
+        </tr>
+        <tr th:each="insolventUser: ${allInsolventUsers}">
+            <td th:text="${insolventUser.user.username}"></td>
+        </tr>
+    </table>
+
+    <h2> Here is the list of all alerts.</h2>
+    <table>
+        <tr>
+            <th> Username </th>
+            <th> Email </th>
+            <th> Amount </th>
+            <th> Date-time of last rejection</th>
+        </tr>
+        <tr th:each="alert: ${allAlerts}">
+            <td th:text="${alert.user.username}"></td>
+            <td th:text="${alert.email}"></td>
+            <td th:text="${alert.amount}"></td>
+            <td th:text="${alert.datetimelastrejection}"></td>
+        </tr>
+    </table>
+
+    <h2> Here is the list of all Suspended Orders. </h2>
+    <table>
+        <tr>
+            <th> Order </th>
+            <th> Creation Date </th>
+            <th> Val Period </th>
+            <th> Total Value </th>
+            <th> Start Date </th>
+            <th> Status </th>
+            <th> Username </th>
+            <th> Package id </th>
+            <th> Fee </th>
+        </tr>
+        <tr th:each="suspenderOrder: ${allSuspendedOrders}">
+            <td th:text="${suspenderOrder.order.id}"> </td>
+            <td th:text="${suspenderOrder.order.creationdate}"></td>
+            <td th:text="${suspenderOrder.order.valperiod}"></td>
+            <td th:text="${suspenderOrder.order.totalvalue}"></td>
+            <td th:text="${suspenderOrder.order.startdate}"></td>
+            <td th:text="${suspenderOrder.order.status}"></td>
+            <td th:text="${suspenderOrder.order.user.username}"></td>
+            <td th:text="${suspenderOrder.order.servicePackage.ID}"></td>
+            <td th:text="${suspenderOrder.order.fee}"></td>
+        </tr>
+    </table>
+
+    <h2> Here is the data regarding the total purchases for each package. </h2>
+    <table>
+        <tr>
+            <th> Package </th>
+            <th> Total purchases per package </th>
+        </tr>
+        <tr th:each="numpurchpackage: ${allNumPurchPackages}">
+            <td th:text="${numpurchpackage.servicePackage.ID}"></td>
+            <td th:text="${numpurchpackage.numpurchases}"></td>
+        </tr>
+    </table>
+
+    <h2> Here is the data regarding the total purchases for each package and their validity period. </h2>
+    <table>
+        <tr>
+            <th> Package </th>
+            <th> Total purchases per package </th>
+            <th> Validity period </th>
+        </tr>
+        <tr th:each="numpurchpackagevalperiod: ${allNumPurchPackageValPeriod}">
+            <td th:text="${numpurchpackagevalperiod.servicePackage.ID}"></td>
+            <td th:text="${numpurchpackagevalperiod.valPeriod}"></td>
+            <td th:text="${numpurchpackagevalperiod.numpurchases}"></td>
+        </tr>
+    </table>
+
+    <h2> Here is the data regarding the total purchases of each service package with and without the optional products. </h2>
+    <table>
+        <tr>
+            <th> Service package </th>
+            <th> Total with optional products </th>
+            <th> Total without optional products </th>
+        </tr>
+        <tr th:each="salespackage: ${allSalesOfPackages}">
+            <td th:text="${salespackage.servicePackage.ID}"> </td>
+            <td th:text="${salespackage.totalwithopt}"></td>
+            <td th:text="${salespackage.totalwithoutopt}"></td>
+        </tr>
+    </table>
+
+    <h2> Here is the data regarding the average number of optional products sold together with each service package. </h2>
+    <table>
+        <tr>
+            <th> Optional product </th>
+            <th> Avg Opt For Sale </th>
+        </tr>
+        <tr th:each="avgoptpackage: ${avgOptForPackages}">
+            <td th:text="${avgoptpackage.servicePackage.ID}"></td>
+            <td th:text="${avgoptpackage.avgOptForSale}"></td>
+        </tr>
+    </table>
+
+    <h2> Here is the data regarding the bestseller Optional Product. </h2>
+    <table>
+        <tr>
+            <th> Optional Product </th>
+        </tr>
+        <tr th:each="bestSeller: ${bestOptProduct}">
+            <td th:text="${bestSeller.optionalProduct.id}"></td>
+        </tr>
+    </table>
+
+</body>
+</html>

@@ -96,4 +96,48 @@ public class SalesReportService {
             return null;
         }
     }
+
+    public List<SalesOfPackage> getSalesOfPackages(){
+        try {
+            return em.createNamedQuery("SalesOfPackage.findAllSalesOfPackages", SalesOfPackage.class).getResultList();
+        }
+        catch (NoResultException e){
+            return null;
+        }
+    }
+
+    public List<SalesOptionalProduct> getSalesOptionalProduct(){
+        try{
+            return em.createNamedQuery("SalesOptionalProduct.getAllSalesOptionalProducts", SalesOptionalProduct.class).getResultList();
+        }
+        catch (NoResultException e){
+            return null;
+        }
+    }
+
+    public List<NumPurchPackage> getAllNumPurchPackages(){
+        try {
+            return em.createNamedQuery("NumPurchPackage.getAllNumPurchPackages", NumPurchPackage.class).getResultList();
+        }
+        catch (NoResultException e){
+            return null;
+        }
+    }
+
+    public List<NumPurchPackageValPeriod> getAllNumPurchPackagesValPeriod(){
+        try {
+            return em.createNamedQuery("NumPurchPackage.getAllNumPurchPackageValPeriod", NumPurchPackageValPeriod.class).getResultList();
+        }
+        catch (NoResultException e){
+            return null;
+        }
+    }
+
+    public List<AvgOptForPackage> getAllAvgOptForPackage(){
+        try {
+            return em.createNamedQuery("AvgOptForPackage.getAllAvgOptForPackages", AvgOptForPackage.class).getResultList();
+        } catch (NoResultException e){
+            return null;
+        }
+    }
 }
