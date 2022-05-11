@@ -60,7 +60,7 @@ public class Register extends HttpServlet {
         if (user == null) {
             ctx.setVariable("notifyMsg", "Username or email already used");
         } else {
-            ctx.setVariable("notifyMsg", "Registration completed! Use the first form to login into the system.");
+            ctx.setVariable("notifyMsg", "Registration completed! You can now login into the system.");
         }
         path = "/indexCustomer.html";
         templateEngine.process(path, ctx, response.getWriter());

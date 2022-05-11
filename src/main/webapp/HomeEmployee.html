@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Employee Home</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
 
@@ -16,70 +17,85 @@
     <h1> Employee Homepage</h1>
 
     <h2> Fill in this form to create a Service Package </h2>
-    <form action="/CreateServicePackage" method="post">
-        Name: <label><input type="text" name="name" required placeholder="Basic, Family, Business, etc..."></label><br>
-        12 Month Cost: <label><input type="text" name="cost12"></label><br>
-        24 Month Cost: <label><input type="text" name="cost24"></label><br>
-        36 Month Cost: <label><input type="text" name="cost36"></label><br>
-        <!-- Choose Services?? -->
-        Choose Services
-        <label><input type="checkbox" th:name="servicesID" th:each="serv:${unassignedServices}"
-               th:value="${serv.servicePackage.ID}" th:text="${serv.servicePackage.name}">
-        </label> <br>
-        Choose optional products
-        <label><input type="checkbox" th:name="productsID" th:each="prod:${optionalProducts}"
-               th:value="${prod.id}" th:text="${prod.name}">
-        </label> <br>
-        <label><input type="submit" value="CreateServicePackage"></label> <br>
-    </form>
+    <div class="formdiv">
+        <form action="CreateServicePackage" method="post">
+            Name: <label><input type="text" name="name" required placeholder="Basic, Family, Business, etc..."></label><br>
+            12 Month Cost: <label><input type="text" name="cost12"></label><br>
+            24 Month Cost: <label><input type="text" name="cost24"></label><br>
+            36 Month Cost: <label><input type="text" name="cost36"></label><br>
+            Choose Services
+            <label><input type="checkbox" th:name="servicesID" th:each="serv:${unassignedServices}"
+                   th:value="${serv.serviceid}" th:text="${serv.type}">
+            </label> <br> <br>
+            Choose optional products
+            <label><input type="checkbox" th:name="productsID" th:each="prod:${optionalProducts}"
+                   th:value="${prod.id}" th:text="${prod.name}">
+            </label> <br> <br>
+            <label><input type="submit" value="CreateServicePackage"></label> <br>
+        </form>
+    </div>
+    <div th:if="${errorMsgServPckgCreation}">
+        <p th:text="'Error: ' +  ${errorMsgServPckgCreation}"></p>
+    </div>
+    <div th:if="${successMsgServPckgCreation}">
+        <p th:text="${successMsgServPckgCreation}"></p>
+    </div>
 
     <h2> Fill in this form to create an Optional Product </h2>
-    <form action="/CreateOptionalProduct" method="post">
-        Name: <label><input type="text" name="name" required></label><br>
-        Monthly Fee <label><input type="text" name="monthlyFee"></label><br>
-        <label><input type="submit" value="/CreateOptionalProduct"></label><br>
-    </form>
-
+    <div class="formdiv">
+        <form action="CreateOptionalProduct" method="post">
+            Name: <label><input type="text" name="name" required></label><br>
+            Monthly Fee <label><input type="text" name="monthlyFee"></label><br> <br>
+            <label><input type="submit" value="CreateOptionalProduct"></label><br>
+        </form>
+    </div>
     <hr>
 
     <!-- Create Services -->
     <h2> Fill in this form to create a fixed phone service</h2>
-    <form action="/CreateService" method="post">
-        Type: <label><input type="text" name="FixedPhone" readonly placeholder="Fixed Phone"></label><br>
-        Minutes: <label><input type="text" name="minutes" required></label><br>
-        SMS: <label><input type="text" name="SMS" required></label><br>
-        Extra Minutes Fee <label><input type="text" name="extraMinFee"></label> <br>
-        Extra SMS Fee <label><input type="text" name="extraSMSFee"></label><br>
-        Giga: <label><input type="text" name="giga" required></label><br>
-        extraGigaFee: <label><input type="text" name="extraGigaFee" required></label><br>
-        <label><input type="submit" value="/CreateService"></label><br>
-    </form>
+        <div class="formdiv">
+            <form action="CreateService" method="post">
+            Type: <label><input type="text" name="FixedPhone" readonly placeholder="Fixed Phone"></label><br>
+            Minutes: <label><input type="text" name="minutes" required></label><br>
+            SMS: <label><input type="text" name="SMS" required></label><br>
+            Extra Minutes Fee <label><input type="text" name="extraMinFee"></label> <br>
+            Extra SMS Fee <label><input type="text" name="extraSMSFee"></label><br>
+            Giga: <label><input type="text" name="giga" required></label><br>
+            extraGigaFee: <label><input type="text" name="extraGigaFee" required></label><br> <br>
+            <label><input type="submit" value="CreateService"></label><br>
+            </form>
+        </div>
 
     <h2> Fill in this form to create a mobile phone service</h2>
-    <form action="/CreateService" method="post">
-        Type: <label><input type="text" name="MobilePhone" readonly placeholder="Mobile Phone"></label><br>
-        Minutes: <label><input type="text" name="minutes" required></label><br>
-        SMS: <label><input type="text" name="SMS" required></label><br>
-        Extra Minutes Fee <label><input type="text" name="extraMinFee"></label> <br>
-        Extra SMS Fee <label><input type="text" name="extraSMSFee"></label><br>
-        <label><input type="submit" value="/CreateService"></label><br>
-    </form>
+    <div class="formdiv">
+        <form action="CreateService" method="post">
+            Type: <label><input type="text" name="MobilePhone" readonly placeholder="Mobile Phone"></label><br>
+            Minutes: <label><input type="text" name="minutes" required></label><br>
+            SMS: <label><input type="text" name="SMS" required></label><br>
+            Extra Minutes Fee <label><input type="text" name="extraMinFee"></label> <br>
+            Extra SMS Fee <label><input type="text" name="extraSMSFee"></label><br> <br>
+            <label><input type="submit" value="CreateService"></label><br>
+        </form>
+    </div>
 
     <h2> Fill in this form to create a mobile internet service</h2>
-    <form action="/CreateService" method="post">
-        Type: <label><input type="text" name="MobileInternet" readonly placeholder="Mobile Internet"></label><br>
-        Giga: <label><input type="text" name="giga" required></label><br>
-        extraGigaFee: <label><input type="text" name="/extraGigaFee" required></label><br>
-        <label><input type="submit" value="/CreateService"></label><br>
-    </form>
+    <div class="formdiv">
+        <form action="CreateService" method="post">
+            Type: <label><input type="text" name="MobileInternet" readonly placeholder="Mobile Internet"></label><br>
+            Giga: <label><input type="text" name="giga" required></label><br>
+            extraGigaFee: <label><input type="text" name="/extraGigaFee" required></label><br> <br>
+            <label><input type="submit" value="CreateService"></label><br>
+        </form>
+    </div>
 
     <h2> Fill in this form to create a fixed internet service</h2>
-    <form action="/CreateService" method="post">
-        Type: <label><input type="text" name="FixedInternet" readonly placeholder="Fixed Internet"></label><br>
-        Giga: <label><input type="text" name="giga" required></label><br>
-        extraGigaFee: <label><input type="text" name="extraGigaFee" required></label><br>
-        <label><input type="submit" value="/CreateService"></label><br>
-    </form>
-
+    <div class="formdiv">
+        <form action="CreateService" method="post">
+            Type: <label><input type="text" name="FixedInternet" readonly placeholder="Fixed Internet"></label><br>
+            Giga: <label><input type="text" name="giga" required></label><br>
+            extraGigaFee: <label><input type="text" name="extraGigaFee" required></label><br> <br>
+            <label><input type="submit" value="CreateService"></label><br>
+        </form>
+    </div>
 </body>
 </html>

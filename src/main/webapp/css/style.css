@@ -1,0 +1,9 @@
+.formdiv {
+    width: 200px;
+    clear: both;
+}
+
+.formdiv input {
+    width: 100%;
+    clear: both;
+}

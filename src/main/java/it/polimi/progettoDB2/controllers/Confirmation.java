@@ -61,16 +61,20 @@ public class Confirmation extends HttpServlet {
             templateEngine.process(path, ctx, response.getWriter());
         }
         else {
-            int duration = Integer.parseInt(request.getParameter("duration"));
-            int[] selectedOptIds = new int[0];
+            int duration;
+            int[] selectedOptIds;
             try {
                 selectedOptIds = Arrays.stream(request.getParameterValues("selectedProducts")).mapToInt(Integer::parseInt).toArray();
-            } catch (NullPointerException ignored) {
+                duration = Integer.parseInt(request.getParameter("duration"));
+            } catch (NullPointerException e) {
+                System.out.println("Bad request");
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing confirmation value");
+                return;
             }
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             Date startDate;
             try {
-                startDate = (Date) sdf.parse(request.getParameter("startDate"));
+                startDate = sdf.parse(request.getParameter("startDate"));
                 request.getSession().setAttribute("packageStartDate", startDate);
             } catch (ParseException e) {
                 throw new RuntimeException(e);

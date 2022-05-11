@@ -36,10 +36,11 @@ public class CheckLogin extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String username, password;
+        String username, password, type;
         try {
             username = request.getParameter("username");
             password = request.getParameter("pwd");
+            type = request.getParameter("type");
             if (username == null || password == null || username.isEmpty() || password.isEmpty()) {
                 throw new Exception("Missing or empty registration value");
             }
@@ -49,13 +50,16 @@ public class CheckLogin extends HttpServlet {
             return;
         }
 
-        User user = authService.authenticateUser(username, password, "Customer");
+        User user = authService.authenticateUser(username, password, type);
         String path;
         ServletContext servletContext = getServletContext();
         final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
         if (user == null) {
             ctx.setVariable("errorMsg", "Incorrect username or password");
-            path = "/indexCustomer.html";
+            if(type.equals("Customer"))
+                path = "/indexCustomer.html";
+            else
+                path = "/indexEmployee.html";
             templateEngine.process(path, ctx, response.getWriter());
         }
         else{
@@ -64,13 +68,14 @@ public class CheckLogin extends HttpServlet {
                 path = getServletContext().getContextPath() + "/HomeEmployee";
                 response.sendRedirect(path);
             }
-            if(request.getSession().getAttribute("packageToBuy")==null) {
-                path = getServletContext().getContextPath() + "/HomeCustomer";
-                response.sendRedirect(path);
-            }
-            else{
-                path = "/Confirmation.html";
-                templateEngine.process(path, ctx, response.getWriter());
+            else {
+                if (request.getSession().getAttribute("packageToBuy") == null) {
+                    path = getServletContext().getContextPath() + "/HomeCustomer";
+                    response.sendRedirect(path);
+                } else {
+                    path = "/Confirmation.html";
+                    templateEngine.process(path, ctx, response.getWriter());
+                }
             }
         }
     }
