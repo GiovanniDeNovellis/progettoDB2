@@ -28,8 +28,8 @@ public class CreateOptionalProduct extends HttpServlet {
         ServletContext servletContext = getServletContext();
         ServletContextTemplateResolver templateResolver = new ServletContextTemplateResolver(servletContext);
         templateResolver.setTemplateMode(TemplateMode.HTML);
-        TemplateEngine templateEngine = new TemplateEngine();
-        templateEngine.setTemplateResolver(templateResolver);
+        this.templateEngine = new TemplateEngine();
+        this.templateEngine.setTemplateResolver(templateResolver);
         templateResolver.setSuffix(".html");
     }
 
@@ -57,13 +57,13 @@ public class CreateOptionalProduct extends HttpServlet {
         ServletContext servletContext = getServletContext();
         final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
         if(optionalProduct == null) {
-            ctx.setVariable("errorMsg", "Optional Product creation failed.");
+            ctx.setVariable("errorMsgOptCreation", "Optional Product creation failed.");
         }
         else{
-            ctx.setVariable("notifyMsg", "Optional Product creation successful.");
+            ctx.setVariable("successMsgOptCreation", "Optional Product creation successful.");
         }
 
-        path = "/indexEmployee.html";
+        path = "/HomeEmployee.html";
         templateEngine.process(path, ctx, response.getWriter());
 
     }

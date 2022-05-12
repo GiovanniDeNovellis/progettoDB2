@@ -16,6 +16,8 @@
     </div>
     <h1> Employee Homepage</h1>
 
+    <a th:href="@{/SalesReportServlet}">View sales data.</a>
+
     <h2> Fill in this form to create a Service Package </h2>
     <div class="formdiv">
         <form action="CreateServicePackage" method="post">
@@ -50,18 +52,24 @@
         </form>
     </div>
     <hr>
+    <div th:if="${errorMsgOptCreation}">
+        <p th:text="'Error: ' +  ${errorMsgOptCreation}"></p>
+    </div>
+    <div th:if="${successMsgOptCreation}">
+        <p th:text="${successMsgOptCreation}"></p>
+    </div>
 
+    <div th:if="${errorServiceCreation}">
+        <p th:text="'Error: ' +  ${errorServiceCreation}"></p>
+    </div>
+    <div th:if="${successServiceCreation}">
+        <p th:text="${successServiceCreation}"></p>
+    </div>
     <!-- Create Services -->
     <h2> Fill in this form to create a fixed phone service</h2>
         <div class="formdiv">
             <form action="CreateService" method="post">
-            Type: <label><input type="text" name="FixedPhone" readonly placeholder="Fixed Phone"></label><br>
-            Minutes: <label><input type="text" name="minutes" required></label><br>
-            SMS: <label><input type="text" name="SMS" required></label><br>
-            Extra Minutes Fee <label><input type="text" name="extraMinFee"></label> <br>
-            Extra SMS Fee <label><input type="text" name="extraSMSFee"></label><br>
-            Giga: <label><input type="text" name="giga" required></label><br>
-            extraGigaFee: <label><input type="text" name="extraGigaFee" required></label><br> <br>
+            Type: <label><input type="text" name = "type" value="FixedPhone" readonly placeholder="Fixed Phone"></label><br>
             <label><input type="submit" value="CreateService"></label><br>
             </form>
         </div>
@@ -69,7 +77,7 @@
     <h2> Fill in this form to create a mobile phone service</h2>
     <div class="formdiv">
         <form action="CreateService" method="post">
-            Type: <label><input type="text" name="MobilePhone" readonly placeholder="Mobile Phone"></label><br>
+            Type: <label><input type="text" name = "type" value="MobilePhone" readonly placeholder="Mobile Phone"></label><br>
             Minutes: <label><input type="text" name="minutes" required></label><br>
             SMS: <label><input type="text" name="SMS" required></label><br>
             Extra Minutes Fee <label><input type="text" name="extraMinFee"></label> <br>
@@ -81,9 +89,9 @@
     <h2> Fill in this form to create a mobile internet service</h2>
     <div class="formdiv">
         <form action="CreateService" method="post">
-            Type: <label><input type="text" name="MobileInternet" readonly placeholder="Mobile Internet"></label><br>
+            Type: <label><input type="text" name = "type" value="MobileInternet" readonly placeholder="Mobile Internet"></label><br>
             Giga: <label><input type="text" name="giga" required></label><br>
-            extraGigaFee: <label><input type="text" name="/extraGigaFee" required></label><br> <br>
+            extraGigaFee: <label><input type="text" name="extraGigaFee" required></label><br> <br>
             <label><input type="submit" value="CreateService"></label><br>
         </form>
     </div>
@@ -91,7 +99,7 @@
     <h2> Fill in this form to create a fixed internet service</h2>
     <div class="formdiv">
         <form action="CreateService" method="post">
-            Type: <label><input type="text" name="FixedInternet" readonly placeholder="Fixed Internet"></label><br>
+            Type: <label><input type="text" name = "type" value="FixedInternet" readonly placeholder="Fixed Internet"></label><br>
             Giga: <label><input type="text" name="giga" required></label><br>
             extraGigaFee: <label><input type="text" name="extraGigaFee" required></label><br> <br>
             <label><input type="submit" value="CreateService"></label><br>
