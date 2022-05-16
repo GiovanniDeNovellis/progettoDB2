@@ -42,8 +42,8 @@ public class EmployeeService {
         return optProduct;
     }
 
-    public Service createService (String type, int minutes, int SMS, Float extraMinFee, Float extraSMSFee, int giga, Float extraGigaFee) {
-        Service service = new Service(type, minutes, SMS, extraMinFee, extraSMSFee, giga, extraGigaFee);
+    public Service createService (String name, String type, int minutes, int SMS, Float extraMinFee, Float extraSMSFee, int giga, Float extraGigaFee) {
+        Service service = new Service(name, type, minutes, SMS, extraMinFee, extraSMSFee, giga, extraGigaFee);
         em.persist(service);
         return service;
     }

@@ -40,7 +40,7 @@ CREATE TABLE `activation-schedule` (
   CONSTRAINT `orderid` FOREIGN KEY (`orderid`) REFERENCES `order` (`id`),
   CONSTRAINT `package` FOREIGN KEY (`package`) REFERENCES `service-package` (`ID`),
   CONSTRAINT `product` FOREIGN KEY (`optproduct`) REFERENCES `optional-product` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -49,7 +49,7 @@ CREATE TABLE `activation-schedule` (
 
 LOCK TABLES `activation-schedule` WRITE;
 /*!40000 ALTER TABLE `activation-schedule` DISABLE KEYS */;
-INSERT INTO `activation-schedule` VALUES (1,1,1,'2022-03-25 00:00:00','2022-03-25 00:00:00',1,''),(1,1,2,'2022-03-25 00:00:00','2022-04-25 00:00:00',2,''),(1,1,3,'2022-03-25 00:00:00','2022-04-25 00:00:00',3,''),(1,1,4,'2022-03-25 00:00:00','2022-04-25 00:00:00',4,''),(2,21,1,'2022-04-17 23:04:36','2023-04-17 23:04:36',8,''),(2,26,1,'2022-04-17 23:44:39','2023-04-17 23:44:39',9,''),(2,26,4,'2022-04-17 23:44:39','2023-04-17 23:44:39',10,''),(2,27,4,'2022-04-17 23:47:34','2023-04-17 23:47:34',11,''),(2,27,1,'2022-04-17 23:47:34','2023-04-17 23:47:34',12,''),(60,28,4,'2022-04-19 14:36:16','2023-04-19 14:36:16',13,'Valid'),(60,28,1,'2022-04-19 14:36:16','2023-04-19 14:36:16',14,'Valid'),(59,29,3,'2022-04-19 15:07:07','2023-04-19 15:07:07',15,'Valid'),(59,29,2,'2022-04-19 15:07:07','2023-04-19 15:07:07',16,'Valid'),(1,33,NULL,'2022-05-11 00:00:00','2023-05-11 00:00:00',19,'Valid'),(60,40,4,'2022-05-27 00:00:00','2023-05-27 00:00:00',30,'Valid'),(60,40,1,'2022-05-27 00:00:00','2023-05-27 00:00:00',31,'Valid'),(59,41,NULL,'2022-05-12 00:00:00','2024-05-12 00:00:00',32,'Valid');
+INSERT INTO `activation-schedule` VALUES (64,43,NULL,'2022-05-19 00:00:00','2023-05-19 00:00:00',1,'Valid');
 /*!40000 ALTER TABLE `activation-schedule` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -140,7 +140,6 @@ CREATE TABLE `alert` (
 
 LOCK TABLES `alert` WRITE;
 /*!40000 ALTER TABLE `alert` DISABLE KEYS */;
-INSERT INTO `alert` VALUES ('carlo','carlo@gmail.com',30,'2022-03-25 00:00:00'),('giova','thegiova99@gmail.com',1080,'2022-05-04 19:14:24'),('leo','leo@gmail.com',50,'2022-04-18 23:52:05');
 /*!40000 ALTER TABLE `alert` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -195,7 +194,7 @@ CREATE TABLE `alert-history` (
   PRIMARY KEY (`id`),
   KEY `usernickname_idx` (`username`),
   CONSTRAINT `user` FOREIGN KEY (`username`) REFERENCES `user` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -204,7 +203,6 @@ CREATE TABLE `alert-history` (
 
 LOCK TABLES `alert-history` WRITE;
 /*!40000 ALTER TABLE `alert-history` DISABLE KEYS */;
-INSERT INTO `alert-history` VALUES ('giova',1080,'2022-05-04 19:14:24',11);
 /*!40000 ALTER TABLE `alert-history` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -231,7 +229,7 @@ CREATE TABLE `avg-opt-for-package` (
 
 LOCK TABLES `avg-opt-for-package` WRITE;
 /*!40000 ALTER TABLE `avg-opt-for-package` DISABLE KEYS */;
-INSERT INTO `avg-opt-for-package` VALUES (1,4,4,1),(2,6,7,0.857143),(58,0,0,0),(59,2,2,1),(60,2,5,0.4);
+INSERT INTO `avg-opt-for-package` VALUES (64,0,1,0);
 /*!40000 ALTER TABLE `avg-opt-for-package` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -255,7 +253,6 @@ CREATE TABLE `best-opt-product` (
 
 LOCK TABLES `best-opt-product` WRITE;
 /*!40000 ALTER TABLE `best-opt-product` DISABLE KEYS */;
-INSERT INTO `best-opt-product` VALUES (2);
 /*!40000 ALTER TABLE `best-opt-product` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -279,7 +276,6 @@ CREATE TABLE `insolvent-users` (
 
 LOCK TABLES `insolvent-users` WRITE;
 /*!40000 ALTER TABLE `insolvent-users` DISABLE KEYS */;
-INSERT INTO `insolvent-users` VALUES ('giova');
 /*!40000 ALTER TABLE `insolvent-users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -304,7 +300,7 @@ CREATE TABLE `num-purch-package` (
 
 LOCK TABLES `num-purch-package` WRITE;
 /*!40000 ALTER TABLE `num-purch-package` DISABLE KEYS */;
-INSERT INTO `num-purch-package` VALUES (1,4),(2,7),(58,0),(59,2),(60,5);
+INSERT INTO `num-purch-package` VALUES (64,1);
 /*!40000 ALTER TABLE `num-purch-package` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -330,7 +326,7 @@ CREATE TABLE `num-purch-package-val-period` (
 
 LOCK TABLES `num-purch-package-val-period` WRITE;
 /*!40000 ALTER TABLE `num-purch-package-val-period` DISABLE KEYS */;
-INSERT INTO `num-purch-package-val-period` VALUES (1,12,3),(1,24,1),(1,36,0),(2,12,7),(2,24,0),(2,36,0),(58,12,0),(58,24,0),(58,36,0),(59,12,1),(59,24,1),(59,36,0),(60,12,5),(60,24,0),(60,36,0);
+INSERT INTO `num-purch-package-val-period` VALUES (64,12,1),(64,24,0),(64,36,0);
 /*!40000 ALTER TABLE `num-purch-package-val-period` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -347,7 +343,7 @@ CREATE TABLE `optional-product` (
   `monthlyfee` float NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -356,7 +352,7 @@ CREATE TABLE `optional-product` (
 
 LOCK TABLES `optional-product` WRITE;
 /*!40000 ALTER TABLE `optional-product` DISABLE KEYS */;
-INSERT INTO `optional-product` VALUES (1,'opt1',50),(2,'opt2',2000),(3,'opt3',20),(4,'opt4',20),(5,'skyCalcio',20),(6,'filmService',40),(7,'foodDelivery',5);
+INSERT INTO `optional-product` VALUES (8,'FirstProduct',50),(9,'SecondProduct',5),(10,'ThirdProduct',60),(11,'AbbonamentoInter',30);
 /*!40000 ALTER TABLE `optional-product` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -401,7 +397,7 @@ CREATE TABLE `order` (
   KEY `packageid_idx` (`packageid`),
   CONSTRAINT `packageid` FOREIGN KEY (`packageid`) REFERENCES `service-package` (`ID`),
   CONSTRAINT `username` FOREIGN KEY (`username`) REFERENCES `user` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -410,7 +406,7 @@ CREATE TABLE `order` (
 
 LOCK TABLES `order` WRITE;
 /*!40000 ALTER TABLE `order` DISABLE KEYS */;
-INSERT INTO `order` VALUES (1,'2022-04-17 00:00:00',12,50,'2022-04-17 00:00:00','Created','carlo',2,5),(2,'2022-03-25 00:00:00',24,32,'2022-03-25 00:00:00','Rejected','carlo',1,15),(20,'2022-04-17 00:00:00',12,50,'2022-04-17 00:00:00','Created','leo',2,5),(21,'2022-04-17 00:00:00',12,50,'2022-04-17 00:00:00','Created','leo',2,5),(22,'2022-04-17 00:00:00',12,50,'2022-04-17 00:00:00','Created','leo',2,5),(23,'2022-04-17 00:00:00',12,50,'2022-04-17 00:00:00','Valid','leo',2,5),(24,'2022-04-17 00:00:00',12,50,'2022-04-17 00:00:00','Valid','leo',2,5),(25,'2022-04-17 00:00:00',12,50,'2022-04-17 00:00:00','Created','leo',2,5),(26,'2022-04-17 00:00:00',12,50,'2022-04-17 00:00:00','Valid','leo',2,5),(27,'2022-04-17 00:00:00',12,50,'2022-04-17 00:00:00','Valid','leo',2,5),(28,'2022-04-19 00:00:00',12,1020,'2022-04-19 00:00:00','Valid','peppe',60,15),(29,'2022-04-19 00:00:00',12,24420,'2022-04-19 00:00:00','Valid','peppe',59,15),(33,'2022-05-03 00:00:00',12,0,'2022-05-11 00:00:00','Valid','giova',1,0),(34,'2022-05-03 00:00:00',12,1080,'2022-05-19 00:00:00','Suspended','giova',60,20),(35,'2022-05-03 00:00:00',12,1080,'2022-05-27 00:00:00','Suspended','giova',60,20),(40,'2022-05-03 00:00:00',12,1080,'2022-05-27 00:00:00','Valid','giova',60,20),(41,'2022-05-03 00:00:00',24,720,'2022-05-12 00:00:00','Valid','giova',59,30);
+INSERT INTO `order` VALUES (43,'2022-05-16 00:00:00',12,144,'2022-05-19 00:00:00','Valid','cust',64,12);
 /*!40000 ALTER TABLE `order` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -533,7 +529,7 @@ CREATE TABLE `package-opt-association` (
 
 LOCK TABLES `package-opt-association` WRITE;
 /*!40000 ALTER TABLE `package-opt-association` DISABLE KEYS */;
-INSERT INTO `package-opt-association` VALUES (60,1),(59,2),(59,3),(60,4);
+INSERT INTO `package-opt-association` VALUES (64,8),(64,9);
 /*!40000 ALTER TABLE `package-opt-association` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -559,7 +555,7 @@ CREATE TABLE `sales-optional-product` (
 
 LOCK TABLES `sales-optional-product` WRITE;
 /*!40000 ALTER TABLE `sales-optional-product` DISABLE KEYS */;
-INSERT INTO `sales-optional-product` VALUES (1,2402),(2,72004),(3,243),(4,728),(5,0),(6,0),(7,0);
+INSERT INTO `sales-optional-product` VALUES (8,0),(9,0),(10,0),(11,0);
 /*!40000 ALTER TABLE `sales-optional-product` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -611,7 +607,7 @@ CREATE TABLE `sales-package` (
 
 LOCK TABLES `sales-package` WRITE;
 /*!40000 ALTER TABLE `sales-package` DISABLE KEYS */;
-INSERT INTO `sales-package` VALUES (1,25440,1080),(2,26700,420),(58,0,0),(59,25140,900),(60,1860,1020);
+INSERT INTO `sales-package` VALUES (64,144,144);
 /*!40000 ALTER TABLE `sales-package` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -632,6 +628,7 @@ CREATE TABLE `service` (
   `giga` int DEFAULT '0',
   `extragigafee` float DEFAULT '0',
   `service_package_id` int DEFAULT NULL,
+  `name` varchar(45) NOT NULL,
   PRIMARY KEY (`serviceid`),
   UNIQUE KEY `serviceid_UNIQUE` (`serviceid`),
   KEY `service_package_id_idx` (`service_package_id`),
@@ -645,7 +642,7 @@ CREATE TABLE `service` (
 
 LOCK TABLES `service` WRITE;
 /*!40000 ALTER TABLE `service` DISABLE KEYS */;
-INSERT INTO `service` VALUES (1,'MobilePhone',23,24,25,26,NULL,NULL,1),(2,'FixedPhone',1,1,1,1,1,1,60),(3,'FixedPhone',1,1,1,1,1,1,NULL),(4,'MobilePhone',200,50,0.2,1,0,0,60),(5,'MobilePhone',100,20,0.1,1,0,0,NULL),(6,'FixedInternetA',1,1,1,1,50,1,60),(7,'FixedInternetB',1,1,1,1,100,2,NULL),(8,'MobileInternetA',1,1,1,1,20,3,60),(9,'MobileInternetB',1,1,1,1,80,4,NULL);
+INSERT INTO `service` VALUES (1,'FixedPhone',0,0,0,0,0,0,64,'FixedP1'),(2,'MobilePhone',1000,900,20,30,0,0,NULL,'MobileP1'),(3,'MobileInternet',0,0,0,0,500,2,NULL,'MobileI1'),(4,'MobileInternet',0,0,0,0,20,3,NULL,'MobileI2'),(5,'FixedInternet',0,0,0,0,10000,50,NULL,'FixedI1');
 /*!40000 ALTER TABLE `service` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -664,7 +661,7 @@ CREATE TABLE `service-package` (
   `monthscost36` float NOT NULL,
   PRIMARY KEY (`ID`,`name`),
   UNIQUE KEY `ID_UNIQUE` (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=65 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -673,7 +670,7 @@ CREATE TABLE `service-package` (
 
 LOCK TABLES `service-package` WRITE;
 /*!40000 ALTER TABLE `service-package` DISABLE KEYS */;
-INSERT INTO `service-package` VALUES (1,'pckgA',0,0,0),(2,'pckgB',0,0,0),(58,'allInclusive',20,30,40),(59,'packagewithproducts',20,30,40),(60,'packagewithdiffproducts',20,30,40);
+INSERT INTO `service-package` VALUES (64,'BasicPackage',12,24,36);
 /*!40000 ALTER TABLE `service-package` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -754,7 +751,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES ('carlo','carlo@gmail.com','123456','User','0',0),('giova','thegiova99@gmail.com','123','Customer','1',5),('leo','leo@gmail.com','123','User','0',5),('peppe','peppe@gmail.com','123','Customer','0',0),('stronzo','stronzo@gmail.com','123456','User','0',0);
+INSERT INTO `user` VALUES ('cust','cust@gmail.com','123','Customer','0',0),('emp','emp@gmail.com','123','Employee','0',0);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -794,4 +791,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-05-05  0:08:10
+-- Dump completed on 2022-05-17  0:45:21

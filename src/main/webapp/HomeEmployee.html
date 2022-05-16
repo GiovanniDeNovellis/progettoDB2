@@ -27,7 +27,7 @@
             36 Month Cost: <label><input type="text" name="cost36"></label><br>
             Choose Services
             <label><input type="checkbox" th:name="servicesID" th:each="serv:${unassignedServices}"
-                   th:value="${serv.serviceid}" th:text="${serv.type}">
+                   th:value="${serv.serviceid}" th:text="${'Name:' + serv.name + '       Type: ' + serv.type}">
             </label> <br> <br>
             Choose optional products
             <label><input type="checkbox" th:name="productsID" th:each="prod:${optionalProducts}"
@@ -69,7 +69,8 @@
     <h2> Fill in this form to create a fixed phone service</h2>
         <div class="formdiv">
             <form action="CreateService" method="post">
-            Type: <label><input type="text" name = "type" value="FixedPhone" readonly placeholder="Fixed Phone"></label><br>
+                Name: <label><input type="text" name = "name" ></label><br>
+                Type: <label><input type="text" name = "type" value="FixedPhone" readonly placeholder="Fixed Phone"></label><br>
             <label><input type="submit" value="CreateService"></label><br>
             </form>
         </div>
@@ -77,6 +78,7 @@
     <h2> Fill in this form to create a mobile phone service</h2>
     <div class="formdiv">
         <form action="CreateService" method="post">
+            Name: <label><input type="text" name = "name" ></label><br>
             Type: <label><input type="text" name = "type" value="MobilePhone" readonly placeholder="Mobile Phone"></label><br>
             Minutes: <label><input type="text" name="minutes" required></label><br>
             SMS: <label><input type="text" name="SMS" required></label><br>
@@ -89,6 +91,7 @@
     <h2> Fill in this form to create a mobile internet service</h2>
     <div class="formdiv">
         <form action="CreateService" method="post">
+            Name: <label><input type="text" name = "name" ></label><br>
             Type: <label><input type="text" name = "type" value="MobileInternet" readonly placeholder="Mobile Internet"></label><br>
             Giga: <label><input type="text" name="giga" required></label><br>
             extraGigaFee: <label><input type="text" name="extraGigaFee" required></label><br> <br>
@@ -99,6 +102,7 @@
     <h2> Fill in this form to create a fixed internet service</h2>
     <div class="formdiv">
         <form action="CreateService" method="post">
+            Name: <label><input type="text" name = "name" ></label><br>
             Type: <label><input type="text" name = "type" value="FixedInternet" readonly placeholder="Fixed Internet"></label><br>
             Giga: <label><input type="text" name="giga" required></label><br>
             extraGigaFee: <label><input type="text" name="extraGigaFee" required></label><br> <br>

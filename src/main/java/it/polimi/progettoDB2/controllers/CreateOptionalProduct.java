@@ -62,9 +62,10 @@ public class CreateOptionalProduct extends HttpServlet {
         else{
             ctx.setVariable("successMsgOptCreation", "Optional Product creation successful.");
         }
+        response.sendRedirect(getServletContext().getContextPath()+"/HomeEmployee");
 
-        path = "/HomeEmployee.html";
-        templateEngine.process(path, ctx, response.getWriter());
+        //path = "/HomeEmployee.html";
+        //templateEngine.process(path, ctx, response.getWriter());
 
     }
 

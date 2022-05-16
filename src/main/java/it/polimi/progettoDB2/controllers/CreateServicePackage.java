@@ -92,12 +92,14 @@ public class CreateServicePackage extends HttpServlet {
         else {
             ctx.setVariable("successMsgServPckgCreation", "Service package creation successful.");
         }
-        List<Service> unassignedServices = customerService.findUnassignedServices();
-        List<OptionalProduct> optionalProducts = customerService.getOptionalProducts();
-        ctx.setVariable("unassignedServices", unassignedServices);
-        ctx.setVariable("optionalProducts", optionalProducts);
-        path = "/HomeEmployee.html";
-        templateEngine.process(path, ctx, response.getWriter());
+        response.sendRedirect(getServletContext().getContextPath()+"/HomeEmployee");
+
+        //List<Service> unassignedServices = customerService.findUnassignedServices();
+        //List<OptionalProduct> optionalProducts = customerService.getOptionalProducts();
+        //ctx.setVariable("unassignedServices", unassignedServices);
+        //ctx.setVariable("optionalProducts", optionalProducts);
+        //path = "/HomeEmployee.html";
+        //templateEngine.process(path, ctx, response.getWriter());
 
     }
 

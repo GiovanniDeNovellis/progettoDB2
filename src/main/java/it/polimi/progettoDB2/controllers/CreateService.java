@@ -36,7 +36,7 @@ public class CreateService extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         /* Service creation */
-        String type;
+        String type, name;
         int minutes = 0;
         int sms = 0;
         int giga = 0;
@@ -46,6 +46,7 @@ public class CreateService extends HttpServlet {
 
         try {
             type = request.getParameter("type");
+            name = request.getParameter("name");
             if(type == null || type.isEmpty()) {
                 throw new Exception("Missing or empty Optional Product values.");
 
@@ -67,7 +68,7 @@ public class CreateService extends HttpServlet {
             return;
         }
 
-        Service service = employeeService.createService(type, minutes, sms, extraMinFee, extraSMSFee, giga, extraGigaFee);
+        Service service = employeeService.createService(name, type, minutes, sms, extraMinFee, extraSMSFee, giga, extraGigaFee);
 
         String path;
         ServletContext servletContext = getServletContext();
@@ -78,9 +79,9 @@ public class CreateService extends HttpServlet {
         else{
             ctx.setVariable("successServiceCreation", "Service creation successful.");
         }
-
-        path = "/HomeEmployee.html";
-        templateEngine.process(path, ctx, response.getWriter());
+        response.sendRedirect(getServletContext().getContextPath()+"/HomeEmployee");
+        //path = "/HomeEmployee.html";
+        //templateEngine.process(path, ctx, response.getWriter());
 
     }
 

@@ -14,14 +14,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebServlet(name = "/Logout")
+@WebServlet("/Logout")
 public class Logout extends HttpServlet {
 
     private TemplateEngine templateEngine;
-
-    public Logout(){
-        super();
-    }
 
     @Override
     public void init() throws ServletException {
@@ -33,8 +29,8 @@ public class Logout extends HttpServlet {
         templateResolver.setSuffix(".html");
     }
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession(false);
         if(session != null){
             session.invalidate();
@@ -45,7 +41,5 @@ public class Logout extends HttpServlet {
 
         String path = "/indexCustomer.html";
         templateEngine.process(path, ctx, response.getWriter());
-
     }
-
 }

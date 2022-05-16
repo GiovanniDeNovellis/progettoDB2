@@ -62,14 +62,18 @@ public class Confirmation extends HttpServlet {
         }
         else {
             int duration;
-            int[] selectedOptIds;
+            int[] selectedOptIds = new int[0];
             try {
-                selectedOptIds = Arrays.stream(request.getParameterValues("selectedProducts")).mapToInt(Integer::parseInt).toArray();
                 duration = Integer.parseInt(request.getParameter("duration"));
             } catch (NullPointerException e) {
                 System.out.println("Bad request");
-                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing confirmation value");
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing duration value");
                 return;
+            }
+            try{
+                selectedOptIds = Arrays.stream(request.getParameterValues("selectedProducts")).mapToInt(Integer::parseInt).toArray();
+            }catch (NullPointerException ignored) {
+
             }
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             Date startDate;
@@ -91,7 +95,11 @@ public class Confirmation extends HttpServlet {
             else
                 selectedFee = selectedPackage.getMonthscost36();
             request.getSession().setAttribute("selectedFee", selectedFee);
-            int totalValue = customerService.calculateTotalValue(duration, selectedFee, selectedPackage, Arrays.stream(selectedOptIds).boxed().collect(Collectors.toList()));
+            List<Integer> optProductsList = new ArrayList<>();
+            if(selectedOptIds != null){
+                optProductsList=Arrays.stream(selectedOptIds).boxed().collect(Collectors.toList());
+            }
+            int totalValue = customerService.calculateTotalValue(duration, selectedFee, selectedPackage, optProductsList);
             String path = "/Confirmation.html";
             ServletContext servletContext = getServletContext();
             List<OptionalProduct> selectedOpProd = new ArrayList<>();

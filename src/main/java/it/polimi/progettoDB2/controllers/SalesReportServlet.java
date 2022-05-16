@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
 @WebServlet("/SalesReportServlet")
 public class SalesReportServlet extends HttpServlet {
@@ -42,8 +43,9 @@ public class SalesReportServlet extends HttpServlet {
 
         ServletContext servletContext = getServletContext();
         final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
-
-        if(request.getSession().getAttribute("Employee")!=null) {
+        String path;
+        User user = (User) request.getSession().getAttribute("user");
+        if(user!=null && Objects.equals(user.getType(), "Employee")) {
             List<Alert> alerts = salesReportService.getAlerts();
             List<InsolventUsers> insolventUsers = salesReportService.getInsolventUsers();
             List<SuspendedOrders> suspendedOrders = salesReportService.getSuspendedOrders();
@@ -63,10 +65,12 @@ public class SalesReportServlet extends HttpServlet {
             ctx.setVariable("allNumPurchPackageValPeriod", numPurchPackageValPeriods);
             ctx.setVariable("bestOptProduct", bestOptProduct);
             ctx.setVariable("avgOptForPackages", avgOptForPackages);
-
+            path = "/SalesReport.html";
         }
-
-        String path = "/SalesReport.html";
+        else {
+            path = "/indexEmployee.html";
+            ctx.setVariable("errorMsg", "Please login before accessing the employee application.");
+        }
         templateEngine.process(path, ctx, response.getWriter());
 
     }

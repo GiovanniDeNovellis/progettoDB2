@@ -33,8 +33,9 @@
             <td>
                 <div th:if="${package.services!=null and !package.services.isEmpty()}">
                     <p th:each="service: ${package.services}">
+                        <span th:text="${'Type: ' + service.type}"></span>
+                        <span th:text="${'Name: ' + service.name}"></span>
 
-                    <span th:text="${'Type: ' + service.type}"></span>
                         <span th:if="${service.type == 'MobilePhone'}">
                             <span th:text="${'Minutes: ' + service.minutes}"></span>
                             <span th:text="${'Extra minutes fee: ' + service.extraminfee}"></span>
@@ -91,21 +92,23 @@
                         <p th:each="service: ${validorder.servicePackage.services}">
 
                             <span th:text="${'Type: ' + service.type}"></span>
+                            <span th:text="${'Name: ' + service.name}"></span>
+
                             <span th:if="${service.type == 'MobilePhone'}">
-                            <span th:text="${'Minutes: ' + service.minutes}"></span>
-                            <span th:text="${'Extra minutes fee: ' + service.extraminfee}"></span>
-                            <span th:text="${'Number of sms: ' + service.sms}"></span>
-                            <span th:text="${'Extra sms fee: ' + service.extrasmsfee}"></span>
+                                <span th:text="${'Minutes: ' + service.minutes}"></span>
+                                <span th:text="${'Extra minutes fee: ' + service.extraminfee}"></span>
+                                <span th:text="${'Number of sms: ' + service.sms}"></span>
+                                <span th:text="${'Extra sms fee: ' + service.extrasmsfee}"></span>
                         </span>
 
                             <span th:if="${service.type == 'FixedInternet'}">
-                            <span th:text="${'Number of giga: ' + service.giga}"></span>
-                            <span th:text="${'Fee for extra giga: ' + service.extragigafee}"></span>
+                                <span th:text="${'Number of giga: ' + service.giga}"></span>
+                                <span th:text="${'Fee for extra giga: ' + service.extragigafee}"></span>
                         </span>
 
                             <span th:if="${service.type == 'MobileInternet'}">
-                            <span th:text="${'Number of giga: ' + service.giga}"></span>
-                            <span th:text="${'Fee for extra giga: ' + service.extragigafee}"></span>
+                                <span th:text="${'Number of giga: ' + service.giga}"></span>
+                                <span th:text="${'Fee for extra giga: ' + service.extragigafee}"></span>
                         </span>
                         </p>
                     </div>

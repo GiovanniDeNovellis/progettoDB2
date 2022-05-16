@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
 @WebServlet("/HomeEmployee")
 public class HomeEmployee extends HttpServlet {
@@ -43,12 +44,19 @@ public class HomeEmployee extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         ServletContext servletContext = getServletContext();
         final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
-        List<Service> unassignedServices = customerService.findUnassignedServices();
-        List<OptionalProduct> optionalProducts = customerService.getOptionalProducts();
-        String path = "/HomeEmployee.html";
-        ctx.setVariable("unassignedServices", unassignedServices);
-        ctx.setVariable("optionalProducts", optionalProducts);
-        templateEngine.process(path, ctx, response.getWriter());
+        String path;
+        User user = (User) request.getSession().getAttribute("user");
+        if(user!=null && Objects.equals(user.getType(), "Employee")) {
+            List<Service> unassignedServices = customerService.findUnassignedServices();
+            List<OptionalProduct> optionalProducts = customerService.getOptionalProducts();
+            path = "/HomeEmployee.html";
+            ctx.setVariable("unassignedServices", unassignedServices);
+            ctx.setVariable("optionalProducts", optionalProducts);
+        }
+        else {
+            path = "/indexEmployee.html";
+            ctx.setVariable("errorMsg", "Please login before accessing the employee application.");
+        }
+            templateEngine.process(path, ctx, response.getWriter());
     }
-
 }

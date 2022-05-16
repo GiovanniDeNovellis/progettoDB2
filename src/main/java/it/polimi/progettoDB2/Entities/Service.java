@@ -12,6 +12,8 @@ public class Service {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long serviceid;
 
+    private String name;
+
     private String type;
 
     private int minutes;
@@ -30,7 +32,8 @@ public class Service {
     @JoinColumn(name = "service_package_id")
     private ServicePackage servicePackage;
 
-    public Service(String type, int minutes, int sms, Float extraminfee, Float extrasmsfee, int giga, Float extragigafee) {
+    public Service(String name, String type, int minutes, int sms, Float extraminfee, Float extrasmsfee, int giga, Float extragigafee) {
+        this.name = name;
         this.type = type;
         this.minutes = minutes;
         this.sms = sms;
@@ -113,6 +116,26 @@ public class Service {
 
     public void setServicePackage(ServicePackage servicePackage) {
         this.servicePackage = servicePackage;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setExtraminfee(Float extraminfee) {
+        this.extraminfee = extraminfee;
+    }
+
+    public void setExtrasmsfee(Float extrasmsfee) {
+        this.extrasmsfee = extrasmsfee;
+    }
+
+    public void setExtragigafee(Float extragigafee) {
+        this.extragigafee = extragigafee;
     }
 
     @Override
