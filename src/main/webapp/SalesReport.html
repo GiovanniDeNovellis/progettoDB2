@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Sales Report</title>
-    SALES REPORT
 </head>
 <body>
     <div align="right" th:if="${session.user}">
@@ -51,6 +50,7 @@
             <th> Status </th>
             <th> Username </th>
             <th> Package id </th>
+            <th> Package name </th>
             <th> Fee </th>
         </tr>
         <tr th:each="suspenderOrder: ${allSuspendedOrders}">
@@ -62,6 +62,7 @@
             <td th:text="${suspenderOrder.order.status}"></td>
             <td th:text="${suspenderOrder.order.user.username}"></td>
             <td th:text="${suspenderOrder.order.servicePackage.ID}"></td>
+            <td th:text="${suspenderOrder.order.servicePackage.name}"></td>
             <td th:text="${suspenderOrder.order.fee}"></td>
         </tr>
     </table>
@@ -69,24 +70,28 @@
     <h2> Here is the data regarding the total purchases for each package. </h2>
     <table>
         <tr>
-            <th> Package </th>
-            <th> Total purchases per package </th>
+            <th> Package ID </th>
+            <th> Package Name </th>
+            <th> Total purchases </th>
         </tr>
         <tr th:each="numpurchpackage: ${allNumPurchPackages}">
             <td th:text="${numpurchpackage.servicePackage.ID}"></td>
+            <td th:text="${numpurchpackage.servicePackage.name}"></td>
             <td th:text="${numpurchpackage.numpurchases}"></td>
         </tr>
     </table>
 
-    <h2> Here is the data regarding the total purchases for each package and their validity period. </h2>
+    <h2> Here is the data regarding the total purchases for each package based on the validity period. </h2>
     <table>
         <tr>
-            <th> Package </th>
-            <th> Total purchases per package </th>
+            <th> Package ID</th>
+            <th> Package name</th>
+            <th> Total purchases  </th>
             <th> Validity period </th>
         </tr>
         <tr th:each="numpurchpackagevalperiod: ${allNumPurchPackageValPeriod}">
             <td th:text="${numpurchpackagevalperiod.servicePackage.ID}"></td>
+            <td th:text="${numpurchpackagevalperiod.servicePackage.name}"></td>
             <td th:text="${numpurchpackagevalperiod.valPeriod}"></td>
             <td th:text="${numpurchpackagevalperiod.numpurchases}"></td>
         </tr>
@@ -95,12 +100,14 @@
     <h2> Here is the data regarding the total purchases of each service package with and without the optional products. </h2>
     <table>
         <tr>
-            <th> Service package </th>
+            <th> Package ID</th>
+            <th> Package name</th>
             <th> Total with optional products </th>
             <th> Total without optional products </th>
         </tr>
         <tr th:each="salespackage: ${allSalesOfPackages}">
             <td th:text="${salespackage.servicePackage.ID}"> </td>
+            <td th:text="${salespackage.servicePackage.name}"> </td>
             <td th:text="${salespackage.totalwithopt}"></td>
             <td th:text="${salespackage.totalwithoutopt}"></td>
         </tr>
@@ -109,22 +116,28 @@
     <h2> Here is the data regarding the average number of optional products sold together with each service package. </h2>
     <table>
         <tr>
-            <th> Optional product </th>
-            <th> Avg Opt For Sale </th>
+            <th> Package ID </th>
+            <th> Package Name </th>
+            <th> Avg optional products per purchase </th>
         </tr>
         <tr th:each="avgoptpackage: ${avgOptForPackages}">
             <td th:text="${avgoptpackage.servicePackage.ID}"></td>
+            <td th:text="${avgoptpackage.servicePackage.name}"></td>
             <td th:text="${avgoptpackage.avgOptForSale}"></td>
         </tr>
     </table>
 
-    <h2> Here is the data regarding the bestseller Optional Product. </h2>
+    <h2> Here is the data regarding the best-selling Optional Product. </h2>
     <table>
         <tr>
-            <th> Optional Product </th>
+            <th> Optional Product ID</th>
+            <th> Optional Product name</th>
+            <th> Total Sales Value</th>
         </tr>
         <tr th:each="bestSeller: ${bestOptProduct}">
             <td th:text="${bestSeller.optionalProduct.id}"></td>
+            <td th:text="${bestSeller.optionalProduct.name}"></td>
+            <td th:text="${bestSellingData.totalsalesvalue}"></td>
         </tr>
     </table>
 

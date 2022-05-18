@@ -7,3 +7,28 @@
     width: 100%;
     clear: both;
 }
+
+table, th, td {
+    border: 1px solid;
+    border-collapse: collapse;
+}
+
+td {
+    text-align: center;
+}
+
+th {
+    background-color: #04AA6D;
+    color: white;
+}
+
+input, label {
+    display: flex;
+    align-items: center;
+}
+input[type=checkbox]{
+    margin-right: 0.5rem;
+    height: 12px;
+    width: 12px;
+    min-width: 12px;
+}

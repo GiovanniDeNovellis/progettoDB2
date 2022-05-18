@@ -97,6 +97,17 @@ public class SalesReportService {
         }
     }
 
+    public SalesOptionalProduct getBestSellerData(){
+        BestOptProduct  best = getBestSeller().get(0);
+        try {
+            return em.createNamedQuery("SalesOptionalProduct.findByProductId", SalesOptionalProduct.class).
+                    setParameter(1,best.getOptionalProduct().getId()).getSingleResult();
+        }
+        catch (NoResultException e){
+            return null;
+        }
+    }
+
     public List<SalesOfPackage> getSalesOfPackages(){
         try {
             return em.createNamedQuery("SalesOfPackage.findAllSalesOfPackages", SalesOfPackage.class).getResultList();

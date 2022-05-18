@@ -49,9 +49,11 @@ public class HomeEmployee extends HttpServlet {
         if(user!=null && Objects.equals(user.getType(), "Employee")) {
             List<Service> unassignedServices = customerService.findUnassignedServices();
             List<OptionalProduct> optionalProducts = customerService.getOptionalProducts();
+            List<ServicePackage> allPackages = customerService.getServicePackages();
             path = "/HomeEmployee.html";
             ctx.setVariable("unassignedServices", unassignedServices);
             ctx.setVariable("optionalProducts", optionalProducts);
+            ctx.setVariable("allpackages", allPackages);
         }
         else {
             path = "/indexEmployee.html";

@@ -23,10 +23,8 @@ import java.util.Objects;
 public class SalesReportServlet extends HttpServlet {
 
     private TemplateEngine templateEngine;
-
     @EJB
     SalesReportService salesReportService;
-    EmployeeService employeeService;
 
     @Override
     public void init() throws ServletException {
@@ -54,6 +52,10 @@ public class SalesReportServlet extends HttpServlet {
             List<NumPurchPackage> numPurchPackages = salesReportService.getAllNumPurchPackages();
             List<NumPurchPackageValPeriod> numPurchPackageValPeriods = salesReportService.getAllNumPurchPackagesValPeriod();
             List<BestOptProduct> bestOptProduct = salesReportService.getBestSeller();
+            if(!bestOptProduct.isEmpty()){
+                SalesOptionalProduct bestSellingData = salesReportService.getBestSellerData();
+                ctx.setVariable("bestSellingData", bestSellingData);
+            }
             List<AvgOptForPackage> avgOptForPackages = salesReportService.getAllAvgOptForPackage();
 
             ctx.setVariable("allAlerts", alerts);

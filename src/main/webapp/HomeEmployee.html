@@ -2,8 +2,8 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Employee Home</title>
     <link rel="stylesheet" type="text/css" href="css/style.css">
+    <title>Employee Home</title>
 </head>
 <body>
 
@@ -18,6 +18,115 @@
 
     <a th:href="@{/SalesReportServlet}">View sales data.</a>
 
+    <h2> Here is the list of all created Service Packages: </h2>
+
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Cost for 12 months</th>
+            <th>Cost for 24 months</th>
+            <th>Cost for 36 months</th>
+            <th>Associated Services</th>
+            <th>Associated Optional Products</th>
+        </tr>
+        <tr th:each="package: ${allpackages}">
+            <td th:text="${package.name}"></td>
+            <td th:text="${package.monthscost12}"></td>
+            <td th:text="${package.monthscost24}"></td>
+            <td th:text="${package.monthscost36}"></td>
+            <td>
+                <div th:if="${package.services!=null and !package.services.isEmpty()}">
+                    <p th:each="service: ${package.services}">
+                        <span th:text="${'Type: ' + service.type}"></span>
+                        <span th:text="${'Name: ' + service.name}"></span>
+
+                        <span th:if="${service.type == 'MobilePhone'}">
+                            <span th:text="${'Minutes: ' + service.minutes}"></span>
+                            <span th:text="${'Extra minutes fee: ' + service.extraminfee}"></span>
+                            <span th:text="${'Number of sms: ' + service.sms}"></span>
+                            <span th:text="${'Extra sms fee: ' + service.extrasmsfee}"></span>
+                        </span>
+
+                        <span th:if="${service.type == 'FixedInternet'}">
+                            <span th:text="${'Number of giga: ' + service.giga}"></span>
+                            <span th:text="${'Fee for extra giga: ' + service.extragigafee}"></span>
+                        </span>
+
+                        <span th:if="${service.type == 'MobileInternet'}">
+                            <span th:text="${'Number of giga: ' + service.giga}"></span>
+                            <span th:text="${'Fee for extra giga: ' + service.extragigafee}"></span>
+                        </span>
+                    </p>
+                </div>
+            </td>
+            <td>
+                <div th:if="${package.availableProducts!=null and !package.availableProducts.isEmpty()}">
+                    <p th:each="prod: ${package.availableProducts}">
+                        <span th:text="${'Name: ' + prod.name}"></span>
+                        <span th:text="${'Fee: ' + prod.monthlyFee}"></span>
+                    </p>
+                </div>
+            </td>
+        </tr>
+    </table>
+
+    <h2> Here is the list of all unassigned services: </h2>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Minutes</th>
+            <th>SMS</th>
+            <th>Giga</th>
+            <th>Extra Minutes Fee</th>
+            <th>Extra SMS Fee</th>
+            <th>Extra Giga Fee</th>
+        </tr>
+        <tr th:each="service: ${unassignedServices}">
+            <td th:text="${service.serviceid}"></td>
+            <td th:text="${service.name}"></td>
+            <td th:text="${service.type}"></td>
+            <div th:switch="${service.type}">
+                <p th:case="FixedPhone">
+                    <td th:text="'--'"></td>
+                    <td th:text="'--'"></td>
+                    <td th:text="'--'"></td>
+                    <td th:text="'--'"></td>
+                    <td th:text="'--'"></td>
+                    <td th:text="'--'"></td>
+                </p>
+
+                <p th:case="MobilePhone">
+                    <td th:text="${service.minutes}"></td>
+                    <td th:text="${service.sms}"></td>
+                    <td th:text="'--'"></td>
+                    <td th:text="${service.extraminfee}"></td>
+                    <td th:text="${service.extrasmsfee}"></td>
+                    <td th:text="'--'"></td>
+                </p>
+
+                <p th:case="FixedInternet">
+                    <td th:text="'--'"></td>
+                    <td th:text="'--'"></td>
+                    <td th:text="${service.giga}"></td>
+                    <td th:text="'--'"></td>
+                    <td th:text="'--'"></td>
+                    <td th:text="${service.extragigafee}"></td>
+                </p>
+
+                <p th:case="MobileInternet">
+                <td th:text="'--'"></td>
+                <td th:text="'--'"></td>
+                <td th:text="${service.giga}"></td>
+                <td th:text="'--'"></td>
+                <td th:text="'--'"></td>
+                <td th:text="${service.extragigafee}"></td>
+                </p>
+            </div>
+        </tr>
+    </table>
+
     <h2> Fill in this form to create a Service Package </h2>
     <div class="formdiv">
         <form action="CreateServicePackage" method="post">
@@ -25,11 +134,11 @@
             12 Month Cost: <label><input type="text" name="cost12"></label><br>
             24 Month Cost: <label><input type="text" name="cost24"></label><br>
             36 Month Cost: <label><input type="text" name="cost36"></label><br>
-            Choose Services
-            <label><input type="checkbox" th:name="servicesID" th:each="serv:${unassignedServices}"
-                   th:value="${serv.serviceid}" th:text="${'Name:' + serv.name + '       Type: ' + serv.type}">
+            Choose Services <br>
+            <label><input type="checkbox" th:name="servicesID"  th:each="serv:${unassignedServices}"
+                   th:value="${serv.serviceid}" th:text="${serv.name}">
             </label> <br> <br>
-            Choose optional products
+            Choose optional products <br>
             <label><input type="checkbox" th:name="productsID" th:each="prod:${optionalProducts}"
                    th:value="${prod.id}" th:text="${prod.name}">
             </label> <br> <br>
