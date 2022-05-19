@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Buy a Service Package</title>
@@ -22,7 +22,7 @@
                     <p>
                         <label for="packageid">Choose a package:</label>
                         <select name="packageid" id="packageid" required>
-                            <option th:each="pckg : ${allpackages}" th:value="${pckg.id}"
+                            <option th:each="pckg : ${allpackages}" th:value="${pckg.ID}"
                                     th:text="${pckg.name}"></option>
                         </select>
                     </p>
@@ -56,5 +56,10 @@
                 </fieldset>
             </form>
         </div>
+
+        <div>
+            <a th:href="@{/HomeCustomer}"> Click here to go to the Customer Home. </a>
+        </div>
+
 </body>
 </html>
