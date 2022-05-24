@@ -64,19 +64,15 @@ public class CreateServicePackage extends HttpServlet {
 
             if (servicesID == null) {
                 ctx.setVariable("errorMsgServPckgCreation", "Must select at least one Service when creating a Service Package!");
-                path = "/HomeEmployee.html";
-                List<ServicePackage> allPackages = customerService.getServicePackages();
-                ctx.setVariable("allpackages", allPackages);
-                List<Service> unassignedServices = customerService.findUnassignedServices();
-                List<OptionalProduct> optionalProducts = customerService.getOptionalProducts();
-                ctx.setVariable("unassignedServices", unassignedServices);
-                ctx.setVariable("optionalProducts", optionalProducts);
-                templateEngine.process(path, ctx, response.getWriter());
+                redirectWithError(response, ctx);
             }
 
         } catch (Exception e) {
             e.printStackTrace();
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Error parsing package creation values");
+            ctx.setVariable("errorMsgServPckgCreation", "Invalid Form Data");
+
+            redirectWithError(response, ctx);
+            //response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Error parsing package creation values");
             return;
         }
 
@@ -103,6 +99,18 @@ public class CreateServicePackage extends HttpServlet {
         //path = "/HomeEmployee.html";
         //templateEngine.process(path, ctx, response.getWriter());
 
+    }
+
+    private void redirectWithError(HttpServletResponse response, WebContext ctx) throws IOException {
+        String path;
+        path = "/HomeEmployee.html";
+        List<ServicePackage> allPackages = customerService.getServicePackages();
+        ctx.setVariable("allpackages", allPackages);
+        List<Service> unassignedServices = customerService.findUnassignedServices();
+        List<OptionalProduct> optionalProducts = customerService.getOptionalProducts();
+        ctx.setVariable("unassignedServices", unassignedServices);
+        ctx.setVariable("optionalProducts", optionalProducts);
+        templateEngine.process(path, ctx, response.getWriter());
     }
 
     @Override

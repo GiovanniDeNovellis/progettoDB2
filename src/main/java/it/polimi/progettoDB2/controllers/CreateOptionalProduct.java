@@ -47,7 +47,8 @@ public class CreateOptionalProduct extends HttpServlet {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing optional product value");
+            response.sendRedirect(getServletContext().getContextPath()+"/HomeEmployee");
+            //response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing optional product value");
             return;
         }
 

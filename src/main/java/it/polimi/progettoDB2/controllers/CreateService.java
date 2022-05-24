@@ -63,7 +63,8 @@ public class CreateService extends HttpServlet {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing service values.");
+            response.sendRedirect(getServletContext().getContextPath()+"/HomeEmployee");
+            //response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing service values.");
             return;
         }
 
