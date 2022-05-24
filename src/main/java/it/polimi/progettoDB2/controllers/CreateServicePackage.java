@@ -65,6 +65,8 @@ public class CreateServicePackage extends HttpServlet {
             if (servicesID == null) {
                 ctx.setVariable("errorMsgServPckgCreation", "Must select at least one Service when creating a Service Package!");
                 path = "/HomeEmployee.html";
+                List<ServicePackage> allPackages = customerService.getServicePackages();
+                ctx.setVariable("allpackages", allPackages);
                 List<Service> unassignedServices = customerService.findUnassignedServices();
                 List<OptionalProduct> optionalProducts = customerService.getOptionalProducts();
                 ctx.setVariable("unassignedServices", unassignedServices);

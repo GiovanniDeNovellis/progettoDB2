@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Sales Report</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
     <div align="right" th:if="${session.user}">
@@ -92,8 +93,8 @@
         <tr th:each="numpurchpackagevalperiod: ${allNumPurchPackageValPeriod}">
             <td th:text="${numpurchpackagevalperiod.servicePackage.ID}"></td>
             <td th:text="${numpurchpackagevalperiod.servicePackage.name}"></td>
-            <td th:text="${numpurchpackagevalperiod.valPeriod}"></td>
             <td th:text="${numpurchpackagevalperiod.numpurchases}"></td>
+            <td th:text="${numpurchpackagevalperiod.valPeriod}"></td>
         </tr>
     </table>
 
@@ -121,7 +122,7 @@
             <th> Avg optional products per purchase </th>
         </tr>
         <tr th:each="avgoptpackage: ${avgOptForPackages}">
-            <td th:text="${avgoptpackage.servicePackage.ID}"></td>
+            <td th:text="${avgoptpackage.servicePackage.id}"></td>
             <td th:text="${avgoptpackage.servicePackage.name}"></td>
             <td th:text="${avgoptpackage.avgOptForSale}"></td>
         </tr>

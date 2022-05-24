@@ -9,6 +9,8 @@ import javax.persistence.*;
 public class SalesOptionalProduct {
 
     @Id
+    private long id;
+
     @OneToOne
     @JoinColumn(name = "optproductid")
     private OptionalProduct optionalProduct;

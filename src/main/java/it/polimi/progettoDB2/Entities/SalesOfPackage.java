@@ -9,8 +9,10 @@ import javax.persistence.*;
 public class SalesOfPackage {
 
     @Id
+    private long id;
+
     @OneToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "servicePackage")
     private ServicePackage servicePackage;
 
     private float totalwithopt;

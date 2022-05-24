@@ -10,6 +10,7 @@ import javax.persistence.*;
 public class NumPurchPackageValPeriod {
 
     @Id
+    private long id;
     @ManyToOne
     @JoinColumn(name = "packageid")
     private ServicePackage servicePackage;
@@ -45,7 +46,8 @@ public class NumPurchPackageValPeriod {
     @Override
     public String toString() {
         return "NumPurchPackageValPeriod{" +
-                "servicePackage=" + servicePackage.getID() +
+                "id=" + id +
+                ", servicePackage=" + servicePackage.getID() +
                 ", valperiod=" + valperiod +
                 ", numpurchases=" + numpurchases +
                 '}';

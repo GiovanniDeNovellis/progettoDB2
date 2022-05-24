@@ -8,8 +8,10 @@ import javax.persistence.*;
 @NamedQuery(name = "AvgOptForPackage.getAllAvgOptForPackages", query = "SELECT p FROM AvgOptForPackage p")
 public class AvgOptForPackage {
     @Id
+    private long id;
+
     @OneToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "servicePackage")
     private ServicePackage servicePackage;
 
     private int numOptTot;

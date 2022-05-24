@@ -8,7 +8,8 @@ import javax.persistence.*;
 @NamedQuery(name = "NumPurchPackage.getAllNumPurchPackages", query = "SELECT p FROM NumPurchPackage p")
 public class NumPurchPackage {
     @Id
-    @OneToOne
+    private long id;
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "packageid")
     private ServicePackage servicePackage;
 
@@ -34,6 +35,7 @@ public class NumPurchPackage {
     public String toString() {
         return "NumPurchPackage{" +
                 "servicePackage=" + servicePackage.getID() +
+                ", servicepackageName= " + servicePackage.getName() +
                 ", numpurchases=" + numpurchases +
                 '}';
     }

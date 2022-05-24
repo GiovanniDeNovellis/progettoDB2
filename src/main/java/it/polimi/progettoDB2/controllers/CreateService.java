@@ -53,7 +53,6 @@ public class CreateService extends HttpServlet {
             }
             if(type.equals("MobilePhone")){
                 minutes = Integer.parseInt(request.getParameter("minutes"));
-                System.out.println(minutes);
                 sms = Integer.parseInt(request.getParameter("SMS"));
                 extraMinFee = Float.parseFloat(request.getParameter("extraMinFee"));
                 extraSMSFee = Float.parseFloat(request.getParameter("extraSMSFee"));

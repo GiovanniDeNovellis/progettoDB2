@@ -214,13 +214,15 @@ DROP TABLE IF EXISTS `avg-opt-for-package`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `avg-opt-for-package` (
-  `id` int NOT NULL,
+  `servicePackage` int NOT NULL,
   `numopttot` int DEFAULT '0',
   `numsales` int NOT NULL DEFAULT '0',
   `avgoptforsale` float DEFAULT '0',
+  `id` int NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id`),
-  CONSTRAINT `avgpckgid` FOREIGN KEY (`id`) REFERENCES `service-package` (`ID`) ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  KEY `avgpckgid_idx` (`servicePackage`),
+  CONSTRAINT `avgpckgid` FOREIGN KEY (`servicePackage`) REFERENCES `service-package` (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -229,7 +231,7 @@ CREATE TABLE `avg-opt-for-package` (
 
 LOCK TABLES `avg-opt-for-package` WRITE;
 /*!40000 ALTER TABLE `avg-opt-for-package` DISABLE KEYS */;
-INSERT INTO `avg-opt-for-package` VALUES (64,0,1,0);
+INSERT INTO `avg-opt-for-package` VALUES (64,0,1,0,1),(65,0,0,0,2),(67,0,0,0,3),(68,0,0,0,4);
 /*!40000 ALTER TABLE `avg-opt-for-package` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -289,9 +291,11 @@ DROP TABLE IF EXISTS `num-purch-package`;
 CREATE TABLE `num-purch-package` (
   `packageid` int NOT NULL,
   `numpurchases` int DEFAULT '0',
-  PRIMARY KEY (`packageid`),
-  CONSTRAINT `id` FOREIGN KEY (`packageid`) REFERENCES `service-package` (`ID`) ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `id` int NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`id`),
+  KEY `packageid_idx` (`packageid`),
+  CONSTRAINT `pkid` FOREIGN KEY (`packageid`) REFERENCES `service-package` (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -300,7 +304,7 @@ CREATE TABLE `num-purch-package` (
 
 LOCK TABLES `num-purch-package` WRITE;
 /*!40000 ALTER TABLE `num-purch-package` DISABLE KEYS */;
-INSERT INTO `num-purch-package` VALUES (64,1);
+INSERT INTO `num-purch-package` VALUES (64,1,1),(65,0,2),(67,0,4),(68,0,5);
 /*!40000 ALTER TABLE `num-purch-package` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -315,9 +319,11 @@ CREATE TABLE `num-purch-package-val-period` (
   `packageid` int NOT NULL,
   `valperiod` int NOT NULL,
   `numpurchases` int DEFAULT '0',
-  PRIMARY KEY (`packageid`,`valperiod`),
-  CONSTRAINT `idpack` FOREIGN KEY (`packageid`) REFERENCES `service-package` (`ID`) ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `id` int NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`id`),
+  KEY `packid_idx` (`packageid`),
+  CONSTRAINT `packid` FOREIGN KEY (`packageid`) REFERENCES `service-package` (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -326,7 +332,7 @@ CREATE TABLE `num-purch-package-val-period` (
 
 LOCK TABLES `num-purch-package-val-period` WRITE;
 /*!40000 ALTER TABLE `num-purch-package-val-period` DISABLE KEYS */;
-INSERT INTO `num-purch-package-val-period` VALUES (64,12,1),(64,24,0),(64,36,0);
+INSERT INTO `num-purch-package-val-period` VALUES (64,12,1,1),(64,24,0,2),(64,36,0,3),(65,12,0,4),(65,24,0,5),(65,36,0,6),(67,12,0,10),(67,24,0,11),(67,36,0,12),(68,12,0,13),(68,24,0,14),(68,36,0,15);
 /*!40000 ALTER TABLE `num-purch-package-val-period` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -343,7 +349,7 @@ CREATE TABLE `optional-product` (
   `monthlyfee` float NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -352,7 +358,7 @@ CREATE TABLE `optional-product` (
 
 LOCK TABLES `optional-product` WRITE;
 /*!40000 ALTER TABLE `optional-product` DISABLE KEYS */;
-INSERT INTO `optional-product` VALUES (8,'FirstProduct',50),(9,'SecondProduct',5),(10,'ThirdProduct',60),(11,'AbbonamentoInter',30);
+INSERT INTO `optional-product` VALUES (8,'FirstProduct',50),(9,'SecondProduct',5),(10,'ThirdProduct',60),(11,'AbbonamentoInter',30),(12,'Train Subscription',25);
 /*!40000 ALTER TABLE `optional-product` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -529,7 +535,7 @@ CREATE TABLE `package-opt-association` (
 
 LOCK TABLES `package-opt-association` WRITE;
 /*!40000 ALTER TABLE `package-opt-association` DISABLE KEYS */;
-INSERT INTO `package-opt-association` VALUES (64,8),(64,9);
+INSERT INTO `package-opt-association` VALUES (64,8),(67,8),(68,8),(64,9),(65,9),(67,9),(68,9),(65,10),(68,10),(68,11),(68,12);
 /*!40000 ALTER TABLE `package-opt-association` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -543,10 +549,11 @@ DROP TABLE IF EXISTS `sales-optional-product`;
 CREATE TABLE `sales-optional-product` (
   `optproductid` int NOT NULL,
   `totalsalesvalue` float NOT NULL DEFAULT '0',
-  PRIMARY KEY (`optproductid`),
+  `id` int NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`id`),
   UNIQUE KEY `productid_UNIQUE` (`optproductid`),
   CONSTRAINT `optprodid` FOREIGN KEY (`optproductid`) REFERENCES `optional-product` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -555,7 +562,7 @@ CREATE TABLE `sales-optional-product` (
 
 LOCK TABLES `sales-optional-product` WRITE;
 /*!40000 ALTER TABLE `sales-optional-product` DISABLE KEYS */;
-INSERT INTO `sales-optional-product` VALUES (8,0),(9,0),(10,0),(11,0);
+INSERT INTO `sales-optional-product` VALUES (8,0,1),(9,0,2),(10,0,3),(11,0,4),(12,0,5);
 /*!40000 ALTER TABLE `sales-optional-product` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -593,12 +600,14 @@ DROP TABLE IF EXISTS `sales-package`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `sales-package` (
-  `id` int NOT NULL,
+  `servicePackage` int NOT NULL,
   `totalwithopt` float DEFAULT '0',
   `totalwithoutopt` float DEFAULT '0',
+  `id` int NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id`),
-  CONSTRAINT `spid` FOREIGN KEY (`id`) REFERENCES `service-package` (`ID`) ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  KEY `spid_idx` (`servicePackage`),
+  CONSTRAINT `spid` FOREIGN KEY (`servicePackage`) REFERENCES `service-package` (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -607,7 +616,7 @@ CREATE TABLE `sales-package` (
 
 LOCK TABLES `sales-package` WRITE;
 /*!40000 ALTER TABLE `sales-package` DISABLE KEYS */;
-INSERT INTO `sales-package` VALUES (64,144,144);
+INSERT INTO `sales-package` VALUES (64,144,144,1),(65,0,0,2),(67,0,0,3),(68,0,0,4);
 /*!40000 ALTER TABLE `sales-package` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -633,7 +642,7 @@ CREATE TABLE `service` (
   UNIQUE KEY `serviceid_UNIQUE` (`serviceid`),
   KEY `service_package_id_idx` (`service_package_id`),
   CONSTRAINT `service_package_id` FOREIGN KEY (`service_package_id`) REFERENCES `service-package` (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -642,7 +651,7 @@ CREATE TABLE `service` (
 
 LOCK TABLES `service` WRITE;
 /*!40000 ALTER TABLE `service` DISABLE KEYS */;
-INSERT INTO `service` VALUES (1,'FixedPhone',0,0,0,0,0,0,64,'FixedP1'),(2,'MobilePhone',1000,900,20,30,0,0,NULL,'MobileP1'),(3,'MobileInternet',0,0,0,0,500,2,NULL,'MobileI1'),(4,'MobileInternet',0,0,0,0,20,3,NULL,'MobileI2'),(5,'FixedInternet',0,0,0,0,10000,50,NULL,'FixedI1');
+INSERT INTO `service` VALUES (1,'FixedPhone',0,0,0,0,0,0,64,'FixedP1'),(2,'MobilePhone',1000,900,20,30,0,0,65,'MobileP1'),(3,'MobileInternet',0,0,0,0,500,2,65,'MobileI1'),(4,'MobileInternet',0,0,0,0,20,3,67,'MobileI2'),(5,'FixedInternet',0,0,0,0,10000,50,67,'FixedI1'),(10,'FixedPhone',0,0,0,0,0,0,68,'BasicPhone'),(11,'MobilePhone',2000,2000,2,1,0,0,68,'MobileUltra'),(12,'MobileInternet',0,0,0,0,50,2,68,'QuickNet'),(13,'FixedInternet',0,0,0,0,500,2,68,'StableNet');
 /*!40000 ALTER TABLE `service` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -661,7 +670,7 @@ CREATE TABLE `service-package` (
   `monthscost36` float NOT NULL,
   PRIMARY KEY (`ID`,`name`),
   UNIQUE KEY `ID_UNIQUE` (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=65 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=69 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -670,7 +679,7 @@ CREATE TABLE `service-package` (
 
 LOCK TABLES `service-package` WRITE;
 /*!40000 ALTER TABLE `service-package` DISABLE KEYS */;
-INSERT INTO `service-package` VALUES (64,'BasicPackage',12,24,36);
+INSERT INTO `service-package` VALUES (64,'BasicPackage',12,24,36),(65,'Business',50,55,60),(67,'FullInternetPackage',22,44,66),(68,'CompletePackage',70,80,90);
 /*!40000 ALTER TABLE `service-package` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -691,9 +700,9 @@ DELIMITER ;;
     VALUES(new.ID, 0, 24);
     INSERT INTO `new_schema`.`num-purch-package-val-period`(packageid, numpurchases, valperiod)
     VALUES(new.ID, 0, 36);
-    INSERT INTO `new_schema`.`sales-package`(id, totalwithopt, totalwithoutopt)
+    INSERT INTO `new_schema`.`sales-package`(servicePackage, totalwithopt, totalwithoutopt)
     VALUES(new.ID, 0, 0);
-    INSERT INTO `new_schema`.`avg-opt-for-package`(id, numopttot, numsales, avgoptforsale)
+    INSERT INTO `new_schema`.`avg-opt-for-package`(servicePackage, numopttot, numsales, avgoptforsale)
     VALUES(new.ID, 0, 0, 0);
 END */;;
 DELIMITER ;
@@ -791,4 +800,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-05-17  0:45:21
+-- Dump completed on 2022-05-24 23:56:24
