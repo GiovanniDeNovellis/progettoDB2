@@ -40,7 +40,7 @@ CREATE TABLE `activation-schedule` (
   CONSTRAINT `orderid` FOREIGN KEY (`orderid`) REFERENCES `order` (`id`),
   CONSTRAINT `package` FOREIGN KEY (`package`) REFERENCES `service-package` (`ID`),
   CONSTRAINT `product` FOREIGN KEY (`optproduct`) REFERENCES `optional-product` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -49,7 +49,7 @@ CREATE TABLE `activation-schedule` (
 
 LOCK TABLES `activation-schedule` WRITE;
 /*!40000 ALTER TABLE `activation-schedule` DISABLE KEYS */;
-INSERT INTO `activation-schedule` VALUES (64,43,NULL,'2022-05-19 00:00:00','2023-05-19 00:00:00',1,'Valid'),(67,44,9,'2022-05-27 00:00:00','2023-05-27 00:00:00',2,'Valid'),(67,44,8,'2022-05-27 00:00:00','2023-05-27 00:00:00',3,'Valid'),(68,45,11,'2022-05-27 00:00:00','2023-05-27 00:00:00',4,'Valid'),(68,45,12,'2022-05-27 00:00:00','2023-05-27 00:00:00',5,'Valid'),(68,45,9,'2022-05-27 00:00:00','2023-05-27 00:00:00',6,'Valid'),(68,45,10,'2022-05-27 00:00:00','2023-05-27 00:00:00',7,'Valid'),(68,45,8,'2022-05-27 00:00:00','2023-05-27 00:00:00',8,'Valid'),(65,46,9,'2022-05-26 00:00:00','2023-05-26 00:00:00',9,'Valid'),(65,46,10,'2022-05-28 00:00:00','2023-05-28 00:00:00',10,'Valid'),(64,47,9,'2022-05-26 00:00:00','2023-05-26 00:00:00',11,'Valid'),(64,47,8,'2022-05-26 00:00:00','2023-05-26 00:00:00',12,'Valid'),(64,47,8,'2022-05-26 00:00:00','2023-05-26 00:00:00',13,'Valid'),(64,47,9,'2022-05-26 00:00:00','2023-05-26 00:00:00',14,'Valid');
+INSERT INTO `activation-schedule` VALUES (64,43,NULL,'2022-05-19 00:00:00','2023-05-19 00:00:00',1,'Valid'),(67,44,9,'2022-05-27 00:00:00','2023-05-27 00:00:00',2,'Valid'),(67,44,8,'2022-05-27 00:00:00','2023-05-27 00:00:00',3,'Valid'),(68,45,11,'2022-05-27 00:00:00','2023-05-27 00:00:00',4,'Valid'),(68,45,12,'2022-05-27 00:00:00','2023-05-27 00:00:00',5,'Valid'),(68,45,9,'2022-05-27 00:00:00','2023-05-27 00:00:00',6,'Valid'),(68,45,10,'2022-05-27 00:00:00','2023-05-27 00:00:00',7,'Valid'),(68,45,8,'2022-05-27 00:00:00','2023-05-27 00:00:00',8,'Valid'),(65,46,9,'2022-05-26 00:00:00','2023-05-26 00:00:00',9,'Valid'),(65,46,10,'2022-05-28 00:00:00','2023-05-28 00:00:00',10,'Valid'),(64,47,9,'2022-05-26 00:00:00','2023-05-26 00:00:00',11,'Valid'),(64,47,8,'2022-05-26 00:00:00','2023-05-26 00:00:00',12,'Valid'),(64,47,8,'2022-05-26 00:00:00','2023-05-26 00:00:00',13,'Valid'),(64,47,9,'2022-05-26 00:00:00','2023-05-26 00:00:00',14,'Valid'),(64,48,NULL,'2022-05-27 00:00:00','2023-05-27 00:00:00',15,'Valid'),(67,49,8,'2022-05-27 00:00:00','2023-05-27 00:00:00',16,'Valid'),(67,49,9,'2022-05-27 00:00:00','2023-05-27 00:00:00',17,'Valid'),(68,50,12,'2022-05-27 00:00:00','2023-05-27 00:00:00',18,'Suspended');
 /*!40000 ALTER TABLE `activation-schedule` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -140,6 +140,7 @@ CREATE TABLE `alert` (
 
 LOCK TABLES `alert` WRITE;
 /*!40000 ALTER TABLE `alert` DISABLE KEYS */;
+INSERT INTO `alert` VALUES ('Giovanni','giovanni@gmail.com',1140,'2022-05-25 18:00:11');
 /*!40000 ALTER TABLE `alert` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -194,7 +195,7 @@ CREATE TABLE `alert-history` (
   PRIMARY KEY (`id`),
   KEY `usernickname_idx` (`username`),
   CONSTRAINT `user` FOREIGN KEY (`username`) REFERENCES `user` (`username`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -203,6 +204,7 @@ CREATE TABLE `alert-history` (
 
 LOCK TABLES `alert-history` WRITE;
 /*!40000 ALTER TABLE `alert-history` DISABLE KEYS */;
+INSERT INTO `alert-history` VALUES ('Giovanni',924,'2022-05-25 17:54:14',1),('Giovanni',924,'2022-05-25 17:54:46',2),('Giovanni',1140,'2022-05-25 18:00:11',3);
 /*!40000 ALTER TABLE `alert-history` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -231,7 +233,7 @@ CREATE TABLE `avg-opt-for-package` (
 
 LOCK TABLES `avg-opt-for-package` WRITE;
 /*!40000 ALTER TABLE `avg-opt-for-package` DISABLE KEYS */;
-INSERT INTO `avg-opt-for-package` VALUES (64,2,2,1,1),(65,0,1,0,2),(67,0,0,0,3),(68,0,0,0,4);
+INSERT INTO `avg-opt-for-package` VALUES (64,2,3,0.666667,1),(65,0,1,0,2),(67,2,1,2,3),(68,0,0,0,4);
 /*!40000 ALTER TABLE `avg-opt-for-package` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -244,9 +246,11 @@ DROP TABLE IF EXISTS `best-opt-product`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `best-opt-product` (
   `productid` int NOT NULL,
-  PRIMARY KEY (`productid`),
+  `id` int NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`id`),
+  KEY `opprod_idx` (`productid`),
   CONSTRAINT `opprod` FOREIGN KEY (`productid`) REFERENCES `optional-product` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -255,7 +259,7 @@ CREATE TABLE `best-opt-product` (
 
 LOCK TABLES `best-opt-product` WRITE;
 /*!40000 ALTER TABLE `best-opt-product` DISABLE KEYS */;
-INSERT INTO `best-opt-product` VALUES (8);
+INSERT INTO `best-opt-product` VALUES (8,1);
 /*!40000 ALTER TABLE `best-opt-product` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -279,6 +283,7 @@ CREATE TABLE `insolvent-users` (
 
 LOCK TABLES `insolvent-users` WRITE;
 /*!40000 ALTER TABLE `insolvent-users` DISABLE KEYS */;
+INSERT INTO `insolvent-users` VALUES ('Giovanni');
 /*!40000 ALTER TABLE `insolvent-users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -305,7 +310,7 @@ CREATE TABLE `num-purch-package` (
 
 LOCK TABLES `num-purch-package` WRITE;
 /*!40000 ALTER TABLE `num-purch-package` DISABLE KEYS */;
-INSERT INTO `num-purch-package` VALUES (64,2,1),(65,1,2),(67,1,4),(68,1,5);
+INSERT INTO `num-purch-package` VALUES (64,3,1),(65,1,2),(67,2,4),(68,1,5);
 /*!40000 ALTER TABLE `num-purch-package` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -333,7 +338,7 @@ CREATE TABLE `num-purch-package-val-period` (
 
 LOCK TABLES `num-purch-package-val-period` WRITE;
 /*!40000 ALTER TABLE `num-purch-package-val-period` DISABLE KEYS */;
-INSERT INTO `num-purch-package-val-period` VALUES (64,12,2,1),(64,24,0,2),(64,36,0,3),(65,12,1,4),(65,24,0,5),(65,36,0,6),(67,12,1,10),(67,24,0,11),(67,36,0,12),(68,12,1,13),(68,24,0,14),(68,36,0,15);
+INSERT INTO `num-purch-package-val-period` VALUES (64,12,3,1),(64,24,0,2),(64,36,0,3),(65,12,1,4),(65,24,0,5),(65,36,0,6),(67,12,2,10),(67,24,0,11),(67,36,0,12),(68,12,1,13),(68,24,0,14),(68,36,0,15);
 /*!40000 ALTER TABLE `num-purch-package-val-period` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -404,7 +409,7 @@ CREATE TABLE `order` (
   KEY `packageid_idx` (`packageid`),
   CONSTRAINT `packageid` FOREIGN KEY (`packageid`) REFERENCES `service-package` (`ID`),
   CONSTRAINT `username` FOREIGN KEY (`username`) REFERENCES `user` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -413,7 +418,7 @@ CREATE TABLE `order` (
 
 LOCK TABLES `order` WRITE;
 /*!40000 ALTER TABLE `order` DISABLE KEYS */;
-INSERT INTO `order` VALUES (43,'2022-05-16 00:00:00',12,144,'2022-05-19 00:00:00','Valid','cust',64,12),(44,'2022-05-25 00:00:00',12,924,'2022-05-27 00:00:00','Valid','cust',67,22),(45,'2022-05-25 00:00:00',12,2880,'2022-05-27 00:00:00','Valid','cust',68,70),(46,'2022-05-25 00:00:00',12,660,'2022-05-26 00:00:00','Valid','cust',65,50),(47,'2022-05-25 00:00:00',12,804,'2022-05-26 00:00:00','Valid','cust',64,12);
+INSERT INTO `order` VALUES (43,'2022-05-16 00:00:00',12,144,'2022-05-19 00:00:00','Valid','cust',64,12),(44,'2022-05-25 00:00:00',12,924,'2022-05-27 00:00:00','Valid','cust',67,22),(45,'2022-05-25 00:00:00',12,2880,'2022-05-27 00:00:00','Valid','cust',68,70),(46,'2022-05-25 00:00:00',12,660,'2022-05-26 00:00:00','Valid','cust',65,50),(47,'2022-05-25 00:00:00',12,804,'2022-05-26 00:00:00','Valid','cust',64,12),(48,'2022-05-25 00:00:00',12,144,'2022-05-27 00:00:00','Valid','Giovanni',64,12),(49,'2022-05-25 00:00:00',12,924,'2022-05-27 00:00:00','Valid','Giovanni',67,22),(50,'2022-05-25 00:00:00',12,1140,'2022-05-27 00:00:00','Suspended','Giovanni',68,70);
 /*!40000 ALTER TABLE `order` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -563,7 +568,7 @@ CREATE TABLE `sales-optional-product` (
 
 LOCK TABLES `sales-optional-product` WRITE;
 /*!40000 ALTER TABLE `sales-optional-product` DISABLE KEYS */;
-INSERT INTO `sales-optional-product` VALUES (8,600,1),(9,60,2),(10,0,3),(11,0,4),(12,0,5);
+INSERT INTO `sales-optional-product` VALUES (8,1200,1),(9,120,2),(10,0,3),(11,0,4),(12,0,5);
 /*!40000 ALTER TABLE `sales-optional-product` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -617,7 +622,7 @@ CREATE TABLE `sales-package` (
 
 LOCK TABLES `sales-package` WRITE;
 /*!40000 ALTER TABLE `sales-package` DISABLE KEYS */;
-INSERT INTO `sales-package` VALUES (64,948,288,1),(65,600,600,2),(67,0,0,3),(68,0,0,4);
+INSERT INTO `sales-package` VALUES (64,1092,432,1),(65,600,600,2),(67,924,264,3),(68,0,0,4);
 /*!40000 ALTER TABLE `sales-package` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -720,10 +725,12 @@ DROP TABLE IF EXISTS `suspended-orders`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `suspended-orders` (
-  `idsuspendedorders` int NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`idsuspendedorders`),
+  `idsuspendedorders` int NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`id`),
+  KEY `ordid` (`idsuspendedorders`),
   CONSTRAINT `ordid` FOREIGN KEY (`idsuspendedorders`) REFERENCES `order` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -732,6 +739,7 @@ CREATE TABLE `suspended-orders` (
 
 LOCK TABLES `suspended-orders` WRITE;
 /*!40000 ALTER TABLE `suspended-orders` DISABLE KEYS */;
+INSERT INTO `suspended-orders` VALUES (50,51);
 /*!40000 ALTER TABLE `suspended-orders` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -761,7 +769,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES ('cust','cust@gmail.com','123','Customer','0',0),('emp','emp@gmail.com','123','Employee','0',0);
+INSERT INTO `user` VALUES ('cust','cust@gmail.com','123','Customer','0',0),('emp','emp@gmail.com','123','Employee','0',0),('Giovanni','giovanni@gmail.com','123','Customer','1',5);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -801,4 +809,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-05-25  1:27:14
+-- Dump completed on 2022-05-25 18:46:27

@@ -70,6 +70,15 @@ public class SalesReportService {
         }
     }
 
+    public List<AlertHistory> getAlertHistory(){
+        try {
+            return em.createNamedQuery("AlertsHistory.getAllAlerts", AlertHistory.class).getResultList();
+        }
+        catch (NoResultException e){
+            return null;
+        }
+    }
+
     public List<Alert> getAlerts(){
         try {
             return em.createNamedQuery("Alerts.getAllAlerts", Alert.class).getResultList();

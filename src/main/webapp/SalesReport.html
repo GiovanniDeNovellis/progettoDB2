@@ -28,15 +28,13 @@
     <table>
         <tr>
             <th> Username </th>
-            <th> Email </th>
             <th> Amount </th>
-            <th> Date-time of last rejection</th>
+            <th> Date and time of rejection</th>
         </tr>
         <tr th:each="alert: ${allAlerts}">
             <td th:text="${alert.user.username}"></td>
-            <td th:text="${alert.email}"></td>
             <td th:text="${alert.amount}"></td>
-            <td th:text="${alert.datetimelastrejection}"></td>
+            <td th:text="${alert.datetimerejection}"></td>
         </tr>
     </table>
 

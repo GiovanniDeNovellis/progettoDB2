@@ -1,11 +1,12 @@
 package it.polimi.progettoDB2.Entities;
 
 import javax.persistence.*;
-import java.sql.Date;
-import java.sql.Time;
+import java.util.Date;
+
 
 @Entity
 @Table(name = "alert-history")
+@NamedQuery(name = "AlertsHistory.getAllAlerts", query = "SELECT a FROM AlertHistory a")
 public class AlertHistory {
 
     @Id
@@ -16,9 +17,8 @@ public class AlertHistory {
 
     private float amount;
 
-    private Date daterejection;
+    private Date datetimerejection;
 
-    private Time timerejection;
 
     public User getUser() {
         return user;
@@ -36,20 +36,12 @@ public class AlertHistory {
         this.amount = amount;
     }
 
-    public Date getDaterejection(){
-        return daterejection;
+    public Date getDatetimerejection() {
+        return datetimerejection;
     }
 
-    public void setDaterejection(Date daterejection){
-        this.daterejection = daterejection;
-    }
-
-    public Time getTimerejection(){
-        return timerejection;
-    }
-
-    public void setTimerejection(Time timerejection){
-        this.timerejection = timerejection;
+    public void setDatetimerejection(Date datetimerejection) {
+        this.datetimerejection = datetimerejection;
     }
 
     public long getId() {

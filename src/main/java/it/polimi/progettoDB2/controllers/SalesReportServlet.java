@@ -44,7 +44,9 @@ public class SalesReportServlet extends HttpServlet {
         String path;
         User user = (User) request.getSession().getAttribute("user");
         if(user!=null && Objects.equals(user.getType(), "Employee")) {
-            List<Alert> alerts = salesReportService.getAlerts();
+            List<AlertHistory> alerts = salesReportService.getAlertHistory();
+            for(AlertHistory a: alerts)
+                System.out.println(a.getDatetimerejection());
             List<InsolventUsers> insolventUsers = salesReportService.getInsolventUsers();
             List<SuspendedOrders> suspendedOrders = salesReportService.getSuspendedOrders();
             List<SalesOfPackage> salesOfPackages = salesReportService.getSalesOfPackages();
