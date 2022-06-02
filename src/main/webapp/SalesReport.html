@@ -96,7 +96,7 @@
         </tr>
     </table>
 
-    <h2> Here is the data regarding the total purchases of each service package with and without the optional products. </h2>
+    <h2> Here is the data regarding the total value of sales of each service package with and without the optional products. </h2>
     <table>
         <tr>
             <th> Package ID</th>
@@ -140,5 +140,27 @@
         </tr>
     </table>
 
+    <h2> Here is the Activation Schedule of all orders</h2>
+    <table>
+        <tr>
+            <th> User Name</th>
+            <th> Package Name</th>
+            <th> Product Name</th>
+            <th> Activation Date</th>
+            <th> DeActivation Date</th>
+        </tr>
+        <tr th:each="schedule: ${activationSchedules}">
+            <td th:text="${schedule.order.user.username}"> </td>
+            <td th:text="${schedule.servicePackage.name}"> </td>
+            <div th:if="${schedule.optionalProduct}">
+                <td th:text="${schedule.optionalProduct.name}"> </td>
+            </div>
+            <div th:unless="${schedule.optionalProduct}">
+                <td th:text=" -- "> </td>
+            </div>
+            <td th:text="${schedule.actdate}"> </td>
+            <td th:text="${schedule.deactdate}"> </td>
+        </tr>
+    </table>
 </body>
 </html>

@@ -23,7 +23,7 @@ public class ServicePackage {
     @OneToMany(mappedBy = "servicePackage", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private Collection<Order> orders;
 
-    @OneToMany(mappedBy = "servicePackage", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "servicePackage", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private Collection<Service> services;
 
     @ManyToMany(fetch = FetchType.EAGER)

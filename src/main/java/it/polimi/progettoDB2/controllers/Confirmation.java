@@ -72,8 +72,8 @@ public class Confirmation extends HttpServlet {
             }
             try{
                 selectedOptIds = Arrays.stream(request.getParameterValues("selectedProducts")).mapToInt(Integer::parseInt).toArray();
-            }catch (NullPointerException ignored) {
-
+            }catch (NullPointerException e) {
+                System.err.println("Warning: No products selected");
             }
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             Date startDate;

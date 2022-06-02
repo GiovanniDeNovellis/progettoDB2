@@ -26,6 +26,9 @@ public class SalesReportServlet extends HttpServlet {
     @EJB
     SalesReportService salesReportService;
 
+    @EJB
+    EmployeeService employeeService;
+
     @Override
     public void init() throws ServletException {
         ServletContext servletContext = getServletContext();
@@ -45,8 +48,6 @@ public class SalesReportServlet extends HttpServlet {
         User user = (User) request.getSession().getAttribute("user");
         if(user!=null && Objects.equals(user.getType(), "Employee")) {
             List<AlertHistory> alerts = salesReportService.getAlertHistory();
-            for(AlertHistory a: alerts)
-                System.out.println(a.getDatetimerejection());
             List<InsolventUsers> insolventUsers = salesReportService.getInsolventUsers();
             List<SuspendedOrders> suspendedOrders = salesReportService.getSuspendedOrders();
             List<SalesOfPackage> salesOfPackages = salesReportService.getSalesOfPackages();
@@ -59,7 +60,7 @@ public class SalesReportServlet extends HttpServlet {
                 ctx.setVariable("bestSellingData", bestSellingData);
             }
             List<AvgOptForPackage> avgOptForPackages = salesReportService.getAllAvgOptForPackage();
-
+            List<ActivationSchedule> activationSchedules = employeeService.findAllSchedules();
             ctx.setVariable("allAlerts", alerts);
             ctx.setVariable("allInsolventUsers", insolventUsers);
             ctx.setVariable("allSuspendedOrders", suspendedOrders);
@@ -69,6 +70,7 @@ public class SalesReportServlet extends HttpServlet {
             ctx.setVariable("allNumPurchPackageValPeriod", numPurchPackageValPeriods);
             ctx.setVariable("bestOptProduct", bestOptProduct);
             ctx.setVariable("avgOptForPackages", avgOptForPackages);
+            ctx.setVariable("activationSchedules", activationSchedules);
             path = "/SalesReport.html";
         }
         else {

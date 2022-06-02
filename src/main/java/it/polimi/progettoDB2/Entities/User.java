@@ -33,7 +33,7 @@ public class User {
         this.numRejections=0;
     }
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private Collection<Order> orders;
 
     public User() {

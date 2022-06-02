@@ -5,6 +5,10 @@
     <title>Confirm</title>
 </head>
 <body>
+        <div align="right" th:if="${session.user}">
+            <h2 th:text="${session.user.username}"></h2>
+        </div>
+
         <h1> Here's the recap of your order: </h1>
         <span th:text="${'Name of the package: ' + session.packageToBuy.name}"></span><br><br>
         <span th:text="${'The subscription will start on: ' + session.startDate}"></span><br><br>
@@ -34,12 +38,12 @@
         <br>
         <div th:if="${selectedOpProd!=null and  !selectedOpProd.isEmpty()}">
             <span th:text="${'Here are the optional products you are buying: '}"></span><br>
-            <p th:each="prod: ${selectedOpProd}">
+            <div th:each="prod: ${selectedOpProd}">
                 <div th:if="${prod!=null}">
                     <span th:text="${'Name: ' + prod.name}"></span>
                     <span th:text="${'Fee: ' + prod.monthlyfee}"></span>
                 </div>
-            </p>
+            </div>
         </div>
 
         <div th:if="${session.user}">

@@ -8,6 +8,7 @@ import java.util.Date;
 @NamedQuery(name = "activationSchedule.findByOrderID", query = "SELECT o FROM ActivationSchedule o WHERE o.orderid.id = ?1")
 @NamedQuery(name = "activationSchedule.findOptByOrderID", query = "SELECT o.optionalProduct FROM ActivationSchedule o  " +
         "WHERE o.orderid.id = ?1")
+@NamedQuery(name = "activationSchedule.findAll", query = "SELECT a FROM ActivationSchedule a")
 public class ActivationSchedule {
 
     @Id
