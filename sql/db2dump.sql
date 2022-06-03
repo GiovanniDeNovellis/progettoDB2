@@ -40,18 +40,8 @@ CREATE TABLE `activation-schedule` (
   CONSTRAINT `orderid` FOREIGN KEY (`orderid`) REFERENCES `order` (`id`),
   CONSTRAINT `package` FOREIGN KEY (`package`) REFERENCES `service-package` (`ID`),
   CONSTRAINT `product` FOREIGN KEY (`optproduct`) REFERENCES `optional-product` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `activation-schedule`
---
-
-LOCK TABLES `activation-schedule` WRITE;
-/*!40000 ALTER TABLE `activation-schedule` DISABLE KEYS */;
-INSERT INTO `activation-schedule` VALUES (64,43,NULL,'2022-05-19 00:00:00','2023-05-19 00:00:00',1,'Valid'),(67,44,9,'2022-05-27 00:00:00','2023-05-27 00:00:00',2,'Valid'),(67,44,8,'2022-05-27 00:00:00','2023-05-27 00:00:00',3,'Valid'),(68,45,11,'2022-05-27 00:00:00','2023-05-27 00:00:00',4,'Valid'),(68,45,12,'2022-05-27 00:00:00','2023-05-27 00:00:00',5,'Valid'),(68,45,9,'2022-05-27 00:00:00','2023-05-27 00:00:00',6,'Valid'),(68,45,10,'2022-05-27 00:00:00','2023-05-27 00:00:00',7,'Valid'),(68,45,8,'2022-05-27 00:00:00','2023-05-27 00:00:00',8,'Valid'),(65,46,9,'2022-05-26 00:00:00','2023-05-26 00:00:00',9,'Valid'),(65,46,10,'2022-05-28 00:00:00','2023-05-28 00:00:00',10,'Valid'),(64,47,9,'2022-05-26 00:00:00','2023-05-26 00:00:00',11,'Valid'),(64,47,8,'2022-05-26 00:00:00','2023-05-26 00:00:00',12,'Valid'),(64,47,8,'2022-05-26 00:00:00','2023-05-26 00:00:00',13,'Valid'),(64,47,9,'2022-05-26 00:00:00','2023-05-26 00:00:00',14,'Valid'),(64,48,NULL,'2022-05-27 00:00:00','2023-05-27 00:00:00',15,'Valid'),(67,49,8,'2022-05-27 00:00:00','2023-05-27 00:00:00',16,'Valid'),(67,49,9,'2022-05-27 00:00:00','2023-05-27 00:00:00',17,'Valid'),(68,50,12,'2022-05-27 00:00:00','2023-05-27 00:00:00',18,'Suspended');
-/*!40000 ALTER TABLE `activation-schedule` ENABLE KEYS */;
-UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -133,16 +123,6 @@ CREATE TABLE `alert` (
   CONSTRAINT `mail` FOREIGN KEY (`email`) REFERENCES `user` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `alert`
---
-
-LOCK TABLES `alert` WRITE;
-/*!40000 ALTER TABLE `alert` DISABLE KEYS */;
-INSERT INTO `alert` VALUES ('Giovanni','giovanni@gmail.com',1140,'2022-05-25 18:00:11');
-/*!40000 ALTER TABLE `alert` ENABLE KEYS */;
-UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -195,18 +175,8 @@ CREATE TABLE `alert-history` (
   PRIMARY KEY (`id`),
   KEY `usernickname_idx` (`username`),
   CONSTRAINT `user` FOREIGN KEY (`username`) REFERENCES `user` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `alert-history`
---
-
-LOCK TABLES `alert-history` WRITE;
-/*!40000 ALTER TABLE `alert-history` DISABLE KEYS */;
-INSERT INTO `alert-history` VALUES ('Giovanni',924,'2022-05-25 17:54:14',1),('Giovanni',924,'2022-05-25 17:54:46',2),('Giovanni',1140,'2022-05-25 18:00:11',3);
-/*!40000 ALTER TABLE `alert-history` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `avg-opt-for-package`
@@ -224,18 +194,21 @@ CREATE TABLE `avg-opt-for-package` (
   PRIMARY KEY (`id`),
   KEY `avgpckgid_idx` (`servicePackage`),
   CONSTRAINT `avgpckgid` FOREIGN KEY (`servicePackage`) REFERENCES `service-package` (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `avg-opt-for-package`
+-- Temporary view structure for view `avgoptforpackage`
 --
 
-LOCK TABLES `avg-opt-for-package` WRITE;
-/*!40000 ALTER TABLE `avg-opt-for-package` DISABLE KEYS */;
-INSERT INTO `avg-opt-for-package` VALUES (64,2,3,0.666667,1),(65,0,1,0,2),(67,2,1,2,3),(68,0,0,0,4);
-/*!40000 ALTER TABLE `avg-opt-for-package` ENABLE KEYS */;
-UNLOCK TABLES;
+DROP TABLE IF EXISTS `avgoptforpackage`;
+/*!50001 DROP VIEW IF EXISTS `avgoptforpackage`*/;
+SET @saved_cs_client     = @@character_set_client;
+/*!50503 SET character_set_client = utf8mb4 */;
+/*!50001 CREATE VIEW `avgoptforpackage` AS SELECT 
+ 1 AS `average`,
+ 1 AS `package`*/;
+SET character_set_client = @saved_cs_client;
 
 --
 -- Table structure for table `best-opt-product`
@@ -250,18 +223,21 @@ CREATE TABLE `best-opt-product` (
   PRIMARY KEY (`id`),
   KEY `opprod_idx` (`productid`),
   CONSTRAINT `opprod` FOREIGN KEY (`productid`) REFERENCES `optional-product` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `best-opt-product`
+-- Temporary view structure for view `bestoptproductview`
 --
 
-LOCK TABLES `best-opt-product` WRITE;
-/*!40000 ALTER TABLE `best-opt-product` DISABLE KEYS */;
-INSERT INTO `best-opt-product` VALUES (8,1);
-/*!40000 ALTER TABLE `best-opt-product` ENABLE KEYS */;
-UNLOCK TABLES;
+DROP TABLE IF EXISTS `bestoptproductview`;
+/*!50001 DROP VIEW IF EXISTS `bestoptproductview`*/;
+SET @saved_cs_client     = @@character_set_client;
+/*!50503 SET character_set_client = utf8mb4 */;
+/*!50001 CREATE VIEW `bestoptproductview` AS SELECT 
+ 1 AS `optproductid`,
+ 1 AS `totalsalesvalue`*/;
+SET character_set_client = @saved_cs_client;
 
 --
 -- Table structure for table `insolvent-users`
@@ -278,16 +254,6 @@ CREATE TABLE `insolvent-users` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `insolvent-users`
---
-
-LOCK TABLES `insolvent-users` WRITE;
-/*!40000 ALTER TABLE `insolvent-users` DISABLE KEYS */;
-INSERT INTO `insolvent-users` VALUES ('Giovanni');
-/*!40000 ALTER TABLE `insolvent-users` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `num-purch-package`
 --
 
@@ -301,18 +267,8 @@ CREATE TABLE `num-purch-package` (
   PRIMARY KEY (`id`),
   KEY `packageid_idx` (`packageid`),
   CONSTRAINT `pkid` FOREIGN KEY (`packageid`) REFERENCES `service-package` (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `num-purch-package`
---
-
-LOCK TABLES `num-purch-package` WRITE;
-/*!40000 ALTER TABLE `num-purch-package` DISABLE KEYS */;
-INSERT INTO `num-purch-package` VALUES (64,3,1),(65,1,2),(67,2,4),(68,1,5);
-/*!40000 ALTER TABLE `num-purch-package` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `num-purch-package-val-period`
@@ -329,18 +285,48 @@ CREATE TABLE `num-purch-package-val-period` (
   PRIMARY KEY (`id`),
   KEY `packid_idx` (`packageid`),
   CONSTRAINT `packid` FOREIGN KEY (`packageid`) REFERENCES `service-package` (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `num-purch-package-val-period`
+-- Temporary view structure for view `numprodforpackage`
 --
 
-LOCK TABLES `num-purch-package-val-period` WRITE;
-/*!40000 ALTER TABLE `num-purch-package-val-period` DISABLE KEYS */;
-INSERT INTO `num-purch-package-val-period` VALUES (64,12,3,1),(64,24,0,2),(64,36,0,3),(65,12,1,4),(65,24,0,5),(65,36,0,6),(67,12,2,10),(67,24,0,11),(67,36,0,12),(68,12,1,13),(68,24,0,14),(68,36,0,15);
-/*!40000 ALTER TABLE `num-purch-package-val-period` ENABLE KEYS */;
-UNLOCK TABLES;
+DROP TABLE IF EXISTS `numprodforpackage`;
+/*!50001 DROP VIEW IF EXISTS `numprodforpackage`*/;
+SET @saved_cs_client     = @@character_set_client;
+/*!50503 SET character_set_client = utf8mb4 */;
+/*!50001 CREATE VIEW `numprodforpackage` AS SELECT 
+ 1 AS `numProd`,
+ 1 AS `package`*/;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Temporary view structure for view `numpurchpackage`
+--
+
+DROP TABLE IF EXISTS `numpurchpackage`;
+/*!50001 DROP VIEW IF EXISTS `numpurchpackage`*/;
+SET @saved_cs_client     = @@character_set_client;
+/*!50503 SET character_set_client = utf8mb4 */;
+/*!50001 CREATE VIEW `numpurchpackage` AS SELECT 
+ 1 AS `packageid`,
+ 1 AS `numpurchases`*/;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Temporary view structure for view `numpurchpackagevalperiod`
+--
+
+DROP TABLE IF EXISTS `numpurchpackagevalperiod`;
+/*!50001 DROP VIEW IF EXISTS `numpurchpackagevalperiod`*/;
+SET @saved_cs_client     = @@character_set_client;
+/*!50503 SET character_set_client = utf8mb4 */;
+/*!50001 CREATE VIEW `numpurchpackagevalperiod` AS SELECT 
+ 1 AS `packageid`,
+ 1 AS `numpurchases`,
+ 1 AS `valperiod`*/;
+SET character_set_client = @saved_cs_client;
 
 --
 -- Table structure for table `optional-product`
@@ -355,18 +341,8 @@ CREATE TABLE `optional-product` (
   `monthlyfee` float NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `optional-product`
---
-
-LOCK TABLES `optional-product` WRITE;
-/*!40000 ALTER TABLE `optional-product` DISABLE KEYS */;
-INSERT INTO `optional-product` VALUES (8,'FirstProduct',50),(9,'SecondProduct',5),(10,'ThirdProduct',60),(11,'AbbonamentoInter',30),(12,'Train Subscription',25);
-/*!40000 ALTER TABLE `optional-product` ENABLE KEYS */;
-UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -409,18 +385,8 @@ CREATE TABLE `order` (
   KEY `packageid_idx` (`packageid`),
   CONSTRAINT `packageid` FOREIGN KEY (`packageid`) REFERENCES `service-package` (`ID`),
   CONSTRAINT `username` FOREIGN KEY (`username`) REFERENCES `user` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=63 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `order`
---
-
-LOCK TABLES `order` WRITE;
-/*!40000 ALTER TABLE `order` DISABLE KEYS */;
-INSERT INTO `order` VALUES (43,'2022-05-16 00:00:00',12,144,'2022-05-19 00:00:00','Valid','cust',64,12),(44,'2022-05-25 00:00:00',12,924,'2022-05-27 00:00:00','Valid','cust',67,22),(45,'2022-05-25 00:00:00',12,2880,'2022-05-27 00:00:00','Valid','cust',68,70),(46,'2022-05-25 00:00:00',12,660,'2022-05-26 00:00:00','Valid','cust',65,50),(47,'2022-05-25 00:00:00',12,804,'2022-05-26 00:00:00','Valid','cust',64,12),(48,'2022-05-25 00:00:00',12,144,'2022-05-27 00:00:00','Valid','Giovanni',64,12),(49,'2022-05-25 00:00:00',12,924,'2022-05-27 00:00:00','Valid','Giovanni',67,22),(50,'2022-05-25 00:00:00',12,1140,'2022-05-27 00:00:00','Suspended','Giovanni',68,70);
-/*!40000 ALTER TABLE `order` ENABLE KEYS */;
-UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -536,16 +502,6 @@ CREATE TABLE `package-opt-association` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `package-opt-association`
---
-
-LOCK TABLES `package-opt-association` WRITE;
-/*!40000 ALTER TABLE `package-opt-association` DISABLE KEYS */;
-INSERT INTO `package-opt-association` VALUES (64,8),(67,8),(68,8),(64,9),(65,9),(67,9),(68,9),(65,10),(68,10),(68,11),(68,12);
-/*!40000 ALTER TABLE `package-opt-association` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `sales-optional-product`
 --
 
@@ -559,18 +515,8 @@ CREATE TABLE `sales-optional-product` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `productid_UNIQUE` (`optproductid`),
   CONSTRAINT `optprodid` FOREIGN KEY (`optproductid`) REFERENCES `optional-product` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `sales-optional-product`
---
-
-LOCK TABLES `sales-optional-product` WRITE;
-/*!40000 ALTER TABLE `sales-optional-product` DISABLE KEYS */;
-INSERT INTO `sales-optional-product` VALUES (8,1200,1),(9,120,2),(10,0,3),(11,0,4),(12,0,5);
-/*!40000 ALTER TABLE `sales-optional-product` ENABLE KEYS */;
-UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -613,18 +559,61 @@ CREATE TABLE `sales-package` (
   PRIMARY KEY (`id`),
   KEY `spid_idx` (`servicePackage`),
   CONSTRAINT `spid` FOREIGN KEY (`servicePackage`) REFERENCES `service-package` (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `sales-package`
+-- Temporary view structure for view `salesoptionalproduct`
 --
 
-LOCK TABLES `sales-package` WRITE;
-/*!40000 ALTER TABLE `sales-package` DISABLE KEYS */;
-INSERT INTO `sales-package` VALUES (64,1092,432,1),(65,600,600,2),(67,924,264,3),(68,0,0,4);
-/*!40000 ALTER TABLE `sales-package` ENABLE KEYS */;
-UNLOCK TABLES;
+DROP TABLE IF EXISTS `salesoptionalproduct`;
+/*!50001 DROP VIEW IF EXISTS `salesoptionalproduct`*/;
+SET @saved_cs_client     = @@character_set_client;
+/*!50503 SET character_set_client = utf8mb4 */;
+/*!50001 CREATE VIEW `salesoptionalproduct` AS SELECT 
+ 1 AS `optproductid`,
+ 1 AS `totalsalesvalue`,
+ 1 AS `servicepackageid`*/;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Temporary view structure for view `salespackageonlyopt`
+--
+
+DROP TABLE IF EXISTS `salespackageonlyopt`;
+/*!50001 DROP VIEW IF EXISTS `salespackageonlyopt`*/;
+SET @saved_cs_client     = @@character_set_client;
+/*!50503 SET character_set_client = utf8mb4 */;
+/*!50001 CREATE VIEW `salespackageonlyopt` AS SELECT 
+ 1 AS `sum2`,
+ 1 AS `id`*/;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Temporary view structure for view `salespackagewithopt`
+--
+
+DROP TABLE IF EXISTS `salespackagewithopt`;
+/*!50001 DROP VIEW IF EXISTS `salespackagewithopt`*/;
+SET @saved_cs_client     = @@character_set_client;
+/*!50503 SET character_set_client = utf8mb4 */;
+/*!50001 CREATE VIEW `salespackagewithopt` AS SELECT 
+ 1 AS `totalVal`,
+ 1 AS `packageid`*/;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Temporary view structure for view `salespackagewithoutopt`
+--
+
+DROP TABLE IF EXISTS `salespackagewithoutopt`;
+/*!50001 DROP VIEW IF EXISTS `salespackagewithoutopt`*/;
+SET @saved_cs_client     = @@character_set_client;
+/*!50503 SET character_set_client = utf8mb4 */;
+/*!50001 CREATE VIEW `salespackagewithoutopt` AS SELECT 
+ 1 AS `sum1`,
+ 1 AS `packageid`*/;
+SET character_set_client = @saved_cs_client;
 
 --
 -- Table structure for table `service`
@@ -648,18 +637,8 @@ CREATE TABLE `service` (
   UNIQUE KEY `serviceid_UNIQUE` (`serviceid`),
   KEY `service_package_id_idx` (`service_package_id`),
   CONSTRAINT `service_package_id` FOREIGN KEY (`service_package_id`) REFERENCES `service-package` (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `service`
---
-
-LOCK TABLES `service` WRITE;
-/*!40000 ALTER TABLE `service` DISABLE KEYS */;
-INSERT INTO `service` VALUES (1,'FixedPhone',0,0,0,0,0,0,64,'FixedP1'),(2,'MobilePhone',1000,900,20,30,0,0,65,'MobileP1'),(3,'MobileInternet',0,0,0,0,500,2,65,'MobileI1'),(4,'MobileInternet',0,0,0,0,20,3,67,'MobileI2'),(5,'FixedInternet',0,0,0,0,10000,50,67,'FixedI1'),(10,'FixedPhone',0,0,0,0,0,0,68,'BasicPhone'),(11,'MobilePhone',2000,2000,2,1,0,0,68,'MobileUltra'),(12,'MobileInternet',0,0,0,0,50,2,68,'QuickNet'),(13,'FixedInternet',0,0,0,0,500,2,68,'StableNet');
-/*!40000 ALTER TABLE `service` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `service-package`
@@ -676,18 +655,8 @@ CREATE TABLE `service-package` (
   `monthscost36` float NOT NULL,
   PRIMARY KEY (`ID`,`name`),
   UNIQUE KEY `ID_UNIQUE` (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=69 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=76 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `service-package`
---
-
-LOCK TABLES `service-package` WRITE;
-/*!40000 ALTER TABLE `service-package` DISABLE KEYS */;
-INSERT INTO `service-package` VALUES (64,'BasicPackage',12,24,36),(65,'Business',50,55,60),(67,'FullInternetPackage',22,44,66),(68,'CompletePackage',70,80,90);
-/*!40000 ALTER TABLE `service-package` ENABLE KEYS */;
-UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -730,18 +699,8 @@ CREATE TABLE `suspended-orders` (
   PRIMARY KEY (`id`),
   KEY `ordid` (`idsuspendedorders`),
   CONSTRAINT `ordid` FOREIGN KEY (`idsuspendedorders`) REFERENCES `order` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=58 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `suspended-orders`
---
-
-LOCK TABLES `suspended-orders` WRITE;
-/*!40000 ALTER TABLE `suspended-orders` DISABLE KEYS */;
-INSERT INTO `suspended-orders` VALUES (50,51);
-/*!40000 ALTER TABLE `suspended-orders` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `user`
@@ -762,16 +721,6 @@ CREATE TABLE `user` (
   UNIQUE KEY `email_UNIQUE` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `user`
---
-
-LOCK TABLES `user` WRITE;
-/*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES ('cust','cust@gmail.com','123','Customer','0',0),('emp','emp@gmail.com','123','Employee','0',0),('Giovanni','giovanni@gmail.com','123','Customer','1',5);
-/*!40000 ALTER TABLE `user` ENABLE KEYS */;
-UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -799,6 +748,168 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+
+--
+-- Final view structure for view `avgoptforpackage`
+--
+
+/*!50001 DROP VIEW IF EXISTS `avgoptforpackage`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb4 */;
+/*!50001 SET character_set_results     = utf8mb4 */;
+/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `avgoptforpackage` AS select (`n2`.`numpurchases` / `n1`.`numProd`) AS `average`,`n1`.`package` AS `package` from (`numprodforpackage` `n1` join `numpurchpackage` `n2` on((`n1`.`package` = `n2`.`packageid`))) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `bestoptproductview`
+--
+
+/*!50001 DROP VIEW IF EXISTS `bestoptproductview`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb4 */;
+/*!50001 SET character_set_results     = utf8mb4 */;
+/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `bestoptproductview` AS select `salesoptionalproduct`.`optproductid` AS `optproductid`,`salesoptionalproduct`.`totalsalesvalue` AS `totalsalesvalue` from `salesoptionalproduct` limit 1 */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `numprodforpackage`
+--
+
+/*!50001 DROP VIEW IF EXISTS `numprodforpackage`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb4 */;
+/*!50001 SET character_set_results     = utf8mb4 */;
+/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `numprodforpackage` AS select count(0) AS `numProd`,`a`.`package` AS `package` from `activation-schedule` `a` where (`a`.`optproduct` is not null) group by `a`.`package` */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `numpurchpackage`
+--
+
+/*!50001 DROP VIEW IF EXISTS `numpurchpackage`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb4 */;
+/*!50001 SET character_set_results     = utf8mb4 */;
+/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `numpurchpackage` AS select `order`.`packageid` AS `packageid`,count(`order`.`packageid`) AS `numpurchases` from `order` group by `order`.`packageid` */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `numpurchpackagevalperiod`
+--
+
+/*!50001 DROP VIEW IF EXISTS `numpurchpackagevalperiod`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb4 */;
+/*!50001 SET character_set_results     = utf8mb4 */;
+/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `numpurchpackagevalperiod` AS select `order`.`packageid` AS `packageid`,count(`order`.`packageid`) AS `numpurchases`,`order`.`valperiod` AS `valperiod` from `order` group by `order`.`packageid` */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `salesoptionalproduct`
+--
+
+/*!50001 DROP VIEW IF EXISTS `salesoptionalproduct`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb4 */;
+/*!50001 SET character_set_results     = utf8mb4 */;
+/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `salesoptionalproduct` AS select `activation-schedule`.`optproduct` AS `optproductid`,sum((`opt`.`monthlyfee` * `ord`.`valperiod`)) AS `totalsalesvalue`,`activation-schedule`.`package` AS `servicepackageid` from ((`activation-schedule` join `order` `ord` on((`activation-schedule`.`orderid` = `ord`.`id`))) join `optional-product` `opt` on((`activation-schedule`.`optproduct` = `opt`.`id`))) group by `activation-schedule`.`optproduct` order by `totalsalesvalue` desc */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `salespackageonlyopt`
+--
+
+/*!50001 DROP VIEW IF EXISTS `salespackageonlyopt`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb4 */;
+/*!50001 SET character_set_results     = utf8mb4 */;
+/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `salespackageonlyopt` AS select sum((`opt`.`monthlyfee` * `ord`.`valperiod`)) AS `sum2`,`p`.`ID` AS `id` from (((`activation-schedule` `a` join `optional-product` `opt`) join `service-package` `p`) join `order` `ord` on(((`a`.`optproduct` = `opt`.`id`) and (`a`.`package` = `p`.`ID`) and (`a`.`orderid` = `ord`.`id`)))) where (`a`.`status` = 'Valid') group by `p`.`ID` */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `salespackagewithopt`
+--
+
+/*!50001 DROP VIEW IF EXISTS `salespackagewithopt`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb4 */;
+/*!50001 SET character_set_results     = utf8mb4 */;
+/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `salespackagewithopt` AS select (`s1`.`sum1` + `s2`.`sum2`) AS `totalVal`,`s1`.`packageid` AS `packageid` from (`salespackagewithoutopt` `s1` join `salespackageonlyopt` `s2` on((`s1`.`packageid` = `s2`.`id`))) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `salespackagewithoutopt`
+--
+
+/*!50001 DROP VIEW IF EXISTS `salespackagewithoutopt`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb4 */;
+/*!50001 SET character_set_results     = utf8mb4 */;
+/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `salespackagewithoutopt` AS select sum((`o`.`fee` * `o`.`valperiod`)) AS `sum1`,`o`.`packageid` AS `packageid` from `order` `o` where (`o`.`status` = 'Valid') group by `o`.`packageid` */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -809,4 +920,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-05-25 18:46:27
+-- Dump completed on 2022-06-03 21:48:52
