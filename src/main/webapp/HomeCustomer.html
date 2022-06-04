@@ -14,6 +14,9 @@
         <a th:href="@{/Logout}">Logout</a>
     </div>
     <h1> Customer Homepage</h1>
+    <p th:if="${session.user}"> Welcome,
+        <span th:text="${session.user.username}"> </span>
+    </p>
 
     <h2> Here is the list of all available Service Packages: </h2>
 
