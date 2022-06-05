@@ -47,6 +47,7 @@ public class SalesReportServlet extends HttpServlet {
         String path;
         User user = (User) request.getSession().getAttribute("user");
         if(user!=null && Objects.equals(user.getType(), "Employee")) {
+            List<Alert> auditTable = salesReportService.getAlerts();
             List<AlertHistory> alerts = salesReportService.getAlertHistory();
             List<InsolventUsers> insolventUsers = salesReportService.getInsolventUsers();
             List<SuspendedOrders> suspendedOrders = salesReportService.getSuspendedOrders();
@@ -61,6 +62,7 @@ public class SalesReportServlet extends HttpServlet {
             }
             List<AvgOptForPackage> avgOptForPackages = salesReportService.getAllAvgOptForPackage();
             List<ActivationSchedule> activationSchedules = employeeService.findAllSchedules();
+            ctx.setVariable("auditTable", auditTable);
             ctx.setVariable("allAlerts", alerts);
             ctx.setVariable("allInsolventUsers", insolventUsers);
             ctx.setVariable("allSuspendedOrders", suspendedOrders);

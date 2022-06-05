@@ -23,8 +23,21 @@
             <td th:text="${insolventUser.user.username}"></td>
         </tr>
     </table>
+    <h2> Here is the current audit table</h2>
+    <table>
+        <tr>
+            <th> Username </th>
+            <th> Amount of last rejection</th>
+            <th> Date and time of the last rejection</th>
+        </tr>
+        <tr th:each="alr: ${auditTable}">
+            <td th:text="${alr.user.username}"></td>
+            <td th:text="${alr.amount}"></td>
+            <td th:text="${alr.datetimelastrejection}"></td>
+        </tr>
+    </table>
 
-    <h2> Here is the list of all alerts.</h2>
+    <h2> Here is the list of all alerts created.</h2>
     <table>
         <tr>
             <th> Username </th>

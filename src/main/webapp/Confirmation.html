@@ -12,6 +12,13 @@
         <h1> Here's the recap of your order: </h1>
         <span th:text="${'Name of the package: ' + session.packageToBuy.name}"></span><br><br>
         <span th:text="${'The subscription will start on: ' + session.startDate}"></span><br><br>
+        <span th:text="${'The total value is: ' + totalValue}"></span><br><br>
+        <div th:if="${session.packageDuration}">
+            <span th:text="${'The duration is ' + session.packageDuration + ' months.'}"></span><br><br>
+        </div>
+        <div th:if="${valPeriod}">
+            <span th:text="${'The duration is ' + valPeriod + ' months.'}"></span><br><br>
+        </div>
         <div th:if="${session.packageToBuy!=null}">
             <span th:text="${'Here are the services you are buying: '}"></span><br>
             <p th:each="service: ${session.packageToBuy.services}">

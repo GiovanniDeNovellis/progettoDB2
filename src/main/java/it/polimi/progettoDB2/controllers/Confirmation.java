@@ -58,6 +58,7 @@ public class Confirmation extends HttpServlet {
             ctx.setVariable("selectedOpProd", selectedOpProd);
             ctx.setVariable("totalValue", order.getTotalvalue());
             ctx.setVariable("selectedServices", order.getServicePackage().getServices());
+            ctx.setVariable("valPeriod", order.getValperiod());
             templateEngine.process(path, ctx, response.getWriter());
         }
         else {
