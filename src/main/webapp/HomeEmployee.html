@@ -15,6 +15,9 @@
         <a th:href="@{/Logout}">Logout</a>
     </div>
     <h1> Employee Homepage</h1>
+    <p th:if="${session.user}"> Welcome,
+        <span th:text="${session.user.username}"> </span>
+    </p>
 
     <a th:href="@{/SalesReportServlet}">View sales data.</a>
 
