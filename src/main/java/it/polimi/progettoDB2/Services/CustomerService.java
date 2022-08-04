@@ -34,18 +34,6 @@ public class CustomerService {
                 setParameter(2,username).getResultList();
     }
 
-    /*
-    public List<ServicePackage> getServicePackagesUser(String username){
-        List<Order> activeOrders = em.createNamedQuery("Order.findByStatusAndUsername", Order.class).setParameter(1, "Valid").
-                setParameter(2,username).getResultList();
-        List<ServicePackage> packages = new ArrayList<>();
-        for(Order order: activeOrders){
-            packages.add(order.getServicePackage());
-        }
-        return packages;
-    }
-    */
-
     /* This method will retrieve the optional product corresponding to the inserted ID.*/
     public OptionalProduct getSingleOptionalProduct(int productId){
         return em.find(OptionalProduct.class, productId);
@@ -62,7 +50,7 @@ public class CustomerService {
         User user = em.find(User.class, username);
         ServicePackage servicePackage = em.find(ServicePackage.class, packageID);
         //Calculating the total value of the order
-        int totalValue = calculateTotalValue(valPeriod, fee, servicePackage, optProductIDs);
+        int totalValue = calculateTotalValue(valPeriod, fee, optProductIDs);
         Order order = new Order(creationDate, valPeriod, totalValue, startDate, status, user, servicePackage, fee);
         em.persist(order);
         //Creating the order schedule lines
@@ -77,7 +65,7 @@ public class CustomerService {
     }
 
     /* This method calculates the total value of the order given the fee of the package and the selected products*/
-    public int calculateTotalValue(int valPeriod, float fee, ServicePackage servicePackage, List<Integer> optProductIDs){
+    public int calculateTotalValue(int valPeriod, float fee, List<Integer> optProductIDs){
         int totalValue = (int) (valPeriod*fee);
         for(Integer id: optProductIDs){
             OptionalProduct opt = em.find(OptionalProduct.class, id);
@@ -112,7 +100,7 @@ public class CustomerService {
         Order order;
         order = em.find(Order.class, orderID);
         //If the user is insolvent, need to check if now he is not anymore
-        checkInsolventAndRemove(orderID, order.getUser().getUsername());
+        checkInsolventAndRemove(order.getUser().getUsername());
         order.setStatus(status);
         //Change order schedule status
         validateOrderSchedule(orderID);
@@ -129,7 +117,7 @@ public class CustomerService {
     }
 
     //This method checks if for a given user there aren't suspended orders anymore and eventually remove his insolvent tag
-    private void checkInsolventAndRemove(int orderID, String username){
+    private void checkInsolventAndRemove(String username){
         List<Order> suspendedOrders = getOrdersByStatusAndNickname(username, "Suspended");
         if(suspendedOrders.size()==1 && suspendedOrders.get(0).getUser().getUsername().equals(username)){
             suspendedOrders.get(0).getUser().setInsolvent(false);

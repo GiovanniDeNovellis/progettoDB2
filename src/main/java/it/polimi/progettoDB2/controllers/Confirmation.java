@@ -100,7 +100,7 @@ public class Confirmation extends HttpServlet {
             if(selectedOptIds != null){
                 optProductsList=Arrays.stream(selectedOptIds).boxed().collect(Collectors.toList());
             }
-            int totalValue = customerService.calculateTotalValue(duration, selectedFee, selectedPackage, optProductsList);
+            int totalValue = customerService.calculateTotalValue(duration, selectedFee, optProductsList);
             String path = "/Confirmation.html";
             ServletContext servletContext = getServletContext();
             List<OptionalProduct> selectedOpProd = new ArrayList<>();
