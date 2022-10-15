@@ -3,8 +3,8 @@
 [Giovanni De Novellis](https://github.com/GiovanniDeNovellis)<br>
 [Carlo Lazzari](https://github.com/unbearableDarkness)
 ## Project
-The goal of the project was to create a a telco website with two different applications for the two main type of users: Customers and Employees. Customers are able to purchase and make subscriptions to specific service packages which are created by Employees that, in addition to creating packages, are also able to inspect data about the sales, computed through triggers and materialized views. <br>
-For the database we used MYSQL with triggers to compute the materialized views for the sales data, TomEE for the application server, JPA with EJB for the transaction management and the business objects and Java Servlets with Thymeleaf for the frontend. 
+The goal of the project was to create a a telco website with two different applications for the two main type of users: Customers and Employees. Customers are able to purchase and subscribe to specific service packages which are created by Employees. In addition to creating packages, they are also able to inspect data about the sales, computed through triggers and materialized views. <br>
+For the database we used MySQL with triggers to compute the materialized views for the sales data, TomEE for the application server, JPA with EJB for the transaction management and the business objects, and Java Servlets with Thymeleaf for the frontend. 
 ## Complete specification
 ### TELCO SERVICE APPLICATIONS
 A telco company offers pre-paid online services to web users. Two client applications using the same database need to be developed.
