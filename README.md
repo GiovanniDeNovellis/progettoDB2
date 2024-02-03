@@ -1,7 +1,7 @@
 # Database 2 Project 21/22 Polimi
 ## Contributors
 [Giovanni De Novellis](https://github.com/GiovanniDeNovellis)<br>
-[Carlo Lazzari](https://github.com/unbearableDarkness)
+[Carlo Lazzari](https://github.com/CarloLazzari)
 ## Project
 The goal of the project was to create a a telco website with two different applications for the two main type of users: Customers and Employees. Customers are able to purchase and subscribe to specific service packages which are created by Employees. In addition to creating packages, they are also able to inspect data about the sales, computed through triggers and materialized views. <br>
 For the database we used MySQL with triggers to compute the materialized views for the sales data, TomEE for the application server, JPA with EJB for the transaction management and the business objects, and Java Servlets with Thymeleaf for the frontend. 
